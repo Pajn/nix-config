@@ -1,9 +1,20 @@
-{ pkgs, lib, user, ... }: {
-programs.zsh.enable = true;
-              users.users."${user.username}".shell = pkgs.zsh;
+{
+  pkgs,
+  lib,
+  user,
+  ...
+}:
+{
+  system.stateVersion = "24.05";
 
-environment.pathsToLink = [ "/share/zsh" ];
-environment.systemPackages = with pkgs; [
+  programs.zsh.enable = true;
+  users.users."${user.username}" = {
+    isNormalUser = true;
+    shell = pkgs.zsh;
+  };
+
+  environment.pathsToLink = [ "/share/zsh" ];
+  environment.systemPackages = with pkgs; [
     git
     neovim
 
@@ -31,7 +42,10 @@ environment.systemPackages = with pkgs; [
   ];
 
   nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
+    experimental-features = [
+      "nix-command"
+      "flakes"
+    ];
     trusted-users = [ user.username ];
 
     # Manual optimise storage: nix-store --optimise

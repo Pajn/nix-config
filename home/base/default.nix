@@ -48,7 +48,12 @@ imports = [ ./shell ./git ];
     stylua
     nil
     nixfmt-rfc-style
+
     nodejs
+    nodePackages.pnpm
+    bun
+    deno
+
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage

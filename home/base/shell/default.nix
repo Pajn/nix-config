@@ -1,4 +1,11 @@
-{ lib, pkgs, config, user, ... }: {
+{
+  lib,
+  pkgs,
+  config,
+  user,
+  ...
+}:
+{
 
   # age.secrets.github-token.file = ../../../secrets/github-token.age;
 
@@ -18,18 +25,19 @@
 
     shellAliases = {
       ".." = "cd ..";
-cp="cp -i"                                                ;# Confirm before overwriting something
-df="df -h"                                                ;# Human-readable sizes
-free="free -m"                                            ;# Show sizes in MB
-ls="exa";
+      cp = "cp -i"; # Confirm before overwriting something
+      df = "df -h"; # Human-readable sizes
+      free = "free -m"; # Show sizes in MB
+      ls = "exa";
       grep = "grep --color=auto";
       diff = "diff --color=auto";
-      n="nvim";
+      n = "nvim";
       kc = "kubectl";
     };
     initExtra = builtins.concatStringsSep "\n" [
       # ''. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"''
       (builtins.readFile ./zshrc.sh)
+      (builtins.readFile ./wezterm.sh)
     ];
     #
     # profileExtra = ''
@@ -39,24 +47,24 @@ ls="exa";
     # '';
 
     plugins = [
-      {
-        name = "zsh-autosuggestions";
-        src = pkgs.fetchFromGitHub {
-          owner = "zsh-users";
-          repo = "zsh-autosuggestions";
-          rev = "v0.6.4";
-          sha256 = "0h52p2waggzfshvy1wvhj4hf06fmzd44bv6j18k3l9rcx6aixzn6";
-        };
-      }
-      {
-        name = "zsh-vim-mode";
-        src = pkgs.fetchFromGitHub {
-          owner = "softmoth";
-          repo = "zsh-vim-mode";
-          rev = "main";
-          sha256 = lib.fakeSha256;
-        };
-      }
+      # {
+      #   name = "zsh-autosuggestions";
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "zsh-users";
+      #     repo = "zsh-autosuggestions";
+      #     rev = "v0.6.4";
+      #     sha256 = "0h52p2waggzfshvy1wvhj4hf06fmzd44bv6j18k3l9rcx6aixzn6";
+      #   };
+      # }
+      # {
+      #   name = "zsh-vim-mode";
+      #   src = pkgs.fetchFromGitHub {
+      #     owner = "softmoth";
+      #     repo = "zsh-vim-mode";
+      #     rev = "main";
+      #     sha256 = "a+6EWMRY1c1HQpNtJf5InCzU7/RphZjimLdXIXbO6cQ=";
+      #   };
+      # }
     ];
   };
 
@@ -64,60 +72,67 @@ ls="exa";
     enable = true;
     settings = {
 
-format = "$directory$all$localip$kubernetes$cmd_duration$line_break$character";
+      format = "$directory$all$localip$kubernetes$cmd_duration$line_break$character";
 
-character = {
-success_symbol = "[❯](bold purple)";
-};
+      character = {
+        success_symbol = "[❯](bold purple)";
+      };
 
-directory = {
-truncation_length = 5;
-truncation_symbol = "…/";
-truncate_to_repo = false;
-};
+      directory = {
+        truncation_length = 5;
+        truncation_symbol = "…/";
+        truncate_to_repo = false;
+      };
 
-hostname = {
-style = "bold yellow";
-};
+      hostname = {
+        style = "bold yellow";
+      };
 
-memory_usage = {
-disabled = false;
-};
+      memory_usage = {
+        disabled = false;
+      };
 
-aws = {
-disabled = true;
-};
+      aws = {
+        disabled = true;
+      };
 
-docker_context = {
-disabled = true;
-};
+      docker_context = {
+        disabled = true;
+      };
 
-gcloud = {
-disabled = true;
-};
+      gcloud = {
+        disabled = true;
+      };
 
-nodejs = {
-disabled = true;
-};
+      nodejs = {
+        disabled = true;
+      };
 
-swift = {
-disabled = true;
-};
+      swift = {
+        disabled = true;
+      };
 
-ruby = {
-disabled = true;
-};
+      ruby = {
+        disabled = true;
+      };
 
-kubernetes = {
-disabled = false;
-format = "[$symbol$context(::$namespace)]($style) ";
-};
+      kubernetes = {
+        disabled = false;
+        format = "[$symbol$context(::$namespace)]($style) ";
+      };
 
-localip = {
-disabled = true;
-ssh_only = false;
-};
+      localip = {
+        disabled = true;
+        ssh_only = false;
+      };
+    };
+  };
 
-};
-};
+  programs.atuin = {
+    enable = true;
+    settings = {
+      dialect = "uk";
+      filter_mode_shell_up_key_binding = "directory";
+    };
+  };
 }

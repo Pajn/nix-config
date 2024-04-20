@@ -1,4 +1,4 @@
-if [ -n "$NVIM" || -n "$NVIM_LISTEN_ADDRESS" ]; then
+if [[ -n "$NVIM" || -n "$NVIM_LISTEN_ADDRESS" ]]; then
   alias nvim=nvr -cc split --remote-wait +'set bufhidden=wipe'
   export VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
   export EDITOR="nvr -cc split --remote-wait +'set bufhidden=wipe'"
