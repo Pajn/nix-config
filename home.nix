@@ -20,7 +20,7 @@
   home.packages = with pkgs; [
     # # Adds the 'hello' command to your environment. It prints a friendly
     # # "Hello, world!" when run.
-    hello
+    # hello
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -34,6 +34,20 @@
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+    atuin
+    bitwarden-cli
+    gh git-absorb
+    just
+    lazygit
+    neovim
+    neovim-remote
+    nmap
+    nushell
+    ripgrep
+    starship
+    stylua
+    tldr
+    yazi
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
