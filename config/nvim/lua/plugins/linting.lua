@@ -1,0 +1,41 @@
+return {}
+-- return {
+--   'mfussenegger/nvim-lint',
+--   event = { 'BufWritePost *.js,*.jsx,*.ts,*.tsx', 'InsertLeave *.js,*.jsx,*.ts,*.tsx' },
+--   config = function()
+--     local lint = require 'lint'
+--     lint.linters_by_ft = {
+--       javascript = {
+--         'eslint_d',
+--       },
+--       typescript = {
+--         'eslint_d',
+--       },
+--       javascriptreact = {
+--         'eslint_d',
+--       },
+--       typescriptreact = {
+--         'eslint_d',
+--       },
+--     }
+--     lint.linters.eslint_d.args = {
+--       '--no-warn-ignored', -- <-- this is the key argument
+--       '--format',
+--       'json',
+--       '--stdin',
+--       '--stdin-filename',
+--       function()
+--         return vim.api.nvim_buf_get_name(0)
+--       end,
+--     }
+--
+--     vim.api.nvim_create_autocmd({ 'InsertLeave', 'BufWritePost' }, {
+--       callback = function()
+--         local lint_status, lint2 = pcall(require, 'lint')
+--         if lint_status then
+--           lint2.try_lint()
+--         end
+--       end,
+--     })
+--   end,
+-- }
