@@ -10,9 +10,35 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nix-homebrew = {
+      url = "github:zhaofengli-wip/nix-homebrew";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nix-darwin.follows = "nix-darwin";
+    };
+
+    homebrew-bundle = {
+      url = "github:homebrew/homebrew-bundle";
+      flake = false;
+    };
+
+    homebrew-core = {
+      url = "github:homebrew/homebrew-core";
+      flake = false;
+    };
+
+    homebrew-cask = {
+      url = "github:homebrew/homebrew-cask";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, nix-darwin, home-manager, nix-homebrew, homebrewbundle, homebrew-core, homebrew-cask, ... }:
+  outputs = { self, nixpkgs, nixos-wsl, nix-darwin, home-manager, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, ... }@inputs:
     let
       lib = nixpkgs.lib;
       user = {
@@ -26,7 +52,7 @@
       forAllSystems = f: (nixpkgs.lib.genAttrs allSystemNames f);
       genSpecialArgs = system:
         inputs // rec {
-          inherit user agenix fonts;
+          inherit user;
 
           pkgs = import inputs.nixpkgs {
             inherit system;

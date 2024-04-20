@@ -1,5 +1,8 @@
 { pkgs, lib, user, ... }: {
-    environment.systemPackages = with pkgs; [
+programs.zsh.enable = true;
+              users.users."${user.username}".shell = pkgs.zsh;
+
+environment.systemPackages = with pkgs; [
     git
     neovim
 

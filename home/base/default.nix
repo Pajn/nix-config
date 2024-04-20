@@ -2,6 +2,8 @@
 { user, pkgs, ... }:
 
 {
+imports = [ ./shell ];
+
   home.username = user.username;
 
   # This value determines the Home Manager release that your configuration is
@@ -45,6 +47,8 @@
     stylua
     tldr
     yazi
+
+    nixfmt
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
