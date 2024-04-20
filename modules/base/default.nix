@@ -2,6 +2,7 @@
 programs.zsh.enable = true;
               users.users."${user.username}".shell = pkgs.zsh;
 
+environment.pathsToLink = [ "/share/zsh" ];
 environment.systemPackages = with pkgs; [
     git
     neovim
@@ -25,6 +26,8 @@ environment.systemPackages = with pkgs; [
 
     which
     tree
+
+    gcc
   ];
 
   nix.settings = {

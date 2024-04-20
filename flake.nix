@@ -65,12 +65,6 @@
           };
         };
     in {
-      # homeConfigurations = {
-      #   rasmus = home-manager.lib.homeManagerConfiguration {
-      #     inherit pkgs;
-      #     modules = [ ./home.nix ];
-      #   };
-      # };
       nixosConfigurations = {
         wsl = let specialArgs = genSpecialArgs "x86_64-linux";
         in nixpkgs.lib.nixosSystem {

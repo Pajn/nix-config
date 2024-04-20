@@ -4,6 +4,8 @@
     delta
     diff-so-fancy
     git-absorb
+    gh
+    lazygit
     # git-open
     # git-ps-rs
     # gitmux
@@ -27,7 +29,6 @@
     aliases = {
       c = "commit";
       cm = "commit -m";
-      s = "status";
       s = "status";
       l =
         "log --graph --pretty='%Cred%h%Creset - %C(bold blue)<%an>%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)' --abbrev-commit --date=relative";

@@ -68,7 +68,6 @@ return {
             },
           },
         },
-        nil_ls = {},
         -- pyright = {},
 
         -- Rust and Typecript has custom configs
@@ -88,6 +87,9 @@ return {
           },
         },
       }
+      local non_install_servers = {
+        nil_ls = {},
+      }
 
       -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
       local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -102,6 +104,15 @@ return {
 
       -- Iterate over our servers and set them up
       for server_name, config in pairs(servers) do
+        require('lspconfig')[server_name].setup {
+          capabilities = capabilities,
+          on_attach = on_attach,
+          settings = config.settings,
+          filetypes = config.filetypes,
+          handlers = config.handlers,
+        }
+      end
+      for server_name, config in pairs(non_install_servers) do
         require('lspconfig')[server_name].setup {
           capabilities = capabilities,
           on_attach = on_attach,

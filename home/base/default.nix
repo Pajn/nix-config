@@ -36,19 +36,19 @@ imports = [ ./shell ./git ];
     # '')
     atuin
     bitwarden-cli
-    gh git-absorb
     just
-    lazygit
     neovim
     neovim-remote
     nmap
     nushell
-    starship
-    stylua
     tldr
     yazi
 
-    nixfmt
+    lua-language-server
+    stylua
+    nil
+    nixfmt-rfc-style
+    nodejs
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -58,7 +58,8 @@ imports = [ ./shell ./git ];
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
-    ".config/nvim".source = config/nvim;
+    ".config/nvim/lua".source = config/nvim/lua;
+    ".config/nvim/init.lua".source = config/nvim/init.lua;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''

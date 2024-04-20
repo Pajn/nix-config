@@ -23,6 +23,7 @@ return {
       -- Define your formatters
       formatters_by_ft = {
         lua = { 'stylua' },
+        nix = { 'nixfmt' },
         python = { 'isort', 'black' },
 
         javascript = { { 'prettier' } },
