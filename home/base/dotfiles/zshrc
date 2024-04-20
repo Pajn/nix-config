@@ -1,0 +1,414 @@
+# export LC_CTYPE=en_US.UTF-8
+
+# The following lines were added by compinstall
+
+# zstyle ':completion:*' completer _complete _ignored _correct _approximate
+# zstyle ':completion:*' matcher-list 'm:{[:lower:]}={[:upper:]}'
+# zstyle ':completion:*' max-errors 1
+# zstyle :compinstall filename '/home/rse/.zshrc'
+
+# setopt EXTENDED_HISTORY
+# setopt HIST_EXPIRE_DUPS_FIRST
+# setopt HIST_IGNORE_DUPS
+# setopt HIST_IGNORE_ALL_DUPS
+# setopt HIST_IGNORE_SPACE
+# setopt HIST_FIND_NO_DUPS
+# setopt HIST_SAVE_NO_DUPS
+# setopt HIST_BEEP
+# autoload -U promptinit; promptinit
+
+## Options section
+setopt correct                                                  # Auto correct mistakes
+# setopt extendedglob                                             # Extended globbing. Allows using regular expressions with *
+setopt nocaseglob                                               # Case insensitive globbing
+setopt rcexpandparam                                            # Array expension with parameters
+setopt nocheckjobs                                              # Don't warn about running processes when exiting
+setopt numericglobsort                                          # Sort filenames numerically when it makes sense
+setopt nobeep                                                   # No beep
+setopt appendhistory                                            # Immediately append history instead of overwriting
+setopt histignorealldups                                        # If a new command is a duplicate, remove the older one
+setopt autocd                                                   # if only directory path is entered, cd there.
+setopt inc_append_history                                       # save commands are added to the history immediately, otherwise only when shell exits.
+setopt histignorespace                                          # Don't save commands that start with space
+
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'       # Case insensitive tab completion
+zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"         # Colored completion (different colors for dirs/files/etc)
+zstyle ':completion:*' rehash true                              # automatically find new executables in path
+# Speed up completions
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+HISTFILE=~/.zhistory
+HISTSIZE=10000
+SAVEHIST=10000
+WORDCHARS=${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
+
+
+## Keybindings section
+bindkey -e
+bindkey '^[[7~' beginning-of-line                               # Home key
+bindkey '^[[H' beginning-of-line                                # Home key
+if [[ "${terminfo[khome]}" != "" ]]; then
+  bindkey "${terminfo[khome]}" beginning-of-line                # [Home] - Go to beginning of line
+fi
+bindkey '^[[8~' end-of-line                                     # End key
+bindkey '^[[F' end-of-line                                     # End key
+if [[ "${terminfo[kend]}" != "" ]]; then
+  bindkey "${terminfo[kend]}" end-of-line                       # [End] - Go to end of line
+fi
+bindkey '^[[2~' overwrite-mode                                  # Insert key
+bindkey '^[[3~' delete-char                                     # Delete key
+bindkey '^[[C'  forward-char                                    # Right key
+bindkey '^[[D'  backward-char                                   # Left key
+bindkey '^[[5~' history-beginning-search-backward               # Page up key
+bindkey '^[[6~' history-beginning-search-forward                # Page down key
+bindkey "$terminfo[kcuu1]" history-beginning-search-backward               # Up key
+bindkey "$terminfo[kcud1]" history-beginning-search-forward                # Down key
+
+# Navigate words with ctrl+arrow keys
+bindkey '^[Oc' forward-word                                     #
+bindkey '^[Od' backward-word                                    #
+bindkey '^[[1;5D' backward-word                                 #
+bindkey '^[[1;5C' forward-word                                  #
+bindkey '^H' backward-kill-word                                 # delete previous word with ctrl+backspace
+bindkey '^[[Z' undo                                             # Shift+tab undo last action
+
+## Alias section
+alias cp="cp -i"                                                # Confirm before overwriting something
+alias df='df -h'                                                # Human-readable sizes
+alias free='free -m'                                            # Show sizes in MB
+alias ls='exa'
+
+# Theming section
+autoload -U compinit colors zcalc
+compinit -d
+colors
+eval "$(starship init zsh)"
+
+# Color man pages
+export LESS_TERMCAP_mb=$'\E[01;32m'
+export LESS_TERMCAP_md=$'\E[01;32m'
+export LESS_TERMCAP_me=$'\E[0m'
+export LESS_TERMCAP_se=$'\E[0m'
+export LESS_TERMCAP_so=$'\E[01;47;34m'
+export LESS_TERMCAP_ue=$'\E[0m'
+export LESS_TERMCAP_us=$'\E[01;36m'
+export LESS=-R
+
+## Plugins section: Enable fish style features
+# Use syntax highlighting
+#source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+# Use history substring search
+#source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
+# bind UP and DOWN arrow keys to history substring search
+zmodload zsh/terminfo
+# bindkey "$terminfo[kcuu1]" history-substring-search-up
+# bindkey "$terminfo[kcud1]" history-substring-search-down
+# bindkey '^[[A' history-substring-search-up
+# bindkey '^[[B' history-substring-search-down
+
+# Offer to install missing package if command is not found
+[[ -r /etc/zsh_command_not_found ]] && . /etc/zsh_command_not_found
+if [[ -r /usr/share/zsh/functions/command-not-found.zsh ]]; then
+    source /usr/share/zsh/functions/command-not-found.zsh
+    export PKGFILE_PROMPT_INSTALL_MISSING=1
+fi
+
+# Set terminal window and tab/icon title
+#
+# usage: title short_tab_title [long_window_title]
+#
+# See: http://www.faqs.org/docs/Linux-mini/Xterm-Title.html#ss3.1
+# Fully supports screen and probably most modern xterm and rxvt
+# (In screen, only short_tab_title is used)
+function title {
+  emulate -L zsh
+  setopt prompt_subst
+
+  [[ "$EMACS" == *term* ]] && return
+
+  # if $2 is unset use $1 as default
+  # if it is set and empty, leave it as is
+  : ${2=$1}
+
+  case "$TERM" in
+    xterm*|putty*|rxvt*|konsole*|ansi|mlterm*|alacritty|st*)
+      print -Pn "\e]2;${2:q}\a" # set window name
+      print -Pn "\e]1;${1:q}\a" # set tab name
+      ;;
+    screen*|tmux*)
+      print -Pn "\ek${1:q}\e\\" # set screen hardstatus
+      ;;
+    *)
+    # Try to use terminfo to set the title
+    # If the feature is available set title
+    if [[ -n "$terminfo[fsl]" ]] && [[ -n "$terminfo[tsl]" ]]; then
+      echoti tsl
+      print -Pn "$1"
+      echoti fsl
+    fi
+      ;;
+  esac
+}
+
+# function start_tmux() {
+#     if type tmux &> /dev/null; then
+#         #if not inside a tmux session, and if no session is started, start a new session
+#         if [[ -z "$TMUX" && -z $TERMINAL_CONTEXT ]]; then
+#             (tmux -2 attach || tmux -2 new-session)
+#         fi
+#     fi
+# }
+# start_tmux
+
+ZSH_THEME_TERM_TAB_TITLE_IDLE="%15<..<%~%<<" #15 char left truncated PWD
+ZSH_THEME_TERM_TITLE_IDLE="%n@%m:%~"
+
+# Runs before showing the prompt
+function mzc_termsupport_precmd {
+  [[ "${DISABLE_AUTO_TITLE:-}" == true ]] && return
+  title $ZSH_THEME_TERM_TAB_TITLE_IDLE $ZSH_THEME_TERM_TITLE_IDLE
+}
+
+# Runs before executing the command
+function mzc_termsupport_preexec {
+  [[ "${DISABLE_AUTO_TITLE:-}" == true ]] && return
+
+  emulate -L zsh
+
+  # split command into array of arguments
+  local -a cmdargs
+  cmdargs=("${(z)2}")
+  # if running fg, extract the command from the job description
+  if [[ "${cmdargs[1]}" = fg ]]; then
+    # get the job id from the first argument passed to the fg command
+    local job_id jobspec="${cmdargs[2]#%}"
+    # logic based on jobs arguments:
+    # http://zsh.sourceforge.net/Doc/Release/Jobs-_0026-Signals.html#Jobs
+    # https://www.zsh.org/mla/users/2007/msg00704.html
+    case "$jobspec" in
+      <->) # %number argument:
+        # use the same <number> passed as an argument
+        job_id=${jobspec} ;;
+      ""|%|+) # empty, %% or %+ argument:
+        # use the current job, which appears with a + in $jobstates:
+        # suspended:+:5071=suspended (tty output)
+        job_id=${(k)jobstates[(r)*:+:*]} ;;
+      -) # %- argument:
+        # use the previous job, which appears with a - in $jobstates:
+        # suspended:-:6493=suspended (signal)
+        job_id=${(k)jobstates[(r)*:-:*]} ;;
+      [?]*) # %?string argument:
+        # use $jobtexts to match for a job whose command *contains* <string>
+        job_id=${(k)jobtexts[(r)*${(Q)jobspec}*]} ;;
+      *) # %string argument:
+        # use $jobtexts to match for a job whose command *starts with* <string>
+        job_id=${(k)jobtexts[(r)${(Q)jobspec}*]} ;;
+    esac
+
+    # override preexec function arguments with job command
+    if [[ -n "${jobtexts[$job_id]}" ]]; then
+      1="${jobtexts[$job_id]}"
+      2="${jobtexts[$job_id]}"
+    fi
+  fi
+
+  # cmd name only, or if this is sudo or ssh, the next cmd
+  local CMD=${1[(wr)^(*=*|sudo|ssh|mosh|rake|-*)]:gs/%/%%}
+  local LINE="${2:gs/%/%%}"
+
+  title '$CMD' '%100>...>$LINE%<<'
+}
+
+autoload -U add-zsh-hook
+add-zsh-hook precmd mzc_termsupport_precmd
+add-zsh-hook preexec mzc_termsupport_preexec
+
+
+
+# Term setup
+alias config='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
+export EDITOR=nvim
+export PATH="$PATH:$HOME/bin:$HOME/.local/bin"
+source ~/.profile
+
+eval "$(zoxide init zsh)"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+export ATUIN_CONFIG_DIR=$HOME/.config/atuin/
+eval "$(atuin init zsh)"
+
+if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
+  alias nvim=nvr -cc split --remote-wait +'set bufhidden=wipe'
+fi
+
+# bindkey -s "^f" "tmux-sessionizer\n"
+alias n="nvim"
+
+if [ -n "$NVIM" ]; then
+    alias nvim=nvr -cc split --remote-wait +'set bufhidden=wipe'
+
+    export VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
+    export EDITOR="nvr -cc split --remote-wait +'set bufhidden=wipe'"
+fi
+
+if [ -n "$NVIM_LISTEN_ADDRESS" ]; then
+    export VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
+    export EDITOR="nvr -cc split --remote-wait +'set bufhidden=wipe'"
+else
+    export VISUAL="nvim"
+    export EDITOR="nvim"
+fi
+
+# Git
+function squash() {
+  git rebase --interactive HEAD~$1 ${@:2} --autostash
+}
+
+function ctime() {
+  GIT_COMMITTER_DATE="`date -d $1`" git commit --date "`date -d $1` ${@:2}"
+}
+
+function pickup() {
+  git reset "HEAD^${1:=1}" --soft
+}
+
+function pp() {
+  BRANCH=`git branch | grep \* | cut -d ' ' -f2`
+  git push -u origin "$BRANCH" $@
+}
+
+function rebase() {
+  CURRENT_BRANCH=`git branch | grep \* | cut -d ' ' -f2`
+  BRANCH=${1:=$CURRENT_BRANCH}
+  git fetch origin
+  git rebase "origin/$BRANCH" --autostash ${@:2}
+}
+function rebase-only() {
+  CURRENT_BRANCH=`git branch | grep \* | cut -d ' ' -f2`
+  BRANCH=${1:=$CURRENT_BRANCH}
+  git rebase "origin/$BRANCH" --autostash ${@:2}
+}
+function rebase-onto() {
+  CURRENT_BRANCH=`git branch | grep \* | cut -d ' ' -f2`
+  BRANCH=$1
+  COUNT=$2
+  git fetch origin
+  git rebase --autostash --rebase-merges --onto "$BRANCH" "$CURRENT_BRANCH"~3 "$CURRENT_BRANCH" ${@:3}
+}
+
+alias cont="git rebase --continue"
+alias amend="git commit --amend"
+alias force="git push --force-with-lease"
+alias p="git push"
+alias a="git add"
+alias s="git status"
+alias c="git commit"
+alias co="git checkout"
+alias pr="hub pull-request"
+alias fa="git fetch --all"
+
+# Rust
+export PATH="$HOME/.cargo/bin:$PATH"
+#export RUST_SRC_PATH="$(rustup run nightly rustc --print sysroot)/lib/rustlib/src/rust/src"
+
+# Colors
+# Base16 Shell
+# BASE16_SHELL="$HOME/.config/base16-shell/"
+# [ -n "$PS1" ] && \
+#     [ -s "$BASE16_SHELL/profile_helper.sh" ] && \
+#         eval "$("$BASE16_SHELL/profile_helper.sh")"
+
+# Linux
+#alias copy="xclip -selection clipboard"
+#alias paste="xclip -selection clipboard -o"
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    export MOZ_ENABLE_WAYLAND=1
+fi
+export XDG_DATA_DIRS="$HOME/.local/share:$XDG_DATA_DIRS"
+
+function which-port {
+  netstat -tunapl | grep $1
+}
+
+if command -v xdg-open; then
+  alias open='xdg-open'
+fi
+
+# Javascript
+
+alias nup="`npm config get prefix`/bin/nu"
+
+## pnpm
+export PNPM_HOME="$HOME/.local/share/pnpm"
+export PATH="$PNPM_HOME:$PATH"
+
+## fnm
+export PATH="$HOME/.fnm:$PATH"
+eval "`fnm env`"
+
+## Node
+export BROWSER=firefox
+export PATH="$PATH:./node_modules/.bin"
+NPM_PACKAGES="$HOME/.npm-packages"
+export PATH="$PATH:$NPM_PACKAGES/bin"
+
+# Preserve MANPATH if you already defined it somewhere in your config.
+# Otherwise, fall back to manpath so we can inherit from /etc/manpath.
+export MANPATH="${MANPATH-$(manpath)}:$NPM_PACKAGES/share/man"
+
+alias tsc='nocorrect tsc'
+function ts-check() {
+  if [ -f run.sh ]; then
+    ./run.sh tsc --noEmit
+  else
+    tsc --noEmit
+  fi
+}
+
+# Deno
+export DENO_INSTALL="$HOME/.deno"
+export PATH="$PATH:$DENO_INSTALL/bin"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
+
+## bun completions
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# React Native
+
+function devmenu() {
+  adb shell input keyevent 82
+}
+
+function bundleip() {
+  adb shell input text `ip`:8081
+  adb shell input keyevent 111
+}
+
+# Flutter
+export PATH="$PATH:/usr/lib/dart/bin"
+export PATH="$PATH":"$HOME/.pub-cache/bin"
+export PATH="$PATH:$HOME/bin/flutter/bin"
+
+# Android
+# export ANDROID_HOME="$HOME/Library/Android/sdk"
+# export ANDROID_SDK_ROOT="$HOME/Library/Android/sdk"
+# export PATH="$PATH:$ANDROID_HOME/tools"
+# export PATH="$PATH:$ANDROID_HOME/platform-tools"
+
+# Go
+export PATH="$PATH:$HOME/go/bin"
+
+# GCP
+alias kc=kubectl
+## The next line updates PATH for the Google Cloud SDK.
+if [ -f '$HOME/bin/google-cloud-sdk/path.zsh.inc' ]; then . '$HOME/bin/google-cloud-sdk/path.zsh.inc'; fi
+## The next line enables shell command completion for gcloud.
+if [ -f '$HOME/bin/google-cloud-sdk/completion.zsh.inc' ]; then . '$HOME/bin/google-cloud-sdk/completion.zsh.inc'; fi
+
+# MacOS
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
