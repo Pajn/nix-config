@@ -2,7 +2,7 @@
 { user, pkgs, ... }:
 
 {
-imports = [ ./shell ];
+imports = [ ./shell ./git ];
 
   home.username = user.username;
 
