@@ -4,13 +4,15 @@
     delta
     diff-so-fancy
     git-absorb
-    gh
-    lazygit
     # git-open
     # git-ps-rs
     # gitmux
     # spr
   ];
+
+  home.file.".ssh/allowed_signers".text = ''
+  * ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCnCd3pS1o2QF9FblX294ZTFXGf/bISTU+VXKU15hD5CPZNJLWpmpM40oGCWC/m4xmMhML6hRDV5Yko0hWknZOD1oSRWE+Yhob7M88IwJLz3GPBC47JFNh+t20Yq8cFwgQ/Ww6v3I3EZYmJ7AXse3+eHl6lFuqVb10TMZnWghzcYEkR43vds8u/Udnc6sqLuRCc7mqRCNi5kN9ead2StSdNRqGhH95s44LvpjS9oQoLY0wGGwAz4Db0S0NHa1B56EgmJwGuKoSvsU0KLbuwddbWH5/xd7gZiCwJXpwwJkOg++HVvNrzDBC9AY5bTQT7t38vt7YnjjIfdFpPnAES/vsN/arYWOhHgzspoD4PlWiCTm8LkxYCnrMklWdNTj8nsGL0ZrnbWtrtl+l0z8FlfFi6Kj1+r7/XbpWRgLD0JuVHLB4rTEJg848qhXl0OJLjeqvVl+NlJKxupjE0Z/2xs9h6SL7H26XTYOmekGRu4JQYXIcdRvmCrhCt/i4PWUhmrK0=
+  '';
 
   programs.git = {
     enable = true;
@@ -31,7 +33,10 @@
       cm = "commit -m";
       s = "status";
       l =
-        "log --graph --pretty='%Cred%h%Creset - %C(bold blue)<%an>%Creset %s%C(yellow)%d%Creset %Cgreen(%cr)' --abbrev-commit --date=relative";
+        "log --graph --decorate --pretty='%C(yellow)%h%Creset%Cred%d%Creset - %an %C(cyan)%ar%Creset %s %Cgreen'";
+
+      tree =
+        "log --graph --decorate --all --pretty='%C(yellow)%h%Creset%Cred%d%Creset - %an %C(cyan)%ar%Creset %s %Cgreen'";
 
       # Change to default branch (main/master/???)
       main =
@@ -45,11 +50,6 @@
       resync = "!git main && git pull --prune && git rm-gone-from-remote";
     };
 
-    # signing = {
-    #   key = "456E7B9AD00B512DFF44ACC5F7CA7570539B75D1";
-    #   signByDefault = true;
-    # };
-
     extraConfig = {
       core = {
         editor = "nvim";
@@ -58,13 +58,39 @@
 
       url = { "git@github.com:" = { insteadOf = "https://github.com/"; }; };
 
-      rerere.enabled = "true";
-      commit.gpgsign = "false";
-      # gpg.program = "gpg2";
+      rerere = { enabled = "true"; autoUpdate = "true"; };
+      rebase.updateRefs = "true";
+      commit.gpgsign = "true";
+      gpg.format = "ssh";
+      gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
+      user.signingKey = "~/.ssh/id_rsa.pub";
 
       pull.rebase = "true";
       init.defaultBranch = "main";
       push.autoSetupRemote = "true";
+
+      "includeIf \"gitdir:~/Development/\"" = {
+        path = "~/Development/.gitconfig";
+      };
+
+      "includeIf \"gitdir:~/Projects/\"" = {
+        path = "~/Projects/.gitconfig";
+      };
     };
+  };
+
+  programs.lazygit = {
+    enable = true;
+    settings = {
+      git.mainBranches = ["master" "main" "develop"];
+    };
+  };
+
+  programs.gh = {
+    enable = true;
+  };
+
+  programs.gh-dash = {
+    enable = true;
   };
 }

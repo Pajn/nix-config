@@ -1,14 +1,15 @@
 return {
   -- Autocompletion
   'hrsh7th/nvim-cmp',
-  event = { "InsertEnter" },
+  event = { 'InsertEnter' },
   dependencies = {
     -- Snippet Engine & its associated nvim-cmp source
     'L3MON4D3/LuaSnip',
     'saadparwaiz1/cmp_luasnip',
 
-    -- Adds LSP completion capabilities
+    -- Adds LSP + cmdline completion capabilities
     'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-cmdline',
 
     -- Adds a number of user-friendly snippets
     'rafamadriz/friendly-snippets',
@@ -63,5 +64,25 @@ return {
         { name = 'path' },
       },
     }
-  end
+
+    cmp.setup.cmdline('/', {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = 'buffer' },
+      },
+    })
+    cmp.setup.cmdline(':', {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = 'path' },
+      }, {
+        {
+          name = 'cmdline',
+          option = {
+            ignore_cmds = { 'Man', '!' },
+          },
+        },
+      }),
+    })
+  end,
 }

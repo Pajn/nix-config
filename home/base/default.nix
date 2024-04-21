@@ -1,8 +1,15 @@
-
-{ user, pkgs, ... }:
-
 {
-imports = [ ./shell ./git ];
+  user,
+  pkgs,
+  agenix,
+  ...
+}:
+{
+  imports = [
+    agenix.homeManagerModules.default
+    ./shell
+    ./git
+  ];
 
   home.username = user.username;
 
@@ -43,6 +50,7 @@ imports = [ ./shell ./git ];
     nushell
     tldr
     yazi
+    wezterm
 
     lua-language-server
     stylua
@@ -54,6 +62,8 @@ imports = [ ./shell ./git ];
     bun
     deno
 
+    clang-tools
+    python3
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
@@ -94,4 +104,5 @@ imports = [ ./shell ./git ];
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
+
 }

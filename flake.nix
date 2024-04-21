@@ -10,7 +10,7 @@
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    
+
     nix-darwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,23 +36,47 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+
+    agenix = {
+      url = "github:ryantm/agenix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, nixos-wsl, nix-darwin, home-manager, nix-homebrew, homebrew-bundle, homebrew-core, homebrew-cask, ... }@inputs:
+  outputs =
+    {
+      self,
+      nixpkgs,
+      nixos-wsl,
+      nix-darwin,
+      home-manager,
+      nix-homebrew,
+      homebrew-bundle,
+      homebrew-core,
+      homebrew-cask,
+      agenix,
+      ...
+    }@inputs:
     let
       lib = nixpkgs.lib;
       user = {
         name = "Rasmus Eneman";
         username = "rasmus";
       };
-      darwinSystems = { aarch64-darwin = "aarch64-darwin"; };
-      linuxSystems = { x86_64-linux = "x86_64-linux"; };
+      darwinSystems = {
+        aarch64-darwin = "aarch64-darwin";
+      };
+      linuxSystems = {
+        x86_64-linux = "x86_64-linux";
+      };
       allSystems = darwinSystems // linuxSystems;
       allSystemNames = builtins.attrNames allSystems;
       forAllSystems = f: (nixpkgs.lib.genAttrs allSystemNames f);
-      genSpecialArgs = system:
-        inputs // rec {
-          inherit user;
+      genSpecialArgs =
+        system:
+        inputs
+        // rec {
+          inherit user agenix;
 
           pkgs = import inputs.nixpkgs {
             inherit system;
@@ -64,25 +88,29 @@
             config.allowUnfree = true;
           };
         };
-    in {
+    in
+    {
       nixosConfigurations = {
-        wsl = let specialArgs = genSpecialArgs "x86_64-linux";
-        in nixpkgs.lib.nixosSystem {
-          system = "x86_64-linux";
-          inherit specialArgs;
-          modules = [
-            nixos-wsl.nixosModules.default
-            ./modules/wsl
-            home-manager.nixosModules.home-manager
-                        {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = specialArgs;
-              home-manager.users."${user.username}" = import ./home/wsl;
-            }
-          ];
-        };
+        wsl =
+          let
+            specialArgs = genSpecialArgs "x86_64-linux";
+          in
+          nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            inherit specialArgs;
+            modules = [
+              nixos-wsl.nixosModules.default
+              ./modules/wsl
+              agenix.nixosModules.default
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.extraSpecialArgs = specialArgs;
+                home-manager.users."${user.username}" = import ./home/wsl;
+              }
+            ];
+          };
       };
     };
-
 }

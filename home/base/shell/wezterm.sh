@@ -523,6 +523,75 @@ __wezterm_user_vars_preexec() {
   __wezterm_set_user_var "WEZTERM_PROG" "$1"
 }
 
+function _dotfiles_ansi_dequote()
+{
+  # `strip-ansi-escapes` is a utility that ships with wezterm and filters out ansi escape sequences
+  # if command -v strip-ansi-escapes && hash strip-ansi-escapes 2>/dev/null ; then
+  if hash strip-ansi-escapes 2>/dev/null ; then
+    echo "$1" | strip-ansi-escapes
+  else
+    echo "$1" | perl -pe "s/\\x1b\[[0-9]+(;[0-9]+)*[km]//g"
+  fi
+}
+
+function _dotfiles_set_window_title()
+{
+  local title
+  title=`_dotfiles_ansi_dequote "$1" | perl -pe "s/;//g"`
+  case $TERM in
+    xterm*|rxvt*|Eterm|eterm|aixterm|dtterm)
+      printf "\033]0;%s\a" "$title"
+      ;;
+    iris-ansi)
+      printf "\033P1.y%s\033\\" "$title"
+      ;;
+    sun-cmd)
+      printf "\033]l%s\033\\" "$title"
+      ;;
+    hpterm)
+      printf "\033&f0k%dD%s" "${#title}" "${title}"
+      ;;
+    screen*|tmux*)
+      # screen and tmux window title
+      printf "\033k%s\033\\" "$title"
+      # set the tmux pane title too
+      [[ -n "$TMUX" ]] && printf "\033]2;%s\033\\" "$title"
+      ;;
+  esac
+}
+
+# Run by zsh immediately before we exec a command; we use it to amend
+# the window title to show what is running.
+function __wezterm_title_preexec()
+{
+  local cmd
+  cmd="$1"
+  case $cmd in
+    fg*)
+      # show something more useful than "fg" when we resume a suspended job
+      local job
+      read cmd job <<< "$cmd"
+      if [[ -z "$job" ]] ; then
+        # the echo is to strip extra whitespace
+        cmd=$(echo $(builtin jobs -l %+ 2>/dev/null | cut -d' ' -f6-))
+      else
+        cmd=$(echo $(builtin jobs -l $job 2>/dev/null | cut -d' ' -f6-))
+      fi
+      ;;
+  esac
+  local host
+  host=""
+  if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    host="${USER}@${HOSTNAME%%.*}:"
+  fi
+  local cmd_prefix
+  cmd_prefix=""
+  if [[ ! -z "${cmd}" ]]; then
+    cmd_prefix="$cmd — "
+  fi
+  _dotfiles_set_window_title "$cmd_prefix$host${$(basename "$PWD")/$HOME/~}"
+}
+
 # Register the various functions; take care to perform osc7 after
 # the semantic zones as we don't want to perturb the last command
 # status before we've had a chance to report it to the terminal
@@ -543,6 +612,16 @@ if [[ -z "${WEZTERM_SHELL_SKIP_USER_VARS}" ]]; then
   else
     precmd_functions+=(__wezterm_user_vars_precmd)
     preexec_functions+=(__wezterm_user_vars_preexec)
+  fi
+fi
+
+if [[ -z "${WEZTERM_SHELL_SKIP_TITLE}" ]]; then
+  if [[ -n "$BLE_VERSION" ]]; then
+    blehook PRECMD+=__wezterm_title_preexec
+    blehook PREEXEC+=__wezterm_title_preexec
+  else
+    precmd_functions+=(__wezterm_title_preexec)
+    preexec_functions+=(__wezterm_title_preexec)
   fi
 fi
 

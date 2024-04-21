@@ -2,6 +2,7 @@
   pkgs,
   lib,
   user,
+  agenix,
   ...
 }:
 {
@@ -15,6 +16,8 @@
 
   environment.pathsToLink = [ "/share/zsh" ];
   environment.systemPackages = with pkgs; [
+    agenix.packages."${pkgs.system}".default
+
     git
     neovim
 
@@ -28,6 +31,7 @@
 
     # Text processing
     bat
+    fd
     ripgrep
     jq
     yq
@@ -35,6 +39,7 @@
     wget
     curl
 
+    eza
     which
     tree
 

@@ -3,6 +3,7 @@ return {
   'nvim-telescope/telescope.nvim',
   branch = '0.1.x',
   lazy = true,
+  cmd = 'Telescope',
   dependencies = {
     'nvim-lua/plenary.nvim',
     -- Fuzzy Finder Algorithm which requires local dependencies to be built.
@@ -17,7 +18,7 @@ return {
     },
   },
   config = function()
-    local trouble = require("trouble.providers.telescope")
+    local trouble = require 'trouble.providers.telescope'
     require('telescope').setup {
       defaults = {
         hidden = true,

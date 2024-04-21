@@ -28,10 +28,9 @@
       cp = "cp -i"; # Confirm before overwriting something
       df = "df -h"; # Human-readable sizes
       free = "free -m"; # Show sizes in MB
-      ls = "exa";
       grep = "grep --color=auto";
       diff = "diff --color=auto";
-      n = "nvim";
+      n = "nn";
       kc = "kubectl";
     };
     initExtra = builtins.concatStringsSep "\n" [
@@ -135,4 +134,9 @@
       filter_mode_shell_up_key_binding = "directory";
     };
   };
+
+  programs.zoxide.enable = true;
+  programs.direnv.enable = true;
+
+  programs.eza.enable = true;
 }

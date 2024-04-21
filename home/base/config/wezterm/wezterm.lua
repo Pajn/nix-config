@@ -5,10 +5,17 @@ local act = wezterm.action
 
 local config = {}
 
+if wezterm.target_triple == "x86_64-pc-windows-msvc" then
+	config.default_domain = "WSL:NixOS"
+	config.window_background_opacity = 0.98
+	-- config.window_background_opacity = 0.7
+	-- config.win32_system_backdrop = "Acrylic"
+	config.allow_win32_input_mode = false
+end
+
 config.color_scheme = "catppuccin-frappe"
 config.window_background_opacity = 0.95
 config.macos_window_background_blur = 30
-config.win32_system_backdrop = "Tabbed"
 config.use_fancy_tab_bar = false
 config.tab_bar_at_bottom = true
 config.colors = {
@@ -97,6 +104,7 @@ config.font_size = 13.0
 config.enable_kitty_keyboard = true
 config.send_composed_key_when_left_alt_is_pressed = false
 config.send_composed_key_when_right_alt_is_pressed = false
+config.switch_to_last_active_tab_when_closing_tab = true
 
 -- if you are *NOT* lazy-loading smart-splits.nvim (recommended)
 local function is_vim(pane)
@@ -252,6 +260,7 @@ config.keys = {
 		mods = "LEADER",
 		action = wezterm.action_callback(lazygit),
 	},
+	{ key = "p", mods = "LEADER", action = act.PasteFrom("Clipboard") },
 }
 
 for i = 1, 9 do
@@ -261,11 +270,11 @@ for i = 1, 9 do
 		mods = "LEADER",
 		action = act.ActivateTab(i - 1),
 	})
-	table.insert(config.keys, {
-		key = tostring(i),
-		mods = "CTRL",
-		action = act.ActivateTab(i - 1),
-	})
+	-- table.insert(config.keys, {
+	-- 	key = tostring(i),
+	-- 	mods = "CTRL",
+	-- 	action = act.ActivateTab(i - 1),
+	-- })
 end
 
 wezterm.on("update-right-status", function(window, pane)
@@ -284,6 +293,9 @@ wezterm.on("trigger-vim-with-scrollback", function(window, pane)
 	-- Create a temporary file to pass to vim
 	local name = os.tmpname()
 	local f = io.open(name, "w+")
+	if f == nil then
+		return
+	end
 	f:write(text)
 	f:flush()
 	f:close()
