@@ -15,6 +15,7 @@ vim.defer_fn(function()
       'markdown',
       'markdown_inline',
       'python',
+      'regex',
       'rust',
       'tsx',
       'typescript',
@@ -153,11 +154,65 @@ vim.defer_fn(function()
 end, 0)
 
 return {
-  -- Highlight, edit, and navigate code
-  'nvim-treesitter/nvim-treesitter',
-  event = 'VeryLazy',
-  dependencies = {
-    'nvim-treesitter/nvim-treesitter-textobjects',
+  {
+    -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    event = 'VeryLazy',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
+    build = ':TSUpdate',
   },
-  build = ':TSUpdate',
+  {
+    'Mr-LLLLL/treesitter-outer',
+    event = 'VeryLazy',
+    dependencies = 'nvim-treesitter/nvim-treesitter',
+    -- only load this plug in follow filetypes
+    ft = {
+      'c',
+      'cpp',
+      'elixir',
+      'fennel',
+      'foam',
+      'go',
+      'javascript',
+      'julia',
+      'lua',
+      'nix',
+      'php',
+      'python',
+      'r',
+      'ruby',
+      'rust',
+      'scss',
+      'tsx',
+      'typescript',
+    },
+    -- default config
+    opts = {
+      filetypes = {
+        'c',
+        'cpp',
+        'elixir',
+        'fennel',
+        'foam',
+        'go',
+        'javascript',
+        'julia',
+        'lua',
+        'nix',
+        'php',
+        'python',
+        'r',
+        'ruby',
+        'rust',
+        'scss',
+        'tsx',
+        'typescript',
+      },
+      mode = { 'n', 'v' },
+      prev_outer_key = '[b',
+      next_outer_key = ']b',
+    },
+  },
 }

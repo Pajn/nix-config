@@ -13,6 +13,8 @@ return {
 
     -- Adds a number of user-friendly snippets
     'rafamadriz/friendly-snippets',
+
+    'jdrupal-dev/css-vars.nvim',
   },
   config = function()
     local cmp = require 'cmp'
@@ -62,6 +64,7 @@ return {
         { name = 'copilot' },
         { name = 'luasnip', max_item_count = 3 },
         { name = 'path' },
+        { name = 'css_vars' },
       },
     }
 

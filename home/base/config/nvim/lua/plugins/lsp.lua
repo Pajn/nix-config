@@ -152,18 +152,31 @@ return {
       }
     end,
   },
-  {
-    'Maan2003/lsp_lines.nvim',
-    event = 'LspAttach',
-    config = function()
-      require('lsp_lines').setup()
-      vim.diagnostic.config { virtual_text = false }
-    end,
-  },
+  -- {
+  --   'Maan2003/lsp_lines.nvim',
+  --   event = 'LspAttach',
+  --   config = function()
+  --     require('lsp_lines').setup()
+  --     vim.diagnostic.config { virtual_text = false }
+  --   end,
+  -- },
   {
     'folke/trouble.nvim',
     cmd = { 'Trouble', 'TroubleToggle' },
     dependencies = { 'nvim-tree/nvim-web-devicons' },
+    opts = {},
+  },
+  {
+    'zeioth/garbage-day.nvim',
+    dependencies = 'neovim/nvim-lspconfig',
+    event = 'VeryLazy',
+    opts = {},
+  },
+  {
+    'jdrupal-dev/parcel.nvim',
+    dependencies = {
+      'phelipetls/jsonpath.nvim',
+    },
     opts = {},
   },
 }

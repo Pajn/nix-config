@@ -28,12 +28,13 @@ vim.keymap.set('n', '*', '*zz', { noremap = true, silent = true })
 vim.keymap.set('n', '#', '#zz', { noremap = true, silent = true })
 
 -- Paste over visual selection, but don't yank it
-vim.keymap.set('x', '<leader>p', '"_dP', { silent = true })
+vim.keymap.set('x', 'p', '"_dP', { silent = true })
 -- Don't yank x
 vim.keymap.set({ 'n', 'v', 'x' }, 'x', '"_x', { silent = true, noremap = true })
 -- copying and pasting to/from system clipboard
 vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]], { desc = '[Y]ank system clipboard' })
 vim.keymap.set({ 'n', 'v' }, '<leader>p', [["+p]], { desc = '[P]aste system clipboard' })
+vim.keymap.set({ 'n', 'v' }, '<leader>Y', ':YankBank<cr>', { desc = '[Y]ank bank' })
 
 vim.keymap.set('n', 'Q', '@qj', { desc = 'Replay @q' })
 vim.keymap.set('x', 'Q', ':norm @q<CR>', { desc = 'Replay @q' })
@@ -123,6 +124,41 @@ M.harpoon = {
     desc = 'which_key_ignore',
   },
 }
+M.recall = {
+  {
+    '<leader>mm',
+    function()
+      require('recall').toggle {}
+    end,
+    { noremap = true, silent = true },
+    desc = 'Toggle [M]ark',
+  },
+  {
+    '<leader>mj',
+    function()
+      require('recall').goto_next {}
+    end,
+    { noremap = true, silent = true },
+    desc = 'Goto next mark',
+  },
+  {
+    '<leader>mk',
+    function()
+      require('recall').goto_prev {}
+    end,
+    { noremap = true, silent = true },
+    desc = 'Goto previous mark',
+  },
+  {
+    '<leader>mc',
+    function()
+      require('recall').clear {}
+    end,
+    { noremap = true, silent = true },
+    desc = 'Clear marks',
+  },
+  { '<leader>ml', ':Telescope recall<CR>', { noremap = true, silent = true }, desc = 'List Marks' },
+}
 
 -- Custom live_grep function to search in git root
 local function live_grep_git_root()
@@ -136,12 +172,12 @@ end
 vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
 
 -- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader>?', function()
-  require('telescope.builtin').oldfiles {}
-end, { desc = '[?] Find recently opened files' })
 vim.keymap.set('n', '<leader><space>', function()
+  require('telescope.builtin').oldfiles {}
+end, { desc = '[ ] Find recently opened files' })
+vim.keymap.set('n', '<leader>?', function()
   require('telescope.builtin').buffers {}
-end, { desc = '[ ] Find existing buffers' })
+end, { desc = '[?] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
   require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
@@ -156,7 +192,8 @@ end, { desc = 'Search Git [R]epository' })
 vim.keymap.set('n', '<leader>sf', function()
   require('telescope.builtin').find_files { hidden = true }
 end, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sh', function()
+vim.keymap.set('n', '<leader>sh', ':Telescope git_file_history<cr>', { desc = '[S]earch file [H]istory' })
+vim.keymap.set('n', '<leader>sH', function()
   require('telescope.builtin').help_tags {}
 end, { desc = '[S]earch [H]elp' })
 vim.keymap.set('n', '<leader>sw', function()
@@ -172,13 +209,12 @@ end, { desc = '[S]earch [D]iagnostics' })
 vim.keymap.set('n', '<leader>sc', function()
   require('telescope.builtin').resume {}
 end, { desc = '[C]ontinue Search' })
-local function telescope_live_grep_open_files()
+vim.keymap.set('n', '<leader>s/', function()
   require('telescope.builtin').live_grep {
     grep_open_files = true,
     prompt_title = 'Live Grep in Open Files',
   }
-end
-vim.keymap.set('n', '<leader>s/', telescope_live_grep_open_files, { desc = '[S]earch [/] in Open Files' })
+end, { desc = '[S]earch [/] in Open Files' })
 vim.keymap.set('n', '<leader>ss', function()
   require('telescope.builtin').builtin {}
 end, { desc = '[S]earch [S]elect Telescope' })
@@ -559,8 +595,9 @@ require('which-key').register {
   ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
   ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
   ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
-  ['<leader>H'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]ename', _ = 'which_key_ignore' },
+  -- ['<leader>H'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
+  ['<leader>m'] = { name = '[M]arks', _ = 'which_key_ignore' },
+  ['<leader>r'] = { name = '[R]efactor', _ = 'which_key_ignore' },
   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
   ['<leader>t'] = { name = '[T]oggles', _ = 'which_key_ignore' },
   ['<leader>T'] = { name = '[T]ests', _ = 'which_key_ignore' },

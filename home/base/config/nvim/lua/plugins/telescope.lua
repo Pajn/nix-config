@@ -16,9 +16,14 @@ return {
         return vim.fn.executable 'make' == 1
       end,
     },
+    {
+      'isak102/telescope-git-file-history.nvim',
+      dependencies = { 'tpope/vim-fugitive' },
+    },
   },
   config = function()
     local trouble = require 'trouble.providers.telescope'
+
     require('telescope').setup {
       defaults = {
         hidden = true,
@@ -27,9 +32,18 @@ return {
           n = { ['<c-t>'] = trouble.open_with_trouble },
         },
       },
+      extensions = {
+        git_file_history = {
+          mappings = {
+            i = { ['<c-g>'] = function() require('telescope').extensions.git_file_history.actions.open_in_browser {} end, },
+            n = { ['<c-g>'] = function() require('telescope').extensions.git_file_history.actions.open_in_browser {} end, },
+          },
+        },
+      },
     }
 
     -- Enable telescope fzf native, if installed
     pcall(require('telescope').load_extension, 'fzf')
+    pcall(require('telescope').load_extension, 'git_file_history')
   end,
 }

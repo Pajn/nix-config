@@ -17,4 +17,13 @@ return {
       vim.cmd.colorscheme 'catppuccin-frappe'
     end,
   },
+  {
+    'mcauley-penney/visual-whitespace.nvim',
+    config = true,
+  },
+  {
+    'arminfro/hand-side-fix.nvim',
+    event = 'BufEnter',
+    opts = true,
+  },
 }

@@ -62,6 +62,9 @@
     bun
     deno
 
+    cargo
+    cargo-outdated
+
     clang-tools
     python3
   ];
