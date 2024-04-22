@@ -24,50 +24,58 @@
 
   # The home.packages option allows you to install Nix packages into your
   # environment.
-  home.packages = with pkgs; [
-    # # Adds the 'hello' command to your environment. It prints a friendly
-    # # "Hello, world!" when run.
-    # hello
+  home.packages =
+    with pkgs;
+    [
+      # # Adds the 'hello' command to your environment. It prints a friendly
+      # # "Hello, world!" when run.
+      # hello
 
-    # # It is sometimes useful to fine-tune packages, for example, by applying
-    # # overrides. You can do that directly here, just don't forget the
-    # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
-    # # fonts?
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
+      # # It is sometimes useful to fine-tune packages, for example, by applying
+      # # overrides. You can do that directly here, just don't forget the
+      # # parentheses. Maybe you want to install Nerd Fonts with a limited number of
+      # # fonts?
+      # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
-    # # You can also create simple shell scripts directly inside your
-    # # configuration. For example, this adds a command 'my-hello' to your
-    # # environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
-    atuin
-    bitwarden-cli
-    just
-    neovim
-    neovim-remote
-    nmap
-    nushell
-    tldr
-    yazi
-    wezterm
+      # # You can also create simple shell scripts directly inside your
+      # # configuration. For example, this adds a command 'my-hello' to your
+      # # environment:
+      # (pkgs.writeShellScriptBin "my-hello" ''
+      #   echo "Hello, ${config.home.username}!"
+      # '')
+      bitwarden-cli
+      just
+      neovim
+      neovim-remote
+      nmap
+      nushell
+      tldr
+      yazi
+      wezterm
 
-    lua-language-server
-    stylua
-    nil
-    nixfmt-rfc-style
+      lua-language-server
+      stylua
+      nil
+      nixfmt-rfc-style
 
-    nodejs
-    nodePackages.pnpm
-    bun
-    deno
+      nodejs
+      nodePackages.pnpm
+      bun
+      deno
 
-    cargo
-    cargo-outdated
-
-    clang-tools
-    python3
-  ];
+      python3
+    ]
+    ++ (
+      if pkgs.stdenv.isDarwin then
+        [ ]
+      else
+        [
+          cargo
+          cargo-outdated
+          clang
+          clang-tools
+        ]
+    );
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
   # plain files is through 'home.file'.
@@ -107,5 +115,4 @@
 
   # Let Home Manager install and manage itself.
   programs.home-manager.enable = true;
-
 }

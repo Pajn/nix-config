@@ -74,6 +74,9 @@ fi
 
 # Javascript
 
+export PATH="$PATH:./node_modules/.bin"
+NPM_PACKAGES="$HOME/.npm-packages"
+export PATH="$PATH:$NPM_PACKAGES/bin"
 alias nup="`npm config get prefix`/bin/nu"
 
 # React Native

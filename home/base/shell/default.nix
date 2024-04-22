@@ -131,6 +131,7 @@
     enable = true;
     settings = {
       dialect = "uk";
+      enter_accept = true;
       filter_mode_shell_up_key_binding = "directory";
     };
   };

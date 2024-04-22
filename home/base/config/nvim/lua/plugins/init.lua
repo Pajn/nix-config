@@ -21,9 +21,9 @@ return {
     'mcauley-penney/visual-whitespace.nvim',
     config = true,
   },
-  {
-    'arminfro/hand-side-fix.nvim',
-    event = 'BufEnter',
-    opts = true,
-  },
+  -- {
+  --   'arminfro/hand-side-fix.nvim',
+  --   event = 'BufEnter',
+  --   opts = true,
+  -- },
 }

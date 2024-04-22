@@ -6,13 +6,8 @@
   ...
 }:
 {
-  system.stateVersion = "24.05";
-
   programs.zsh.enable = true;
-  users.users."${user.username}" = {
-    isNormalUser = true;
-    shell = pkgs.zsh;
-  };
+  users.users."${user.username}".shell = pkgs.zsh;
 
   environment.pathsToLink = [ "/share/zsh" ];
   environment.systemPackages = with pkgs; [
@@ -42,8 +37,6 @@
     eza
     which
     tree
-
-    gcc
   ];
 
   nix.settings = {

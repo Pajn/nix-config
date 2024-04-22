@@ -1,5 +1,3 @@
-{ user, ... }: {
-  imports = [ ../base ];
-
-  home.homeDirectory = "/home/${user.username}";
+{ ... }: {
+  imports = [ ../linux ];
 }
