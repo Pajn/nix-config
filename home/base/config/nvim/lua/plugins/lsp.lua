@@ -1,8 +1,8 @@
-local map_lsp_keybinds = require('user.keymaps').map_lsp_keybinds -- Has to load keymaps before pluginslsp
+local keymaps = require('user.keymaps')
 
 local on_attach = function(_client, buffer_number)
   -- Pass the current buffer to map lsp keybinds
-  map_lsp_keybinds(buffer_number)
+  keymaps.map_lsp_keybinds(buffer_number)
 
   -- if client.server_capabilities.codeLensProvider then
   -- 	vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "CursorHold" }, {
@@ -165,6 +165,10 @@ return {
     cmd = { 'Trouble', 'TroubleToggle' },
     dependencies = { 'nvim-tree/nvim-web-devicons' },
     opts = {},
+  },
+  {
+    'aznhe21/actions-preview.nvim',
+    keys = keymaps.actions_preview,
   },
   {
     'zeioth/garbage-day.nvim',

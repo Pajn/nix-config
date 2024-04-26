@@ -340,6 +340,17 @@ vim.keymap.set('n', ']e', function()
 end, { desc = 'Go to next error' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
 vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+M.actions_preview = {
+  {
+    '<leader>-',
+    function()
+      require('actions-preview').code_actions {}
+    end,
+    desc = 'Code actions',
+    silent = true,
+    noremap = true,
+  },
+}
 
 M.map_lsp_keybinds = function(bufnr)
   local nmap = function(keys, func, desc)
