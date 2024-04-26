@@ -1,3 +1,15 @@
+bindkey '^[[H' beginning-of-line                                # Home key
+bindkey '^[[F' end-of-line                                     # End key
+bindkey '^[[3~' delete-char                                     # Delete key
+
+# Navigate words with ctrl+arrow keys
+bindkey '^[Oc' forward-word                                     #
+bindkey '^[Od' backward-word                                    #
+bindkey '^[[1;5D' backward-word                                 #
+bindkey '^[[1;5C' forward-word                                  #
+bindkey '^H' backward-kill-word                                 # delete previous word with ctrl+backspace
+bindkey '^[[Z' undo                                             # Shift+tab undo last action
+
 if [[ -n "$NVIM" || -n "$NVIM_LISTEN_ADDRESS" ]]; then
   alias nvim=nvr -cc split --remote-wait +'set bufhidden=wipe'
   export VISUAL="nvr -cc split --remote-wait +'set bufhidden=wipe'"
