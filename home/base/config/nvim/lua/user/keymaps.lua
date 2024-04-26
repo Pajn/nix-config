@@ -313,8 +313,10 @@ M.map_gitsigns_keybinds = function(bufnr)
     gs.diffthis '~'
   end, { desc = 'git diff against last commit' })
   -- Toggles
-  map('n', '<leader>tb', gs.toggle_current_line_blame, { desc = 'toggle git blame line' })
+  map('n', '<leader>tb', ':BlameToggle<CR>', { desc = 'toggle git blame' })
+  map('n', '<leader>tB', gs.toggle_current_line_blame, { desc = 'toggle git blame line' })
   map('n', '<leader>td', gs.toggle_deleted, { desc = 'toggle git show deleted' })
+  map('n', '<leader>tu', ':UndotreeToggle<CR>', { desc = 'toggle undo tree' })
   -- Text object
   map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
 end

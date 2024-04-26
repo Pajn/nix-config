@@ -67,4 +67,11 @@ return {
       require('git-rebase-auto-diff').setup()
     end,
   },
+  {
+    'FabijanZulj/blame.nvim',
+    cmd = { 'BlameToggle' },
+    config = function()
+      require('blame').setup()
+    end,
+  },
 }
