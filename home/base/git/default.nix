@@ -72,7 +72,7 @@
 
       pull.rebase = "true";
       init.defaultBranch = "main";
-      push.autoSetupRemote = "true";
+      # push.autoSetupRemote = "true";
 
       "includeIf \"gitdir:~/Development/\"" = {
         path = "~/Development/.gitconfig";
