@@ -1,10 +1,8 @@
 { user, pkgs, ... }:
 {
-  imports = [ ../base ];
+  imports = [ ../linux ];
 
   wsl.enable = true;
   wsl.defaultUser = user.username;
   #wsl.docker-desktop.enable = true;
-
-  environment.systemPackages = with pkgs; [ wl-clipboard ];
 }

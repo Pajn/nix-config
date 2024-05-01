@@ -91,42 +91,45 @@
     in
     {
       darwinConfigurations = {
-        "Rasmuss-MacBook-Pro-2" = let specialArgs = genSpecialArgs "aarch64-darwin";
-        in nix-darwin.lib.darwinSystem {
-          inherit inputs;
+        "Rasmuss-MacBook-Pro-2" =
+          let
+            specialArgs = genSpecialArgs "aarch64-darwin";
+          in
+          nix-darwin.lib.darwinSystem {
+            inherit inputs;
 
-          system = "aarch64-darwin";
-          specialArgs = specialArgs;
-          modules = [
-            # ./hosts/m1
-            ./modules/macos
-            # ./modules/macos/brew.nix
+            system = "aarch64-darwin";
+            specialArgs = specialArgs;
+            modules = [
+              # ./hosts/m1
+              ./modules/macos
+              # ./modules/macos/brew.nix
 
-            agenix.darwinModules.default
-            home-manager.darwinModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = specialArgs;
-              home-manager.users."${user.username}" = import ./home/macos;
-            }
-            # nix-homebrew.darwinModules.nix-homebrew
-            # {
-            #   nix-homebrew = {
-            #     user = user.username;
-            #     enable = true;
-            #     enableRosetta = true;
-            #     taps = {
-            #       "homebrew/homebrew-core" = homebrew-core;
-            #       "homebrew/homebrew-cask" = homebrew-cask;
-            #       "homebrew/homebrew-bundle" = homebrew-bundle;
-            #     };
-            #     mutableTaps = false;
-            #     # autoMigrate = true;
-            #   };
-            # }
-          ];
-        };
+              agenix.darwinModules.default
+              home-manager.darwinModules.home-manager
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.extraSpecialArgs = specialArgs;
+                home-manager.users."${user.username}" = import ./home/macos;
+              }
+              # nix-homebrew.darwinModules.nix-homebrew
+              # {
+              #   nix-homebrew = {
+              #     user = user.username;
+              #     enable = true;
+              #     enableRosetta = true;
+              #     taps = {
+              #       "homebrew/homebrew-core" = homebrew-core;
+              #       "homebrew/homebrew-cask" = homebrew-cask;
+              #       "homebrew/homebrew-bundle" = homebrew-bundle;
+              #     };
+              #     mutableTaps = false;
+              #     # autoMigrate = true;
+              #   };
+              # }
+            ];
+          };
       };
 
       nixosConfigurations = {
@@ -149,6 +152,17 @@
                 home-manager.users."${user.username}" = import ./home/wsl;
               }
             ];
+          };
+      };
+
+      homeConfigurations = {
+        idun =
+          let
+            specialArgs = genSpecialArgs "x86_64-linux";
+          in
+          home-manager.lib.homeManagerConfiguration {
+            inherit specialArgs;
+            modules = [ ./home/linux ];
           };
       };
     };
