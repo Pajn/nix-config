@@ -1,12 +1,12 @@
 {
   user,
   pkgs,
-  agenix,
+  #agenix,
   ...
 }:
 {
   imports = [
-    agenix.homeManagerModules.default
+    #agenix.homeManagerModules.default
     ./shell
     ./git
   ];

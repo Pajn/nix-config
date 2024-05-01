@@ -132,6 +132,19 @@
           };
       };
 
+      homeConfigurations = {
+        idun =
+          let
+            specialArgs = genSpecialArgs "x86_64-linux";
+          in
+          home-manager.lib.homeManagerConfiguration {
+            inherit (specialArgs) pkgs;
+            extraSpecialArgs = specialArgs;
+
+            modules = [ ./home/linux ];
+          };
+      };
+
       nixosConfigurations = {
         wsl =
           let
@@ -152,17 +165,6 @@
                 home-manager.users."${user.username}" = import ./home/wsl;
               }
             ];
-          };
-      };
-
-      homeConfigurations = {
-        idun =
-          let
-            specialArgs = genSpecialArgs "x86_64-linux";
-          in
-          home-manager.lib.homeManagerConfiguration {
-            inherit specialArgs;
-            modules = [ ./home/linux ];
           };
       };
     };
