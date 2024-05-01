@@ -7,9 +7,22 @@
 }:
 {
   programs.zsh.enable = true;
-  users.users."${user.username}".shell = pkgs.zsh;
-
+  users.users."${user.username}" = {
+    description = user.name;
+    shell = pkgs.zsh;
+  };
   environment.pathsToLink = [ "/share/zsh" ];
+
+  # minimum amount of swapping without disabling it entirely
+  boot.kernel.sysctl."vm.swappiness" = lib.mkDefault 1;
+
+  systemd.extraConfig = ''
+    DefaultTimeoutStopSec=15s
+  '';
+  security.sudo.extraConfig = ''
+    Defaults        timestamp_timeout=60
+  '';
+
   environment.systemPackages = with pkgs; [
     agenix.packages."${pkgs.system}".default
 
@@ -37,6 +50,10 @@
     eza
     which
     tree
+  ];
+  fonts.packages = with pkgs; [
+    fira-code
+    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
   ];
 
   nix.settings = {

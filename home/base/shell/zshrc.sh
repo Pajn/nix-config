@@ -80,7 +80,7 @@ function which-port {
   netstat -tunapl | grep $1
 }
 
-if command -v xdg-open; then
+if command -v xdg-open &> /dev/null; then
   alias open='xdg-open'
 fi
 
@@ -89,7 +89,7 @@ fi
 export PATH="$PATH:./node_modules/.bin"
 NPM_PACKAGES="$HOME/.npm-packages"
 export PATH="$PATH:$NPM_PACKAGES/bin"
-alias nup="`npm config get prefix`/bin/nu"
+alias nup="$NPM_PACKAGES/bin/nu"
 
 # React Native
 

@@ -4,6 +4,9 @@ local os = require("os")
 local act = wezterm.action
 
 local config = {}
+-- gnome shell crash workaround
+-- config.front_end = "OpenGL"
+-- config.adjust_window_size_when_changing_font_size = true
 
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	config.default_domain = "WSL:NixOS"

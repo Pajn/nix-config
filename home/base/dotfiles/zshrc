@@ -325,7 +325,7 @@ function which-port {
   netstat -tunapl | grep $1
 }
 
-if command -v xdg-open; then
+if command -v xdg-open &> /dev/null; then
   alias open='xdg-open'
 fi
 

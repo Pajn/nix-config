@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 {
 
   home.packages = with pkgs; [
@@ -14,6 +14,7 @@
   home.file.".ssh/allowed_signers".text = ''
     * ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCnCd3pS1o2QF9FblX294ZTFXGf/bISTU+VXKU15hD5CPZNJLWpmpM40oGCWC/m4xmMhML6hRDV5Yko0hWknZOD1oSRWE+Yhob7M88IwJLz3GPBC47JFNh+t20Yq8cFwgQ/Ww6v3I3EZYmJ7AXse3+eHl6lFuqVb10TMZnWghzcYEkR43vds8u/Udnc6sqLuRCc7mqRCNi5kN9ead2StSdNRqGhH95s44LvpjS9oQoLY0wGGwAz4Db0S0NHa1B56EgmJwGuKoSvsU0KLbuwddbWH5/xd7gZiCwJXpwwJkOg++HVvNrzDBC9AY5bTQT7t38vt7YnjjIfdFpPnAES/vsN/arYWOhHgzspoD4PlWiCTm8LkxYCnrMklWdNTj8nsGL0ZrnbWtrtl+l0z8FlfFi6Kj1+r7/XbpWRgLD0JuVHLB4rTEJg848qhXl0OJLjeqvVl+NlJKxupjE0Z/2xs9h6SL7H26XTYOmekGRu4JQYXIcdRvmCrhCt/i4PWUhmrK0=
     * ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDKtL49R/kwKZQeTxO3h2EILcmtWNX6S7KPvceoiZ5nUPjIqevZNhWA6ygPC/P02sagmsMW6fcvpT7wfb6EJApZwey07hCJ7Q2bBaoMqWKgU3Yg3VGFF09Rhn8UyrjuFcfezsp7P2ufj2jsfsmBJxB8VYINirCn+vis3e/jLCk0vJpESzHPmoUz7ZAolqdQwoBW35b8NwsHq6Av/GXwdnjlZsj9mrIcTUjHM2dO1+KY1tIo2YgSNVOCS5jQPBLt+4YJ94qq1uH7z3IVhw47fag9199s7zpPwI9cm/Mlb1jzu/sQbsYxx4YRGKA1IrNGZUgYQBIknRj96ZGMJ+CAguDpvcEH9JkPlioxq3fhkq5plHJR8kL1hJLhPuYmgjyZBmBxSyQuM/596S9ey95kOVQHx23IUdjdYyWgpA4fJI9JYBLrWSr2GcNMJh90z+4sLxW8aQO463PvF2lhriGRrQV2qlS3+SETuKJtIiOZkwBs12vUStOAx0VqyBsFD3w3VF0=
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFOSq9QDUV7H1uNOV78w2ICH4oOUbZQozL4SNbn2jL7t rasmus@nixos
   '';
 
   programs.git = {
@@ -68,7 +69,7 @@
       commit.gpgsign = "true";
       gpg.format = "ssh";
       gpg.ssh.allowedSignersFile = "~/.ssh/allowed_signers";
-      user.signingKey = "~/.ssh/id_rsa.pub";
+      user.signingKey = lib.mkDefault "~/.ssh/id_rsa.pub";
 
       pull.rebase = "true";
       init.defaultBranch = "main";

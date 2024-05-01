@@ -84,8 +84,12 @@
     # # the Nix store. Activating the configuration will then make '~/.screenrc' a
     # # symlink to the Nix store copy.
     # ".screenrc".source = dotfiles/screenrc;
+    ".npmrc".source = dotfiles/npmrc;
+
     ".config/nvim/lua".source = config/nvim/lua;
     ".config/nvim/init.lua".source = config/nvim/init.lua;
+
+    ".config/wezterm/wezterm.lua".source = config/wezterm/wezterm.lua;
 
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''

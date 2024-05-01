@@ -11,6 +11,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    lanzaboote = {
+      url = "github:nix-community/lanzaboote/v0.3.0";
+
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-darwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -48,6 +59,8 @@
       self,
       nixpkgs,
       nixos-wsl,
+      lanzaboote,
+      nixos-cosmic,
       nix-darwin,
       home-manager,
       nix-homebrew,
@@ -87,6 +100,8 @@
             inherit system;
             config.allowUnfree = true;
           };
+
+          _custom = import ./packages { inherit pkgs lib; };
         };
     in
     {
@@ -146,6 +161,35 @@
       };
 
       nixosConfigurations = {
+        frigg =
+          let
+            specialArgs = genSpecialArgs "x86_64-linux";
+          in
+          nixpkgs.lib.nixosSystem {
+            system = "x86_64-linux";
+            inherit specialArgs;
+            modules = [
+              lanzaboote.nixosModules.lanzaboote
+              {
+                nix.settings = {
+                  substituters = [ "https://cosmic.cachix.org/" ];
+                  trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
+                };
+              }
+              nixos-cosmic.nixosModules.default
+              ./hosts/frigg
+              ./modules/linux
+              ./modules/linux/boot.nix
+              agenix.nixosModules.default
+              home-manager.nixosModules.home-manager
+              {
+                home-manager.useGlobalPkgs = true;
+                home-manager.useUserPackages = true;
+                home-manager.extraSpecialArgs = specialArgs;
+                home-manager.users."${user.username}" = import ./hosts/frigg/home.nix;
+              }
+            ];
+          };
         wsl =
           let
             specialArgs = genSpecialArgs "x86_64-linux";
