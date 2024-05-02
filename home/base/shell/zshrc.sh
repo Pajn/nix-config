@@ -19,15 +19,6 @@ else
   export EDITOR="nvim"
 fi
 
-function nn() {
-  if [ $# -eq 0 ]
-  then
-    nvim -c 'Telescope oldfiles'
-  else
-    nvim $@
-  fi
-}
-
 # Git
 function squash() {
   git rebase --interactive HEAD~$1 ${@:2} --autostash

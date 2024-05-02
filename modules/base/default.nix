@@ -20,7 +20,7 @@
     DefaultTimeoutStopSec=15s
   '';
   security.sudo.extraConfig = ''
-    Defaults        timestamp_timeout=60
+    Defaults        timestamp_timeout=480
   '';
 
   environment.systemPackages = with pkgs; [

@@ -1,4 +1,10 @@
-{ config, pkgs, user, ... }: {
+{
+  config,
+  pkgs,
+  user,
+  ...
+}:
+{
   imports = [ ../base ];
 
   users.users."${user.username}" = {
@@ -81,12 +87,10 @@
   # system.defaults.NSGlobalDomain."com.apple.mouse.tapBehavior" = 1;
 
   # enable two finger right click
-  system.defaults.NSGlobalDomain."com.apple.trackpad.enableSecondaryClick" =
-    true;
+  system.defaults.NSGlobalDomain."com.apple.trackpad.enableSecondaryClick" = true;
 
   # disable corner right click
-  system.defaults.NSGlobalDomain."com.apple.trackpad.trackpadCornerClickBehavior" =
-    null;
+  system.defaults.NSGlobalDomain."com.apple.trackpad.trackpadCornerClickBehavior" = null;
   # disable trackpad tap clicking
   # system.defaults.trackpad.Clicking = true;
   # system.defaults.trackpad.TrackpadRightClick = true;
