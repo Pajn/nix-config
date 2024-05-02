@@ -13,12 +13,6 @@
   };
   environment.pathsToLink = [ "/share/zsh" ];
 
-  # minimum amount of swapping without disabling it entirely
-  boot.kernel.sysctl."vm.swappiness" = lib.mkDefault 1;
-
-  systemd.extraConfig = ''
-    DefaultTimeoutStopSec=15s
-  '';
   security.sudo.extraConfig = ''
     Defaults        timestamp_timeout=480
   '';
@@ -50,10 +44,6 @@
     eza
     which
     tree
-  ];
-  fonts.packages = with pkgs; [
-    fira-code
-    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
   ];
 
   nix.settings = {

@@ -4,9 +4,6 @@ local os = require("os")
 local act = wezterm.action
 
 local config = {}
--- gnome shell crash workaround
--- config.front_end = "OpenGL"
--- config.adjust_window_size_when_changing_font_size = true
 
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	config.default_domain = "WSL:NixOS"
@@ -16,7 +13,24 @@ if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	config.allow_win32_input_mode = false
 end
 
-config.color_scheme = "catppuccin-frappe"
+-- wezterm.gui is not available to the mux server, so take care to
+-- do something reasonable when this config is evaluated by the mux
+local function get_appearance()
+	if wezterm.gui then
+		return wezterm.gui.get_appearance()
+	end
+	return "Dark"
+end
+
+local function scheme_for_appearance(appearance)
+	if appearance:find("Dark") then
+		return "catppuccin-frappe"
+	else
+		return "catppuccin-latte"
+	end
+end
+
+config.color_scheme = scheme_for_appearance(get_appearance())
 config.window_background_opacity = 0.95
 config.macos_window_background_blur = 30
 config.use_fancy_tab_bar = false

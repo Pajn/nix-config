@@ -42,6 +42,10 @@ return {
           -- behavior = cmp.ConfirmBehavior.Replace,
           select = true,
         },
+        ['<C-->'] = cmp.mapping.confirm {
+          -- behavior = cmp.ConfirmBehavior.Replace,
+          select = true,
+        },
         -- Think of <c-l> as moving to the right of your snippet expansion.
         --  So if you have a snippet that's like:
         --  function $name($args)

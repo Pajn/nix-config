@@ -1,8 +1,20 @@
-{ user, pkgs, ... }:
+{
+  user,
+  pkgs,
+  lib,
+  ...
+}:
 {
   imports = [ ../base ];
 
   users.users."${user.username}".isNormalUser = true;
+
+  # minimum amount of swapping without disabling it entirely
+  boot.kernel.sysctl."vm.swappiness" = lib.mkDefault 1;
+
+  systemd.extraConfig = ''
+    DefaultTimeoutStopSec=15s
+  '';
 
   environment.systemPackages = with pkgs; [
     wl-clipboard
@@ -34,4 +46,9 @@
       defaultNetwork.settings.dns_enabled = true;
     };
   };
+
+  fonts.packages = with pkgs; [
+    fira-code
+    (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+  ];
 }
