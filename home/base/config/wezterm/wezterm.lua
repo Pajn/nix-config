@@ -278,6 +278,9 @@ config.keys = {
 		action = wezterm.action_callback(lazygit),
 	},
 	{ key = "p", mods = "LEADER", action = act.PasteFrom("Clipboard") },
+	{ key = "Insert", mods = "CTRL", action = act.CopyTo("Clipboard") },
+	{ key = "Insert", mods = "SHIFT", action = act.PasteFrom("Clipboard") },
+	{ key = "-", mods = "CTRL", action = act.DisableDefaultAssignment },
 }
 
 for i = 1, 9 do

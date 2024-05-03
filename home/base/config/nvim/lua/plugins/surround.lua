@@ -26,11 +26,4 @@ return {
       },
     },
   },
-  -- {
-  -- 	'tpope/vim-surround',
-  -- 	keys = { 'cs', 'ds', 'ys' },
-  -- 	dependencies = {
-  -- 		{ 'tpope/vim-repeat' },
-  -- 	}
-  -- },
 }
