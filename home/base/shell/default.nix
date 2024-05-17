@@ -32,6 +32,7 @@
       diff = "diff --color=auto";
       n = "nvim";
       kc = "kubectl";
+      do = "just --working-directory \"$(just --evaluate pwd)/$(echo \"\${PWD#`just --evaluate pwd`}\" | cut -d '/' -f2)\" --justfile \"$(just --evaluate pwd)/justfile\"";
     };
     initExtra = builtins.concatStringsSep "\n" [
       # ''. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"''

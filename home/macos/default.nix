@@ -1,10 +1,4 @@
-{
-  pkgs,
-  user,
-  mypkgs,
-  config,
-  ...
-}:
+{ pkgs, user, ... }:
 {
   imports = [
     ../base
@@ -29,14 +23,4 @@
     fira-code
     (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
   ];
-
-  # home.packages = with pkgs; [
-  #   # mypkgs.app-launcher
-  #   # mypkgs.darwin.altair
-  #   # mypkgs.darwin.obsidian
-  #   # mypkgs.darwin.vlc
-  #   # mypkgs.darwin.wombat
-  #   # reattach-to-user-namespace
-  #   # rectangle
-  # ];
 }
