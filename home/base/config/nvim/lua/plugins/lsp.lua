@@ -176,11 +176,4 @@ return {
     event = 'VeryLazy',
     opts = {},
   },
-  {
-    'jdrupal-dev/parcel.nvim',
-    dependencies = {
-      'phelipetls/jsonpath.nvim',
-    },
-    opts = {},
-  },
 }
