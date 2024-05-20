@@ -72,6 +72,7 @@ return {
 
         -- Rust and Typecript has custom configs
         -- rust_analyzer = {},
+        vtsls = {},
         yamlls = {
           settings = {
             yaml = {
@@ -143,15 +144,15 @@ return {
       }
     end,
   },
-  {
-    'nvimdev/lspsaga.nvim',
-    event = 'LspAttach',
-    config = function()
-      require('lspsaga').setup {
-        lightbulb = { enable = false },
-      }
-    end,
-  },
+  -- {
+  --   'nvimdev/lspsaga.nvim',
+  --   event = 'LspAttach',
+  --   config = function()
+  --     require('lspsaga').setup {
+  --       lightbulb = { enable = false },
+  --     }
+  --   end,
+  -- },
   -- {
   --   'Maan2003/lsp_lines.nvim',
   --   event = 'LspAttach',

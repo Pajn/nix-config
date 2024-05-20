@@ -40,15 +40,45 @@ vim.keymap.set('n', 'Q', '@qj', { desc = 'Replay @q' })
 vim.keymap.set('x', 'Q', ':norm @q<CR>', { desc = 'Replay @q' })
 
 -- vertical split
-vim.keymap.set('n', '<C-s>', [[:vsplit ]])
---vim.keymap.set('n', '<C-f>', '<cmd>silent !tmux neww tmux-sessionizer<CR>', { silent = true })
+vim.keymap.set('n', '<C-\\>', ':vsplit<CR>')
 
 -- Swap between last two buffers
 vim.keymap.set('n', "<leader>'", '<C-^>', { desc = 'Switch to last buffer' })
 
-vim.keymap.set('n', '<leader>b', function()
-  require('oil').toggle_float()
-end, { desc = '[B]rowse files' })
+M.bufjump = {
+  {
+    '<S-Up>',
+    function()
+      require('bufjump').forward()
+    end,
+    { noremap = true, silent = true, desc = 'Jump File Forward' },
+  },
+  {
+    '<S-Down>',
+    function()
+      require('bufjump').backward()
+    end,
+    { noremap = true, silent = true, desc = 'Jump File Backward' },
+  },
+  {
+    '<S-Right>',
+    function()
+      require('bufjump').forward_same_buf()
+    end,
+    { noremap = true, silent = true, desc = 'Jump In File Forward' },
+  },
+  {
+    '<S-Left>',
+    function()
+      require('bufjump').backward_same_buf()
+    end,
+    { noremap = true, silent = true, desc = 'Jump In File Backward' },
+  },
+}
+
+-- vim.keymap.set('n', '<leader>b', function()
+--   require('oil').toggle_float()
+-- end, { desc = '[B]rowse files' })
 vim.keymap.set('n', '<leader>sR', function()
   require('spectre').toggle()
 end, { desc = '[S]earch and [R]eplace' })
@@ -339,7 +369,7 @@ vim.keymap.set('n', ']e', function()
   vim.api.nvim_feedkeys('zz', 'n', false)
 end, { desc = 'Go to next error' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagnostics list' })
+vim.keymap.set('n', '<leader>q', ':TroubleToggle<CR>', { desc = 'Open diagnostics list' })
 M.actions_preview = {
   {
     '<leader>-',
@@ -361,7 +391,7 @@ M.map_lsp_keybinds = function(bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
+  nmap('<leader>rn', vim.lsp.buf.rename, 'Refactor Re[n]ame')
   nmap('<leader>.', vim.lsp.buf.code_action, 'Code Action')
 
   nmap('gd', function()
@@ -399,6 +429,16 @@ M.map_lsp_keybinds = function(bufnr)
     vim.lsp.buf.format {}
   end, { desc = 'LSP: Format current buffer with LSP' })
 end
+M.conform = {
+  {
+    '<leader>f',
+    function()
+      require('conform').format { async = true, lsp_fallback = true }
+    end,
+    mode = '',
+    desc = 'Format buffer',
+  },
+}
 
 vim.keymap.set('', '<Leader>ti', function()
   require('lsp_lines').toggle()
@@ -501,6 +541,10 @@ M.package_info = {
     noremap = true,
     ft = { 'json' },
   },
+}
+-- Neotree
+M.neotree = {
+  { '\\', ':Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
 }
 
 -- Neotest

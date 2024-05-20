@@ -1,3 +1,4 @@
+local keymaps = require 'user.keymaps'
 return {
   { 'echasnovski/mini.ai', version = false, opts = { n_lines = 50 } },
   {
@@ -40,5 +41,13 @@ return {
         -- line_up = '<C-K>',
       },
     },
+  },
+  {
+    'kwkarlwang/bufjump.nvim',
+    keys = keymaps.bufjump,
+    opts = {
+      forward_key = false,
+      backward_key = false,
+    }
   },
 }

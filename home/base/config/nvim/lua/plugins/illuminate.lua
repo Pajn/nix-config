@@ -1,7 +1,7 @@
 return {
   {
     "RRethy/vim-illuminate",
-    lazy = true,
+    event = 'LspAttach',
     config = function()
       require("illuminate").configure({
         under_cursor = false,

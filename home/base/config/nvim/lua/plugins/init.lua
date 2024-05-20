@@ -9,15 +9,6 @@ return {
   { 'folke/which-key.nvim', event = 'VeryLazy', opts = {} },
 
   {
-    'catppuccin/nvim',
-    name = 'catppuccin',
-    priority = 1000,
-    config = function()
-      require('catppuccin').setup { transparent_background = true }
-      vim.cmd.colorscheme 'catppuccin-frappe'
-    end,
-  },
-  {
     'mcauley-penney/visual-whitespace.nvim',
     config = true,
   },
