@@ -1,4 +1,4 @@
-{ user, pkgs, ... }:
+{ user, ... }:
 {
   imports = [ ../base ];
 

@@ -1,5 +1,6 @@
 bindkey '^[[H' beginning-of-line                                # Home key
-bindkey '^[[F' end-of-line                                     # End key
+bindkey '^[[F' end-of-line                                      # End key
+bindkey '^?' backward-delete-char                               # Backspace key
 bindkey '^[[3~' delete-char                                     # Delete key
 
 # Navigate words with ctrl+arrow keys
@@ -74,6 +75,9 @@ function which-port {
 if command -v xdg-open &> /dev/null; then
   alias open='xdg-open'
 fi
+
+# Rust
+export PATH="$HOME/.cargo/bin:$PATH"
 
 # Javascript
 

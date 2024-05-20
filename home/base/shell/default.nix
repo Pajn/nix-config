@@ -26,6 +26,7 @@
     shellAliases = {
       ".." = "cd ..";
       cp = "cp -i"; # Confirm before overwriting something
+      ls = "exa";
       df = "df -h"; # Human-readable sizes
       free = "free -m"; # Show sizes in MB
       grep = "grep --color=auto";
