@@ -27,6 +27,9 @@ return {
             -- end,
           },
         },
+        consumers = {
+          overseer = require 'neotest.consumers.overseer',
+        },
       }
     end,
   },

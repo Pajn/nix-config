@@ -1,4 +1,4 @@
-local keymaps = require('user.keymaps')
+local keymaps = require 'user.keymaps'
 
 local on_attach = function(_client, buffer_number)
   -- Pass the current buffer to map lsp keybinds
@@ -155,7 +155,8 @@ return {
   -- },
   -- {
   --   'Maan2003/lsp_lines.nvim',
-  --   event = 'LspAttach',
+  --   -- event = 'LspAttach',
+  --   lazy = true,
   --   config = function()
   --     require('lsp_lines').setup()
   --     vim.diagnostic.config { virtual_text = false }

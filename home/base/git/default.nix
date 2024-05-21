@@ -95,8 +95,9 @@
         "develop"
       ];
       os = {
-        openCommand = "nvim";
-        openCommandTemplate = "{{editor}} --server /tmp/nvim-server.pipe --remote-tab \"$(pwd)/{{filename}}\"";
+        editPreset = "nvim-remote";
+        # openCommand = "nvim";
+        # openCommandTemplate = "{{editor}} --server /tmp/nvim-server.pipe --remote-tab \"$(pwd)/{{filename}}\"";
       };
     };
   };

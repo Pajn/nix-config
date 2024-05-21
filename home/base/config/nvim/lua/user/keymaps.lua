@@ -83,6 +83,9 @@ vim.keymap.set('n', '<leader>sR', function()
   require('spectre').toggle()
 end, { desc = '[S]earch and [R]eplace' })
 
+vim.keymap.set('n', '<leader>or', ':OverseerRun', { desc = '[O]verseer [R]un' })
+vim.keymap.set('n', '<leader>ot', ':OverseerToggle', { desc = '[O]verseer [T]oggle' })
+
 -- Harpoon keybinds --
 M.harpoon = {
   -- Open harpoon ui
@@ -233,6 +236,12 @@ vim.keymap.set('n', '<leader>sg', function()
   require('telescope.builtin').live_grep {}
 end, { desc = '[S]earch by [G]rep' })
 vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
+vim.keymap.set('n', '<leader>ss', function()
+  require('telescope.builtin').lsp_document_symbols {}
+end, { desc = '[S]earch Document [S]ymbols' })
+vim.keymap.set('n', '<leader>sS', function()
+  require('telescope.builtin').lsp_dynamic_workspace_symbols {}
+end, { desc = '[S]earch Workspace [S]ymbols' })
 vim.keymap.set('n', '<leader>sd', function()
   require('telescope.builtin').diagnostics {}
 end, { desc = '[S]earch [D]iagnostics' })
@@ -254,7 +263,7 @@ vim.keymap.set('n', '<leader>gb', function()
   require('telescope.builtin').git_branches {}
 end, { desc = '[G]it [B]ranches' })
 M.neogit = {
-  { '<leader>gs', ':Neogit kind=auto<cr>', desc = '[G]it [S]tatus' },
+  { '<leader>gS', ':Neogit kind=auto<cr>', desc = 'Neo[G]it [S]tatus' },
   { '<leader>gc', ':Neogit commit<cr>', desc = '[G]it [C]ommit' },
 }
 vim.keymap.set('n', '<leader>sd', function()
@@ -346,6 +355,10 @@ M.map_gitsigns_keybinds = function(bufnr)
   map('n', '<leader>tb', ':BlameToggle<CR>', { desc = 'toggle git blame' })
   map('n', '<leader>tB', gs.toggle_current_line_blame, { desc = 'toggle git blame line' })
   map('n', '<leader>td', gs.toggle_deleted, { desc = 'toggle git show deleted' })
+  map('n', '<leader>ti', function()
+    ---@diagnostic disable-next-line: missing-parameter
+    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+  end, { desc = 'toggle inline hints' })
   map('n', '<leader>tu', ':UndotreeToggle<CR>', { desc = 'toggle undo tree' })
   -- Text object
   map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
@@ -403,26 +416,20 @@ M.map_lsp_keybinds = function(bufnr)
   nmap('gI', function()
     require('telescope.builtin').lsp_implementations {}
   end, '[G]oto [I]mplementation')
-  nmap('<leader>D', function()
+  nmap('gD', function()
     require('telescope.builtin').lsp_type_definitions {}
-  end, 'Type [D]efinition')
-  nmap('<leader>ds', function()
-    require('telescope.builtin').lsp_document_symbols {}
-  end, '[D]ocument [S]ymbols')
-  nmap('<leader>ws', function()
-    require('telescope.builtin').lsp_dynamic_workspace_symbols {}
-  end, '[W]orkspace [S]ymbols')
+  end, '[G]oto Type [D]efinition')
 
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, { desc = 'Signature Documentation', noremap = true, silent = true, buffer = bufnr })
 
   -- Lesser used LSP functionality
-  nmap('gD', vim.lsp.buf.declaration, '[G]oto [D]eclaration')
-  nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-  nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  nmap('<leader>wl', function()
-    print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  end, '[W]orkspace [L]ist Folders')
+  nmap('gC', vim.lsp.buf.declaration, '[G]oto De[C]laration')
+  -- nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
+  -- nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
+  -- nmap('<leader>wl', function()
+  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
+  -- end, '[W]orkspace [L]ist Folders')
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'FormatLSP', function(_)
@@ -439,10 +446,6 @@ M.conform = {
     desc = 'Format buffer',
   },
 }
-
-vim.keymap.set('', '<Leader>ti', function()
-  require('lsp_lines').toggle()
-end, { desc = '[T]oggle [I]nline diagnostics' })
 
 -- Refactoring
 vim.keymap.set('x', '<leader>re', ':Refactor extract ')
@@ -545,6 +548,7 @@ M.package_info = {
 -- Neotree
 M.neotree = {
   { '\\', ':Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
+  { '<leader>gs', ':Neotree float git_status<CR>', desc = '[G]it [S]tatus' },
 }
 
 -- Neotest
@@ -654,11 +658,12 @@ require('which-key').register {
   ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
   -- ['<leader>H'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
   ['<leader>m'] = { name = '[M]arks', _ = 'which_key_ignore' },
+  ['<leader>o'] = { name = '[O]verseer', _ = 'which_key_ignore' },
   ['<leader>r'] = { name = '[R]efactor', _ = 'which_key_ignore' },
   ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
   ['<leader>t'] = { name = '[T]oggles', _ = 'which_key_ignore' },
   ['<leader>T'] = { name = '[T]ests', _ = 'which_key_ignore' },
-  ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
+  -- ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
 }
 
 return M

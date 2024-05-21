@@ -12,11 +12,50 @@ return {
     keys = keymaps.neotree,
     cmd = 'Neotree',
     opts = {
+      source_selector = {
+        winbar = true,
+        sources = {
+          {
+            source = 'filesystem',
+            display_name = ' 󰉓 Files ',
+          },
+          {
+            source = 'document_symbols',
+            display_name = '  Symbols ',
+          },
+          {
+            source = 'buffers',
+            display_name = ' 󰈚 Buffers ',
+          },
+          {
+            source = 'git_status',
+            display_name = ' 󰊢 Git ',
+          },
+        },
+      },
       filesystem = {
+        filtered_items = {
+          visible = true,
+        },
         window = {
           mappings = {
             ['\\'] = 'close_window',
           },
+        },
+      },
+      nesting_rules = {
+        ['package.json'] = {
+          pattern = '^package%.json$',
+          files = { 'package-lock.json', 'yarn*', 'pnpm-*' },
+        },
+        ['js-extended'] = {
+          pattern = '(.+)%.js$',
+          files = { '%1.js.map', '%1.min.js', '%1.d.ts' },
+        },
+        ['docker'] = {
+          pattern = '^dockerfile$',
+          ignore_case = true,
+          files = { '.dockerignore', 'docker-compose.*', 'dockerfile*' },
         },
       },
     },

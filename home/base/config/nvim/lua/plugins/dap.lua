@@ -2,11 +2,12 @@ return {
   'mfussenegger/nvim-dap',
   cmd = { 'DapUIToggle', 'DapToggleRepl', 'DapToggleBreakpoint' },
   dependencies = {
+    'nvim-neotest/nvim-nio',
     'rcarriga/nvim-dap-ui',
   },
   config = function()
-    local dap = require('dap')
-    local dapui = require('dapui')
+    local dap = require 'dap'
+    local dapui = require 'dapui'
 
     dapui.setup {
       mappings = {

@@ -24,7 +24,8 @@ return {
 
       require('lualine').setup {
         options = {
-          theme = 'catppuccin',
+          -- theme = 'catppuccin',
+          -- theme = 'everforest',
           globalstatus = true,
           component_separators = { left = '', right = '' },
           section_separators = { left = '█', right = '█' },
@@ -40,6 +41,7 @@ return {
             { 'filename', path = 1 },
           },
           lualine_x = {
+            'overseer',
             'filetype',
           },
         },

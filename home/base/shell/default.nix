@@ -1,8 +1,5 @@
 {
-  lib,
   pkgs,
-  config,
-  user,
   ...
 }:
 {
@@ -26,48 +23,26 @@
     shellAliases = {
       ".." = "cd ..";
       cp = "cp -i"; # Confirm before overwriting something
-      ls = "exa";
+      ls = "eza";
       df = "df -h"; # Human-readable sizes
       free = "free -m"; # Show sizes in MB
       grep = "grep --color=auto";
       diff = "diff --color=auto";
       n = "nvim";
       kc = "kubectl";
-      do = "just --working-directory \"$(just --evaluate pwd)/$(echo \"\${PWD#`just --evaluate pwd`}\" | cut -d '/' -f2)\" --justfile \"$(just --evaluate pwd)/justfile\"";
+      do = "just --working-directory \"$(just --evaluate pwd)/$(echo \"\${PWD#`just --evaluate pwd`}\" | cut -d '/' -f2)\" --justfile \"$(just --evaluate pwd)/dofile\"";
     };
     initExtra = builtins.concatStringsSep "\n" [
       # ''. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"''
       (builtins.readFile ./zshrc.sh)
       (builtins.readFile ./wezterm.sh)
     ];
-    #
-    # profileExtra = ''
-    #   idconvert() {
-    #     syb -env production idconvert $1
-    #   }
-    # '';
-
-    plugins = [
-      # {
-      #   name = "zsh-autosuggestions";
-      #   src = pkgs.fetchFromGitHub {
-      #     owner = "zsh-users";
-      #     repo = "zsh-autosuggestions";
-      #     rev = "v0.6.4";
-      #     sha256 = "0h52p2waggzfshvy1wvhj4hf06fmzd44bv6j18k3l9rcx6aixzn6";
-      #   };
-      # }
-      # {
-      #   name = "zsh-vim-mode";
-      #   src = pkgs.fetchFromGitHub {
-      #     owner = "softmoth";
-      #     repo = "zsh-vim-mode";
-      #     rev = "main";
-      #     sha256 = "a+6EWMRY1c1HQpNtJf5InCzU7/RphZjimLdXIXbO6cQ=";
-      #   };
-      # }
-    ];
   };
+  home.packages = with pkgs; [
+    (writeShellScriptBin "do" ''
+      just --working-directory "''$(just --evaluate pwd)/''$(echo "''${PWD#`just --evaluate pwd`}" | cut -d '/' -f2)" --justfile "''$(just --evaluate pwd)/dofile" ''$@
+    '')
+  ];
 
   programs.starship = {
     enable = true;
