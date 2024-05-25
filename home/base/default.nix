@@ -84,6 +84,11 @@
 
     ".config/wezterm/wezterm.lua".source = config/wezterm/wezterm.lua;
 
+    ".cargo/config.toml".text = ''
+      [net]
+      git-fetch-with-cli = true
+    '';
+
     # # You can also set the file content immediately.
     # ".gradle/gradle.properties".text = ''
     #   org.gradle.console=verbose
