@@ -51,4 +51,11 @@
     fira-code
     (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
   ];
+
+  services.xserver.xkb.extraLayouts.us-swe = {
+    description = "US layout with alt-gr swedish";
+    # languages = [ "eng" "swe" ];
+    languages = [ "eng" ];
+    symbolsFile = ./us-swe;
+  };
 }
