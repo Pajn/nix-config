@@ -3,6 +3,7 @@
   lib,
   user,
   agenix,
+  _custom,
   ...
 }:
 {
@@ -19,6 +20,8 @@
 
   environment.systemPackages = with pkgs; [
     agenix.packages."${pkgs.system}".default
+
+    _custom.theme-toggle-nvim
 
     git
     neovim

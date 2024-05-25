@@ -1,7 +1,7 @@
 { pkgs, lib, ... }:
 {
-  # nodePackages = lib.dontRecurseIntoAttrs (pkgs.callPackage ./node-packages {
-  #   nodejs = pkgs.prevstable-nodejs.nodejs_20;
-  # });
-  pythonPackages = lib.dontRecurseIntoAttrs (pkgs.callPackage ./python-packages { });
+  bt-dualboot = pkgs.callPackage ./bt-dualboot {
+    pkgs = pkgs;
+  };
+  theme-toggle-nvim = pkgs.callPackage ./theme-toggle-nvim { };
 }
