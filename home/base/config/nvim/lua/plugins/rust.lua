@@ -1,23 +1,5 @@
 local map_lsp_keybinds = require('user.keymaps').map_lsp_keybinds
 
-vim.g.rustaceanvim = {
-  -- Plugin configuration
-  tools = {},
-  -- LSP configuration
-  server = {
-    ---@diagnostic disable-next-line: unused-local
-    on_attach = function(_client, bufnr)
-      map_lsp_keybinds(bufnr)
-    end,
-    default_settings = {
-      -- rust-analyzer language server configuration
-      ['rust-analyzer'] = {},
-    },
-  },
-  -- DAP configuration
-  dap = {},
-}
-
 return {
   {
     'saecki/crates.nvim',
@@ -32,12 +14,41 @@ return {
     version = '^4', -- Recommended
     -- ft = { 'rust' },
     lazy = false, -- This plugin is already lazy
+    init = function()
+      vim.g.rustaceanvim = {
+        -- Plugin configuration
+        tools = {},
+        -- LSP configuration
+        server = {
+          standalone = false,
+          ---@diagnostic disable-next-line: unused-local
+          on_attach = function(_client, bufnr)
+            map_lsp_keybinds(bufnr)
+          end,
+          default_settings = {
+            -- rust-analyzer language server configuration
+            ['rust-analyzer'] = {
+              semanticHighlighting = {
+                ['punctuation.enable'] = true,
+                ['punctuation.separate.macro.bang'] = true,
+              },
+              diagnostics = {
+                enable = true,
+                -- disabled = { 'unresolved-method', 'unresolved-field' },
+                experimental = { enable = true },
+              },
+              assist = {
+                emitMustUse = true,
+              },
+              procMacro = {
+                enable = true,
+              },
+            },
+          },
+        },
+        -- DAP configuration
+        dap = {},
+      }
+    end,
   },
-  -- {
-  --   'vxpm/ferris.nvim',
-  --   event = { 'BufRead *.rs' },
-  --   opts = {
-  --     -- your options here
-  --   },
-  -- },
 }

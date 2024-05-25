@@ -9,6 +9,7 @@
     #agenix.homeManagerModules.default
     ./shell
     ./git
+    ./neovim
   ];
 
   home.username = user.username;
@@ -45,18 +46,11 @@
       # '')
       bitwarden-cli
       just
-      neovim
-      neovim-remote
       nmap
       nushell
       tldr
       yazi
       wezterm
-
-      lua-language-server
-      stylua
-      nil
-      nixfmt-rfc-style
 
       nodejs
       nodePackages.pnpm
@@ -64,14 +58,13 @@
       deno
 
       python3
+      rustup
     ]
     ++ (
       if pkgs.stdenv.isDarwin then
         [ ]
       else
         [
-          cargo
-          cargo-outdated
           clang
           clang-tools
         ]
