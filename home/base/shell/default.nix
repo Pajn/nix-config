@@ -60,6 +60,8 @@
         truncate_to_repo = false;
       };
 
+      dotnet.disabled = true;
+
       hostname = {
         style = "bold yellow";
       };

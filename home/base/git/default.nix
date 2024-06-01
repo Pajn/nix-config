@@ -94,6 +94,7 @@
         "main"
         "develop"
       ];
+      git.overrideGpg = true;
       os = {
         editPreset = "nvim-remote";
         # openCommand = "nvim";

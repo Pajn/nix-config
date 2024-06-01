@@ -54,7 +54,7 @@ function rebase-onto() {
   BRANCH=$1
   COUNT=$2
   git fetch origin
-  git rebase --autostash --rebase-merges --onto "$BRANCH" "$CURRENT_BRANCH"~3 "$CURRENT_BRANCH" ${@:3}
+  git rebase --autostash --rebase-merges --onto "$BRANCH" "$CURRENT_BRANCH"~$COUNT "$CURRENT_BRANCH" ${@:3}
 }
 
 alias cont="git rebase --continue"
