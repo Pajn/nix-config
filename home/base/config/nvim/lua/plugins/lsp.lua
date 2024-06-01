@@ -33,11 +33,16 @@ return {
 
       -- Additional lua configuration, makes nvim stuff amazing!
       -- 'folke/neodev.nvim',
+
+      -- Additional typescript refactoring commands
+      'yioneko/nvim-vtsls',
     },
     config = function()
       -- before setting up the servers.
       require('mason').setup()
       require('mason-lspconfig').setup()
+
+      require('lspconfig.configs').vtsls = require('vtsls').lspconfig
 
       -- Enable the following language servers
       --  Feel free to add/remove any LSPs that you want here. They will automatically be installed.

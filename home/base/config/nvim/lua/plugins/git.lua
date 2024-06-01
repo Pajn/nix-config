@@ -14,7 +14,7 @@ return {
   },
   {
     'sindrets/diffview.nvim',
-    cmd = 'DiffviewOpen',
+    cmd = { 'DiffviewOpen', 'DiffviewClose', 'DiffviewFileHistory' },
     config = true,
   },
   {
