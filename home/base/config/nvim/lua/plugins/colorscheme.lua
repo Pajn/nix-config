@@ -12,7 +12,7 @@ return {
         transparent_background = true,
         dim_inactive = { enable = true },
       }
-      -- vim.cmd.colorscheme 'catppuccin'
+      vim.cmd.colorscheme 'catppuccin'
     end,
   },
 
@@ -26,7 +26,7 @@ return {
       vim.g.everforest_enable_italic = true
       -- vim.g.everforest_background = 'medium'
       vim.g.everforest_transparent_background = 1
-      vim.cmd.colorscheme 'everforest'
+      -- vim.cmd.colorscheme 'everforest'
     end,
   },
 
@@ -45,8 +45,10 @@ return {
     config = function()
       require('theme-toggle-nvim').setup {
         colorscheme = {
-          light = 'everforest',
-          dark = 'everforest',
+          light = 'catppuccin',
+          dark = 'catppuccin',
+          -- light = 'everforest',
+          -- dark = 'everforest',
         },
       }
     end,
