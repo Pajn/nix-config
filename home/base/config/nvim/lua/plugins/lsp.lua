@@ -75,8 +75,9 @@ return {
         },
         -- pyright = {},
 
-        -- Rust and Typecript has custom configs
+        -- Rust has custom config
         -- rust_analyzer = {},
+        terraformls = {},
         vtsls = {},
         yamlls = {
           settings = {
