@@ -1,5 +1,8 @@
 require 'user.options'
-require("user.lazy")
+if vim.g.neovide then
+	require 'user.neovide'
+end
+require 'user.lazy'
 require 'user.keymaps'
 require 'user.highlight_yank'
 -- require 'user.format_on_save'
