@@ -62,7 +62,9 @@ return {
             { rule = '*', severity = 'warn' },
           } },
         },
-        graphql = {},
+        graphql = {
+          filetypes = { 'graphql', 'typescript', 'typescriptreact', 'javascriptreact' },
+        },
         -- gopls = {},
         html = { filetypes = { 'html', 'twig', 'hbs' } },
         jsonls = {
