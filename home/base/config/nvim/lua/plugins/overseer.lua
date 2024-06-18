@@ -191,7 +191,15 @@ return {
 
       overseer.register_template(dofile)
       overseer.register_template(nx)
-      overseer.setup()
+      overseer.setup {
+        task_list = {
+          bindings = {
+            ['<C-t>'] = 'OpenTab',
+            ['<C-l>'] = false,
+            ['<C-h>'] = false,
+          },
+        },
+      }
     end,
   },
 }
