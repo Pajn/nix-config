@@ -80,7 +80,11 @@ return {
         -- Rust has custom config
         -- rust_analyzer = {},
         terraformls = {},
-        vtsls = {},
+        vtsls = {
+          settings = {
+            vtsls = { autoUseWorkspaceTsdk = true },
+          },
+        },
         yamlls = {
           settings = {
             yaml = {
@@ -180,10 +184,10 @@ return {
     'aznhe21/actions-preview.nvim',
     keys = keymaps.actions_preview,
   },
-  {
-    'zeioth/garbage-day.nvim',
-    dependencies = 'neovim/nvim-lspconfig',
-    event = 'VeryLazy',
-    opts = {},
-  },
+  -- {
+  --   'zeioth/garbage-day.nvim',
+  --   dependencies = 'neovim/nvim-lspconfig',
+  --   event = 'VeryLazy',
+  --   opts = {},
+  -- },
 }

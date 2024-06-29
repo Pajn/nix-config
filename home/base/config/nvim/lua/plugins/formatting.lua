@@ -17,17 +17,17 @@ return {
         nix = { 'nixfmt' },
         python = { 'isort', 'black' },
 
-        javascript = { 'biome', 'prettier' },
-        javascriptreact = { 'biome', 'prettier' },
-        typescript = { 'biome', 'prettier' },
-        typescriptreact = { 'biome', 'prettier' },
+        javascript = { 'biome-check', 'prettier' },
+        javascriptreact = { 'biome-check', 'prettier' },
+        typescript = { 'biome-check', 'prettier' },
+        typescriptreact = { 'biome-check', 'prettier' },
         vue = { { 'prettier' } },
-        css = { { 'prettier' } },
-        scss = { { 'prettier' } },
+        css = { { 'biome-check', 'prettier' } },
+        scss = { { 'biome-check', 'prettier' } },
         less = { { 'prettier' } },
         html = { { 'prettier' } },
-        json = { 'biome', 'prettier' },
-        jsonc = { 'biome', 'prettier' },
+        json = { 'biome-check', 'prettier' },
+        jsonc = { 'biome-check', 'prettier' },
         yaml = { { 'prettier' } },
         markdown = { { 'prettier' } },
         ['markdown.mdx'] = { { 'prettier' } },
@@ -36,6 +36,14 @@ return {
 
         ['_'] = { 'trim_whitespace' },
       },
+
+      -- Customize formatters
+      formatters = {
+        shfmt = {
+          prepend_args = { '-i', '2' },
+        },
+      },
+
       -- Set up format-on-save
       format_on_save = function(bufnr)
         -- Disable with a global or buffer-local variable
@@ -63,12 +71,6 @@ return {
         end
         return { lsp_fallback = true }
       end,
-      -- Customize formatters
-      formatters = {
-        shfmt = {
-          prepend_args = { '-i', '2' },
-        },
-      },
     }
     vim.api.nvim_create_user_command('FormatDisable', function(args)
       if args.bang then
