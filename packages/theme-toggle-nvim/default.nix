@@ -1,4 +1,9 @@
-{ lib, fetchFromGitHub, rustPlatform }:
+{
+  lib,
+  pkgs,
+  fetchFromGitHub,
+  rustPlatform,
+}:
 
 rustPlatform.buildRustPackage rec {
   pname = "theme-toggle-nvim";
@@ -18,6 +23,13 @@ rustPlatform.buildRustPackage rec {
     homepage = "https://github.com/SyedFasiuddin/theme-toggle-nvim";
     license = licenses.mit;
     mainProgram = pname;
-    maintainers = [];
+    maintainers = [ ];
   };
+
+  buildInputs =
+    let
+      stdenv = pkgs.stdenv;
+      frameworks = pkgs.darwin.apple_sdk.frameworks;
+    in
+    [ ] ++ (lib.optionals stdenv.isDarwin [ frameworks.AppKit ]);
 }
