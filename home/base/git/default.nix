@@ -42,8 +42,7 @@
       # Change to default branch (main/master/???)
       main = "!git switch $(basename $(git symbolic-ref --short refs/remotes/origin/HEAD))";
 
-      # From https://adamj.eu/tech/2022/10/30/git-how-to-clean-up-squash-merged-branches/
-      rm-gone-from-remote = ''!git branch --format '%(refname:short) %(upstream:track)' | awk '$2 == "[gone]" { print $1 }' | xargs -r git branch -D'';
+      gone = ''!git fetch -p && git branch -vv | grep 'origin/.*: gone]' | grep -v + | awk '{print $1}' | xargs git branch -D'';
 
       # Update from remote and delete all branches removed from remote
       resync = "!git main && git pull --prune && git rm-gone-from-remote";
