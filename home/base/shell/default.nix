@@ -1,10 +1,5 @@
+{ pkgs, ... }:
 {
-  pkgs,
-  ...
-}:
-{
-
-  # age.secrets.github-token.file = ../../../secrets/github-token.age;
 
   programs.zsh = {
     defaultKeymap = "viins";

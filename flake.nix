@@ -9,6 +9,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nixpkgs-old-tf.url = "github:nixos/nixpkgs/39ed4b64ba5929e8e9221d06b719a758915e619b";
+
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -20,10 +22,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixos-cosmic = {
-      url = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # nixos-cosmic = {
+    #   url = "github:lilyinstarlight/nixos-cosmic";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin/master";
@@ -46,11 +48,6 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
-
-    agenix = {
-      url = "github:ryantm/agenix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -59,14 +56,12 @@
       nixpkgs,
       nixos-wsl,
       lanzaboote,
-      nixos-cosmic,
       nix-darwin,
       home-manager,
       nix-homebrew,
       homebrew-bundle,
       homebrew-core,
       homebrew-cask,
-      agenix,
       ...
     }@inputs:
     let
@@ -88,7 +83,7 @@
         system:
         inputs
         // rec {
-          inherit user agenix;
+          inherit user;
 
           pkgs = import inputs.nixpkgs {
             inherit system;
@@ -96,6 +91,12 @@
           };
 
           pkgs-stable = import inputs.nixpkgs-stable {
+            inherit system;
+            config.allowUnfree = true;
+          };
+
+          pkgs-old-tf = import inputs.nixpkgs-old-tf {
+            # refer the `system` parameter form outer scope recursively
             inherit system;
             config.allowUnfree = true;
           };
@@ -119,7 +120,6 @@
               ./modules/macos
               # ./modules/macos/brew.nix
 
-              agenix.darwinModules.default
               home-manager.darwinModules.home-manager
               {
                 home-manager.useGlobalPkgs = true;
@@ -169,17 +169,9 @@
             inherit specialArgs;
             modules = [
               lanzaboote.nixosModules.lanzaboote
-              {
-                nix.settings = {
-                  substituters = [ "https://cosmic.cachix.org/" ];
-                  trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
-                };
-              }
-              nixos-cosmic.nixosModules.default
               ./hosts/frigg
               ./modules/linux
               ./modules/linux/boot.nix
-              agenix.nixosModules.default
               home-manager.nixosModules.home-manager
               {
                 home-manager.useGlobalPkgs = true;
@@ -199,7 +191,6 @@
             modules = [
               nixos-wsl.nixosModules.default
               ./modules/wsl
-              agenix.nixosModules.default
               home-manager.nixosModules.home-manager
               {
                 home-manager.useGlobalPkgs = true;

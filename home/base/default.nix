@@ -1,12 +1,6 @@
-{
-  user,
-  pkgs,
-  #agenix,
-  ...
-}:
+{ user, pkgs, ... }:
 {
   imports = [
-    #agenix.homeManagerModules.default
     ./shell
     ./git
     ./neovim
@@ -53,7 +47,7 @@
       wezterm
 
       nodejs
-      nodePackages.pnpm
+      corepack_22
       bun
       deno
 

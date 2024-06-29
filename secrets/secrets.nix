@@ -1,7 +1,0 @@
-let
-  macbook = "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQDKtL49R/kwKZQeTxO3h2EILcmtWNX6S7KPvceoiZ5nUPjIqevZNhWA6ygPC/P02sagmsMW6fcvpT7wfb6EJApZwey07hCJ7Q2bBaoMqWKgU3Yg3VGFF09Rhn8UyrjuFcfezsp7P2ufj2jsfsmBJxB8VYINirCn+vis3e/jLCk0vJpESzHPmoUz7ZAolqdQwoBW35b8NwsHq6Av/GXwdnjlZsj9mrIcTUjHM2dO1+KY1tIo2YgSNVOCS5jQPBLt+4YJ94qq1uH7z3IVhw47fag9199s7zpPwI9cm/Mlb1jzu/sQbsYxx4YRGKA1IrNGZUgYQBIknRj96ZGMJ+CAguDpvcEH9JkPlioxq3fhkq5plHJR8kL1hJLhPuYmgjyZBmBxSyQuM/596S9ey95kOVQHx23IUdjdYyWgpA4fJI9JYBLrWSr2GcNMJh90z+4sLxW8aQO463PvF2lhriGRrQV2qlS3+SETuKJtIiOZkwBs12vUStOAx0VqyBsFD3w3VF0=";
-  users = [ macbook ];
-in
-{
-  "npmrc.age".publicKeys = users;
-}
