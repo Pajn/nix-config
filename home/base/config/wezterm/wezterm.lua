@@ -118,7 +118,7 @@ config.default_cursor_style = "SteadyBar"
 config.font = wezterm.font("Fira Code")
 config.font_size = 13.0
 
-config.window_close_confirmation = 'NeverPrompt'
+config.window_close_confirmation = "NeverPrompt"
 config.enable_kitty_keyboard = true
 config.send_composed_key_when_left_alt_is_pressed = false
 config.send_composed_key_when_right_alt_is_pressed = false
@@ -160,7 +160,7 @@ end
 local function fuzzy_session_picker(window, pane)
 	local cmd = [[
 		echo "$({
-			  find ~ ~/Development ~/Projects -mindepth 1 -maxdepth 1 -type d 2>/dev/null
+			  find ~/Development ~/Projects -mindepth 1 -maxdepth 1 -type d 2>/dev/null
 		})"
 	]]
 	local file = io.popen(cmd)
