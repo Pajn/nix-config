@@ -44,6 +44,8 @@ in
         gcc
         git
         gnumake
+        lua51Packages.lua
+        lua51Packages.luarocks
         nodejs
         sqlite
         tree-sitter

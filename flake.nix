@@ -22,10 +22,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # nixos-cosmic = {
-    #   url = "github:lilyinstarlight/nixos-cosmic";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    nixos-cosmic = {
+      url = "github:lilyinstarlight/nixos-cosmic";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     nix-darwin = {
       url = "github:LnL7/nix-darwin/master";
@@ -56,6 +56,7 @@
       nixpkgs,
       nixos-wsl,
       lanzaboote,
+      nixos-cosmic,
       nix-darwin,
       home-manager,
       nix-homebrew,
@@ -169,6 +170,13 @@
             inherit specialArgs;
             modules = [
               lanzaboote.nixosModules.lanzaboote
+              {
+                nix.settings = {
+                  substituters = [ "https://cosmic.cachix.org/" ];
+                  trusted-public-keys = [ "cosmic.cachix.org-1:Dya9IyXD4xdBehWjrkPv6rtxpmMdRel02smYzA85dPE=" ];
+                };
+              }
+              nixos-cosmic.nixosModules.default
               ./hosts/frigg
               ./modules/linux
               ./modules/linux/boot.nix
