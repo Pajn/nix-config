@@ -7,8 +7,8 @@
     initExtra = ''
       eval $(brew shellenv)
 
-      export ANDROID_HOME=$USER/Library/Android/sdk
-      export NDK_HOME=$USER/Library/Android/sdk/ndk/24.0.8215888/
+      export ANDROID_HOME=$HOME/Library/Android/sdk
+      export NDK_HOME=$HOME/Library/Android/sdk/ndk/24.0.8215888/
     '';
     plugins = [
       {
