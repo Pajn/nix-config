@@ -77,19 +77,37 @@ return {
                   goto continue
                 end
                 for target_name, target in pairs(data.targets) do
+                  local full_target = string.format('%s:%s', project, target_name)
                   table.insert(ret, {
-                    name = string.format('nx run %s:%s', project, target_name),
-                    -- desc = recipe.doc,
-                    -- priority = k == data.first and 55 or 60,
+                    name = string.format('nx run %s', full_target),
                     priority = 60,
                     params = {},
                     builder = function(params)
-                      local cmd = { 'nx', 'run', string.format('%s:%s', project, target_name) }
+                      local cmd = { 'nx', 'run', full_target }
                       return {
                         cmd = cmd,
                       }
                     end,
                   })
+                  for config_name, config in pairs(target.configurations) do
+                    if config_name == target.defaultConfiguration then
+                      goto skip_config
+                    end
+                    ---@diagnostic disable-next-line: redefined-local
+                    local full_target = string.format('%s:%s:%s', project, target_name, config_name)
+                    table.insert(ret, {
+                      name = string.format('nx run %s', full_target),
+                      priority = 70,
+                      params = {},
+                      builder = function(params)
+                        local cmd = { 'nx', 'run', full_target }
+                        return {
+                          cmd = cmd,
+                        }
+                      end,
+                    })
+                    ::skip_config::
+                  end
                 end
                 ::continue::
                 active = active - 1
@@ -193,8 +211,10 @@ return {
       overseer.register_template(nx)
       overseer.setup {
         task_list = {
+          direction = 'right',
           bindings = {
-            ['<C-t>'] = 'OpenTab',
+            ['r'] = '<CMD>OverseerQuickAction restart<CR>',
+            ['<C-t>'] = '<CMD>OverseerQuickAction open tab<CR>',
             ['<C-l>'] = false,
             ['<C-h>'] = false,
           },
