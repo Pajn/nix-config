@@ -53,6 +53,8 @@
 
       python3
       rustup
+      lua51Packages.lua
+      lua51Packages.luarocks
     ]
     ++ (
       if pkgs.stdenv.isDarwin then
