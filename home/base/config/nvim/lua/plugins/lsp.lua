@@ -157,15 +157,6 @@ return {
     end,
   },
   -- {
-  --   'nvimdev/lspsaga.nvim',
-  --   event = 'LspAttach',
-  --   config = function()
-  --     require('lspsaga').setup {
-  --       lightbulb = { enable = false },
-  --     }
-  --   end,
-  -- },
-  -- {
   --   'Maan2003/lsp_lines.nvim',
   --   -- event = 'LspAttach',
   --   lazy = true,
@@ -183,6 +174,12 @@ return {
   {
     'aznhe21/actions-preview.nvim',
     keys = keymaps.actions_preview,
+  },
+  {
+    'Bekaboo/dropbar.nvim',
+    dependencies = {
+      'nvim-telescope/telescope-fzf-native.nvim',
+    },
   },
   -- {
   --   'zeioth/garbage-day.nvim',
