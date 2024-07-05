@@ -56,6 +56,13 @@ function rebase-onto() {
   git fetch origin
   git rebase --autostash --rebase-merges --onto "$BRANCH" "$CURRENT_BRANCH"~$COUNT "$CURRENT_BRANCH" ${@:3}
 }
+function rebase-branch-onto() {
+  CURRENT_BRANCH=`git branch | grep \* | cut -d ' ' -f2`
+  BRANCH=$1
+  COUNT=$2
+  git fetch origin
+  git rebase --autostash --rebase-merges --no-update-refs --onto "$BRANCH" "$CURRENT_BRANCH"~$COUNT "$CURRENT_BRANCH" ${@:3}
+}
 
 alias cont="git rebase --continue"
 alias amend="git commit --amend"
