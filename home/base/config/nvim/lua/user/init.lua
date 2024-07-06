@@ -5,6 +5,5 @@ end
 require 'user.lazy'
 require 'user.keymaps'
 require 'user.highlight_yank'
--- require 'user.format_on_save'
 require 'user.vertical_help'
 require 'user.edit_text'
