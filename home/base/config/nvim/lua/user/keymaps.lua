@@ -86,6 +86,8 @@ vim.keymap.set('n', '<leader>sR', function()
   require('spectre').toggle()
 end, { desc = '[S]earch and [R]eplace in workspace' })
 
+vim.keymap.set('n', '<leader>b', '<cmd>Yazi<CR>', { desc = '[B]rowse' })
+
 vim.keymap.set('n', '<leader>or', ':OverseerRun<CR>', { desc = '[O]verseer [R]un' })
 vim.keymap.set('n', '<leader>oc', ':OverseerRunCmd<CR>', { desc = '[O]verseer [R]un' })
 vim.keymap.set('n', '<leader>ot', ':OverseerToggle<CR>', { desc = '[O]verseer [T]oggle' })
