@@ -39,6 +39,7 @@
       #   echo "Hello, ${config.home.username}!"
       # '')
       bitwarden-cli
+      dua
       just
       nmap
       nushell
