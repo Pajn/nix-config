@@ -9,8 +9,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixpkgs-old-tf.url = "github:nixos/nixpkgs/39ed4b64ba5929e8e9221d06b719a758915e619b";
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -36,18 +34,18 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nix-darwin.follows = "nix-darwin";
     };
-    homebrew-bundle = {
-      url = "github:homebrew/homebrew-bundle";
-      flake = false;
-    };
-    homebrew-core = {
-      url = "github:homebrew/homebrew-core";
-      flake = false;
-    };
-    homebrew-cask = {
-      url = "github:homebrew/homebrew-cask";
-      flake = false;
-    };
+    # homebrew-bundle = {
+    #   url = "github:homebrew/homebrew-bundle";
+    #   flake = false;
+    # };
+    # homebrew-core = {
+    #   url = "github:homebrew/homebrew-core";
+    #   flake = false;
+    # };
+    # homebrew-cask = {
+    #   url = "github:homebrew/homebrew-cask";
+    #   flake = false;
+    # };
   };
 
   outputs =
@@ -60,9 +58,9 @@
       nix-darwin,
       home-manager,
       nix-homebrew,
-      homebrew-bundle,
-      homebrew-core,
-      homebrew-cask,
+      # homebrew-bundle,
+      # homebrew-core,
+      # homebrew-cask,
       ...
     }@inputs:
     let
@@ -87,17 +85,6 @@
           inherit user;
 
           pkgs = import inputs.nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
-          };
-
-          pkgs-stable = import inputs.nixpkgs-stable {
-            inherit system;
-            config.allowUnfree = true;
-          };
-
-          pkgs-old-tf = import inputs.nixpkgs-old-tf {
-            # refer the `system` parameter form outer scope recursively
             inherit system;
             config.allowUnfree = true;
           };
