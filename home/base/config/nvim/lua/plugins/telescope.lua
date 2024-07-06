@@ -22,6 +22,7 @@ return {
     },
   },
   config = function()
+    local actions = require 'telescope.actions'
     local trouble = require 'trouble.sources.telescope'
 
     require('telescope').setup {
@@ -29,7 +30,7 @@ return {
         hidden = true,
         mappings = {
           i = { ['<c-t>'] = trouble.open_with_trouble },
-          n = { ['<c-t>'] = trouble.open_with_trouble },
+          n = { ['<c-t>'] = trouble.open_with_trouble, ['q'] = actions.close },
         },
       },
       extensions = {

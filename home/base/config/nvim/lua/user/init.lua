@@ -1,6 +1,7 @@
+print 'testing'
 require 'user.options'
 if vim.g.neovide then
-	require 'user.neovide'
+  require 'user.neovide'
 end
 require 'user.lazy'
 require 'user.keymaps'

@@ -76,15 +76,33 @@ M.bufjump = {
   },
 }
 
--- vim.keymap.set('n', '<leader>b', function()
---   require('oil').toggle_float()
--- end, { desc = '[B]rowse files' })
 vim.keymap.set('n', '<leader>sr', function()
   require('rip-substitute').sub()
 end, { desc = '[S]earch and [R]eplace in file' })
 vim.keymap.set('n', '<leader>sR', function()
-  require('spectre').toggle()
+  require('grug-far').grug_far()
 end, { desc = '[S]earch and [R]eplace in workspace' })
+vim.keymap.set('n', '<leader>sa', function()
+  require('grug-far').grug_far { prefills = { search = vim.fn.expand '<cword>' } }
+end, { desc = '[S]earch and Replace word' })
+vim.keymap.set('v', '<leader>sa', function()
+  require('grug-far').with_visual_selection()
+end, { desc = '[S]earch and Replace selection' })
+vim.keymap.set('n', '<leader>sA', function()
+  require('grug-far').grug_far { prefills = { search = vim.fn.expand '<cword>', flags = vim.fn.expand '%' } }
+end, { desc = '[S]earch and Replace word in file' })
+vim.keymap.set('v', '<leader>sA', function()
+  require('grug-far').with_visual_selection { prefills = { flags = vim.fn.expand '%' } }
+end, { desc = '[S]earch and Replace selection in file' })
+vim.api.nvim_create_autocmd('FileType', {
+  group = vim.api.nvim_create_augroup('extra-grug-far-keybinds', { clear = true }),
+  pattern = { 'grug-far' },
+  callback = function()
+    vim.keymap.set('n', '<localleader>w', function()
+      require('grug-far').toggle_flags { '--fixed-strings' }
+    end, { buffer = true })
+  end,
+})
 
 vim.keymap.set('n', '<leader>b', '<cmd>Yazi<CR>', { desc = '[B]rowse' })
 
@@ -152,10 +170,7 @@ vim.keymap.set('n', '<leader>?', function()
 end, { desc = '[?] Find existing buffers' })
 vim.keymap.set('n', '<leader>/', function()
   -- You can pass additional configuration to telescope to change theme, layout, etc.
-  require('telescope.builtin').current_buffer_fuzzy_find(require('telescope.themes').get_dropdown {
-    winblend = 10,
-    previewer = false,
-  })
+  require('telescope.builtin').current_buffer_fuzzy_find()
 end, { desc = '[/] Fuzzily search in current buffer' })
 
 vim.keymap.set('n', '<leader>sF', function()
@@ -193,9 +208,9 @@ vim.keymap.set('n', '<leader>s/', function()
     prompt_title = 'Live Grep in Open Files',
   }
 end, { desc = '[S]earch [/] in Open Files' })
-vim.keymap.set('n', '<leader>ss', function()
+vim.keymap.set('n', '<leader>st', function()
   require('telescope.builtin').builtin {}
-end, { desc = '[S]earch [S]elect Telescope' })
+end, { desc = '[S]earch Select [T]elescope' })
 
 -- Git keymaps
 vim.keymap.set('n', '<leader>gb', function()
