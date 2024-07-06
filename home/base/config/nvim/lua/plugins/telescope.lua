@@ -22,7 +22,7 @@ return {
     },
   },
   config = function()
-    local trouble = require 'trouble.providers.telescope'
+    local trouble = require 'trouble.sources.telescope'
 
     require('telescope').setup {
       defaults = {
@@ -35,8 +35,16 @@ return {
       extensions = {
         git_file_history = {
           mappings = {
-            i = { ['<c-g>'] = function() require('telescope').extensions.git_file_history.actions.open_in_browser {} end, },
-            n = { ['<c-g>'] = function() require('telescope').extensions.git_file_history.actions.open_in_browser {} end, },
+            i = {
+              ['<c-g>'] = function()
+                require('telescope').extensions.git_file_history.actions.open_in_browser {}
+              end,
+            },
+            n = {
+              ['<c-g>'] = function()
+                require('telescope').extensions.git_file_history.actions.open_in_browser {}
+              end,
+            },
           },
         },
       },
