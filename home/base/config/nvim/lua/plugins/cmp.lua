@@ -72,6 +72,9 @@ return {
         { name = 'path' },
         { name = 'css_vars' },
       },
+      formatting = {
+        format = require('nvim-highlight-colors').format,
+      },
     }
 
     cmp.setup.cmdline('/', {
