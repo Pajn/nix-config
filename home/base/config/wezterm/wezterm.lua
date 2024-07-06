@@ -24,9 +24,11 @@ end
 
 local function scheme_for_appearance(appearance)
 	if appearance:find("Dark") then
-		return "catppuccin-frappe"
+		-- return "catppuccin-frappe"
+		return "tokyonight_storm"
 	else
-		return "catppuccin-latte"
+		-- return "catppuccin-latte"
+		return "tokyonight_day"
 	end
 end
 
