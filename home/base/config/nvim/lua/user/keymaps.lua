@@ -79,9 +79,12 @@ M.bufjump = {
 -- vim.keymap.set('n', '<leader>b', function()
 --   require('oil').toggle_float()
 -- end, { desc = '[B]rowse files' })
+vim.keymap.set('n', '<leader>sr', function()
+  require('rip-substitute').sub()
+end, { desc = '[S]earch and [R]eplace in file' })
 vim.keymap.set('n', '<leader>sR', function()
   require('spectre').toggle()
-end, { desc = '[S]earch and [R]eplace' })
+end, { desc = '[S]earch and [R]eplace in workspace' })
 
 vim.keymap.set('n', '<leader>or', ':OverseerRun<CR>', { desc = '[O]verseer [R]un' })
 vim.keymap.set('n', '<leader>oc', ':OverseerRunCmd<CR>', { desc = '[O]verseer [R]un' })
@@ -224,9 +227,9 @@ vim.keymap.set('n', '<leader>/', function()
   })
 end, { desc = '[/] Fuzzily search in current buffer' })
 
-vim.keymap.set('n', '<leader>sr', function()
+vim.keymap.set('n', '<leader>sF', function()
   require('telescope.builtin').git_files {}
-end, { desc = 'Search Git [R]epository' })
+end, { desc = 'Search Git [F]iles' })
 vim.keymap.set('n', '<leader>sf', function()
   require('telescope.builtin').find_files { hidden = true }
 end, { desc = '[S]earch [F]iles' })

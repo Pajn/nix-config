@@ -46,6 +46,10 @@
     tree
   ];
 
+  nixpkgs.config = {
+    ripgrep.withPCRE2 = true;
+  };
+
   nix.settings = {
     experimental-features = [
       "nix-command"
