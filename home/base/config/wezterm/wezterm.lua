@@ -126,6 +126,8 @@ config.send_composed_key_when_left_alt_is_pressed = false
 config.send_composed_key_when_right_alt_is_pressed = false
 config.switch_to_last_active_tab_when_closing_tab = true
 
+config.enable_kitty_graphics = true
+
 -- if you are *NOT* lazy-loading smart-splits.nvim (recommended)
 local function is_vim(pane)
 	-- this is set by the plugin, and unset on ExitPre in Neovim

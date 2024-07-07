@@ -1,6 +1,20 @@
 local keymaps = require 'user.keymaps'
 return {
   {
+    '3rd/image.nvim',
+    opts = {
+      backend = 'kitty',
+      integrations = {
+        html = {
+          enabled = true,
+        },
+        css = {
+          enabled = true,
+        },
+      },
+    },
+  },
+  {
     'nvim-neo-tree/neo-tree.nvim',
     version = '*',
     dependencies = {

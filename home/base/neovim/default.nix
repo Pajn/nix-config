@@ -50,10 +50,10 @@ in
         sqlite
         tree-sitter
         cargo-outdated
+
+        imagemagick
       ]
       ++ lib.lists.optional (!pkgs.stdenv.isDarwin) vscode-extensions.vadimcn.vscode-lldb.adapter;
-    # plugins = [
-    #   pkgs.vimPlugins.lazy-nvim # All other plugins are managed by lazy-nvim
-    # ];
+    extraLuaPackages = ps: [ ps.magick ];
   };
 }
