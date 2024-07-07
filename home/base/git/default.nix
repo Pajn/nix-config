@@ -1,15 +1,22 @@
-{ pkgs, lib, ... }:
+{
+  pkgs,
+  lib,
+  _custom,
+  ...
+}:
 {
 
   home.packages = with pkgs; [
+    _custom.git-some-extras
+    _custom.git-undo
     delta
     diff-so-fancy
     git-absorb
-    # git-open
-    # git-ps-rs
-    # gitmux
-    # spr
+    zsh-forgit
   ];
+  programs.zsh.initExtra = ''
+    source ${pkgs.zsh-forgit}/share/zsh/zsh-forgit/forgit.plugin.zsh
+  '';
 
   home.file.".ssh/allowed_signers".text = ''
     * ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABgQCnCd3pS1o2QF9FblX294ZTFXGf/bISTU+VXKU15hD5CPZNJLWpmpM40oGCWC/m4xmMhML6hRDV5Yko0hWknZOD1oSRWE+Yhob7M88IwJLz3GPBC47JFNh+t20Yq8cFwgQ/Ww6v3I3EZYmJ7AXse3+eHl6lFuqVb10TMZnWghzcYEkR43vds8u/Udnc6sqLuRCc7mqRCNi5kN9ead2StSdNRqGhH95s44LvpjS9oQoLY0wGGwAz4Db0S0NHa1B56EgmJwGuKoSvsU0KLbuwddbWH5/xd7gZiCwJXpwwJkOg++HVvNrzDBC9AY5bTQT7t38vt7YnjjIfdFpPnAES/vsN/arYWOhHgzspoD4PlWiCTm8LkxYCnrMklWdNTj8nsGL0ZrnbWtrtl+l0z8FlfFi6Kj1+r7/XbpWRgLD0JuVHLB4rTEJg848qhXl0OJLjeqvVl+NlJKxupjE0Z/2xs9h6SL7H26XTYOmekGRu4JQYXIcdRvmCrhCt/i4PWUhmrK0=
