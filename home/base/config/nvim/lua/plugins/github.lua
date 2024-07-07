@@ -10,7 +10,7 @@ return {
       'echasnovski/mini.icons',
     },
     config = function()
-      require('octo').setup()
+      require('octo').setup { enable_builtin = true }
     end,
   },
   {

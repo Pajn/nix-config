@@ -76,7 +76,7 @@ M.bufjump = {
   },
 }
 
-vim.keymap.set('n', '<leader>sr', function()
+vim.keymap.set({ 'n', 'x' }, '<leader>sr', function()
   require('rip-substitute').sub()
 end, { desc = '[S]earch and [R]eplace in file' })
 vim.keymap.set('n', '<leader>sR', function()
@@ -85,13 +85,13 @@ end, { desc = '[S]earch and [R]eplace in workspace' })
 vim.keymap.set('n', '<leader>sa', function()
   require('grug-far').grug_far { prefills = { search = vim.fn.expand '<cword>' } }
 end, { desc = '[S]earch and Replace word' })
-vim.keymap.set('v', '<leader>sa', function()
+vim.keymap.set('x', '<leader>sa', function()
   require('grug-far').with_visual_selection()
 end, { desc = '[S]earch and Replace selection' })
 vim.keymap.set('n', '<leader>sA', function()
   require('grug-far').grug_far { prefills = { search = vim.fn.expand '<cword>', flags = vim.fn.expand '%' } }
 end, { desc = '[S]earch and Replace word in file' })
-vim.keymap.set('v', '<leader>sA', function()
+vim.keymap.set('x', '<leader>sA', function()
   require('grug-far').with_visual_selection { prefills = { flags = vim.fn.expand '%' } }
 end, { desc = '[S]earch and Replace selection in file' })
 vim.api.nvim_create_autocmd('FileType', {
@@ -104,7 +104,7 @@ vim.api.nvim_create_autocmd('FileType', {
   end,
 })
 
-vim.keymap.set('n', '<leader>b', '<cmd>Yazi<CR>', { desc = '[B]rowse' })
+vim.keymap.set('n', '<leader>b', '<cmd>!wezterm cli spawn --cwd $PWD -- zsh -c yazi<CR><CR>', { desc = '[B]rowse' })
 
 vim.keymap.set('n', '<leader>or', ':OverseerRun<CR>', { desc = '[O]verseer [R]un' })
 vim.keymap.set('n', '<leader>oc', ':OverseerRunCmd<CR>', { desc = '[O]verseer [R]un' })
@@ -243,15 +243,15 @@ M.git_worktree = {
   },
 }
 M.octo = {
-  { '<leader>ghp', '<cmd>Octo pr list<cr>', desc = 'GitHub PRs' },
-  { '<leader>ghe', '<cmd>Octo pr list<cr>', desc = 'GitHub Edit PR' },
+  { '<leader>go', '<cmd>Octo<cr>', desc = 'GitHub PRs' },
 }
 M.gh_addressed = {
-  { '<leader>ghc', '<cmd>GhReviewComments<cr>', desc = 'GitHub Review Comments' },
+  { '<leader>gc', '<cmd>GhReviewComments<cr>', desc = 'GitHub Review Comments' },
 }
 M.gh_blame = {
-  { '<leader>ghb', '<cmd>GhBlameCurrentLine<cr>', desc = 'GitHub Blame Current Line' },
+  { '<leader>gB', '<cmd>GhBlameCurrentLine<cr>', desc = 'GitHub PR Blame Current Line' },
 }
+vim.keymap.set('n', '<leader>gh', '<cmd>!wezterm cli spawn --cwd $PWD -- zsh -c "gh dash"<CR><CR>', { desc = '[G]it [H]ub dash' })
 
 M.map_gitsigns_keybinds = function(bufnr)
   vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })

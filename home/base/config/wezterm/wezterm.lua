@@ -201,13 +201,26 @@ local function fuzzy_session_picker(window, pane)
 		pane
 	)
 end
-local function lazygit(window, pane)
-	window:perform_action(
-		act.SpawnCommandInNewTab({
-			args = { "lazygit" },
-		}),
-		pane
-	)
+
+local SpawnCommandInTabNext = function(opts)
+	local function active_tab_index(window)
+		for _, item in ipairs(window:mux_window():tabs_with_info()) do
+			if item.is_active then
+				return item.index
+			end
+		end
+	end
+
+	return function(win, pane)
+		local prev_active_tab_index = active_tab_index(win)
+		win:perform_action(
+			act.SpawnCommandInNewTab({
+				args = { "zsh", "-c", opts.cmd },
+			}),
+			pane
+		)
+		win:perform_action(act.MoveTab(prev_active_tab_index + 1), pane)
+	end
 end
 
 -- config.debug_key_events = true
@@ -232,6 +245,11 @@ config.keys = {
 	split_nav("resize", "l"),
 	{
 		key = "\\",
+		mods = "LEADER",
+		action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
+	},
+	{
+		key = "v",
 		mods = "LEADER",
 		action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 	},
@@ -261,6 +279,8 @@ config.keys = {
 			flags = "FUZZY|WORKSPACES",
 		}),
 	},
+	{ key = "Tab", mods = "LEADER", action = wezterm.action.SwitchWorkspaceRelative(1) },
+	{ key = "Tab", mods = "LEADER | SHIFT", action = wezterm.action.SwitchWorkspaceRelative(-1) },
 	{
 		key = "f",
 		mods = "LEADER",
@@ -280,7 +300,17 @@ config.keys = {
 	{
 		key = "g",
 		mods = "LEADER",
-		action = wezterm.action_callback(lazygit),
+		action = wezterm.action_callback(SpawnCommandInTabNext({ cmd = "lazygit" })),
+	},
+	{
+		key = "h",
+		mods = "LEADER",
+		action = wezterm.action_callback(SpawnCommandInTabNext({ cmd = "gh dash" })),
+	},
+	{
+		key = "b",
+		mods = "LEADER",
+		action = wezterm.action_callback(SpawnCommandInTabNext({ cmd = "yazi" })),
 	},
 	{ key = "p", mods = "LEADER", action = act.PasteFrom("Clipboard") },
 	{ key = "Insert", mods = "CTRL", action = act.CopyTo("Clipboard") },

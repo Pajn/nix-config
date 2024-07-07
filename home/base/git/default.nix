@@ -58,6 +58,7 @@
     extraConfig = {
       core = {
         editor = "nvim";
+        pager = "delta --diff-so-fancy";
         whitespace = "trailing-space,space-before-tab";
       };
 
@@ -95,16 +96,38 @@
     enable = true;
     settings = {
       promptToReturnFromSubprocess = false;
-      git.mainBranches = [
-        "master"
-        "main"
-        "develop"
-      ];
-      git.overrideGpg = true;
+      git = {
+        paging = {
+          colorArg = "always";
+          # pager = "delta --dark --diff-so-fancy --paging=never";
+          pager = "diff-so-fancy";
+        };
+        mainBranches = [
+          "master"
+          "main"
+          "develop"
+        ];
+        overrideGpg = true;
+      };
       os = {
         editPreset = "nvim-remote";
         # openCommand = "nvim";
-        # openCommandTemplate = "{{editor}} --server /tmp/nvim-server.pipe --remote-tab \"$(pwd)/{{filename}}\"";
+        # openCommandTemplate = "{{editor}} --server /tmp/nvim-server.pipe --remote-tab '$(pwd)/{{filename}}'";
+      };
+      customCommands = [
+        {
+          key = "o";
+          command = "nvr -c ':Octo pr create'";
+          context = "localBranches";
+          loadingText = "Loading Octo";
+          description = "Open pull request with Octo";
+          subprocess = true;
+        }
+      ];
+      keybinding = {
+        branches = {
+          createPullRequest = "O";
+        };
       };
     };
   };
@@ -115,5 +138,31 @@
 
   programs.gh-dash = {
     enable = true;
+    settings = {
+      repoPaths = {
+        ":owner/:repo" = "~/Development/:repo";
+        "soundtrackyourbrand/*" = "~/Projects/*";
+        "soundtrackyourbrand/js" = "~/Projects/fronted/review";
+      };
+      pager.diff = "delta --diff-so-fancy";
+      keybindings = {
+        issues = [
+          {
+            key = "e";
+            command = "nvr -c ':Octo issue edit {{.IssueNumber}}'";
+          }
+          {
+            key = "i";
+            command = "nvr -c ':Octo issue create'";
+          }
+        ];
+        prs = [
+          {
+            key = "O";
+            command = "nvr -c ':Octo pr edit {{.PrNumber}}'";
+          }
+        ];
+      };
+    };
   };
 }
