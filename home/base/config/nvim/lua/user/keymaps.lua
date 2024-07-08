@@ -28,10 +28,15 @@ vim.keymap.set('n', '#', '#zz', { noremap = true, silent = true })
 vim.keymap.set('x', 'p', '"_dP', { silent = true })
 -- Don't yank x
 vim.keymap.set({ 'n', 'v', 'x' }, 'x', '"_x', { silent = true, noremap = true })
--- copying and pasting to/from system clipboard
-vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]], { desc = '[Y]ank system clipboard' })
-vim.keymap.set({ 'n', 'v' }, '<leader>p', [["+p]], { desc = '[P]aste system clipboard' })
-vim.keymap.set({ 'n', 'v' }, '<leader>Y', '<cmd>YankBank<cr>', { desc = '[Y]ank bank' })
+vim.keymap.set({ 'n', 'v' }, '<leader>p', [["+p]], { desc = '[p]aste system clipboard' })
+M.yankbank = {
+  {
+    '<leader>y',
+    '<cmd>YankBank<CR>',
+    mode = { 'n', 'v' },
+    desc = '[y]ank bank',
+  },
+}
 
 vim.keymap.set('n', 'Q', '@qj', { desc = 'Replay @q' })
 vim.keymap.set('x', 'Q', '<cmd>norm @q<CR>', { desc = 'Replay @q' })
