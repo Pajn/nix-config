@@ -1,14 +1,10 @@
--- Fuzzy Finder (files, lsp, etc)
+local keymaps = require 'user.keymaps'
+
 return {
   'nvim-telescope/telescope.nvim',
   branch = '0.1.x',
-  lazy = true,
-  cmd = 'Telescope',
   dependencies = {
     'nvim-lua/plenary.nvim',
-    -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-    -- Only load if `make` is available. Make sure you have the system
-    -- requirements installed.
     {
       'nvim-telescope/telescope-fzf-native.nvim',
       build = 'make',
@@ -21,6 +17,9 @@ return {
       dependencies = { 'tpope/vim-fugitive' },
     },
   },
+  lazy = true,
+  cmd = 'Telescope',
+  keys = keymaps.telescope,
   config = function()
     local actions = require 'telescope.actions'
     local trouble = require 'trouble.sources.telescope'

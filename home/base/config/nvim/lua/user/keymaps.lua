@@ -31,13 +31,13 @@ vim.keymap.set({ 'n', 'v', 'x' }, 'x', '"_x', { silent = true, noremap = true })
 -- copying and pasting to/from system clipboard
 vim.keymap.set({ 'n', 'v' }, '<leader>y', [["+y]], { desc = '[Y]ank system clipboard' })
 vim.keymap.set({ 'n', 'v' }, '<leader>p', [["+p]], { desc = '[P]aste system clipboard' })
-vim.keymap.set({ 'n', 'v' }, '<leader>Y', ':YankBank<cr>', { desc = '[Y]ank bank' })
+vim.keymap.set({ 'n', 'v' }, '<leader>Y', '<cmd>YankBank<cr>', { desc = '[Y]ank bank' })
 
 vim.keymap.set('n', 'Q', '@qj', { desc = 'Replay @q' })
-vim.keymap.set('x', 'Q', ':norm @q<CR>', { desc = 'Replay @q' })
+vim.keymap.set('x', 'Q', '<cmd>norm @q<CR>', { desc = 'Replay @q' })
 
 -- vertical split
-vim.keymap.set('n', '<C-\\>', ':vsplit<CR>')
+vim.keymap.set('n', '<C-\\>', '<cmd>vsplit<CR>')
 
 -- Swap between last two buffers
 vim.keymap.set('n', "<leader>'", '<C-^>', { desc = 'Switch to last buffer' })
@@ -73,40 +73,70 @@ M.bufjump = {
   },
 }
 
-vim.keymap.set({ 'n', 'x' }, '<leader>sr', function()
-  require('rip-substitute').sub()
-end, { desc = '[S]earch and [R]eplace in file' })
-vim.keymap.set('n', '<leader>sR', function()
-  require('grug-far').grug_far()
-end, { desc = '[S]earch and [R]eplace in workspace' })
-vim.keymap.set('n', '<leader>sa', function()
-  require('grug-far').grug_far { prefills = { search = vim.fn.expand '<cword>' } }
-end, { desc = '[S]earch and Replace word' })
-vim.keymap.set('x', '<leader>sa', function()
-  require('grug-far').with_visual_selection()
-end, { desc = '[S]earch and Replace selection' })
-vim.keymap.set('n', '<leader>sA', function()
-  require('grug-far').grug_far { prefills = { search = vim.fn.expand '<cword>', flags = vim.fn.expand '%' } }
-end, { desc = '[S]earch and Replace word in file' })
-vim.keymap.set('x', '<leader>sA', function()
-  require('grug-far').with_visual_selection { prefills = { flags = vim.fn.expand '%' } }
-end, { desc = '[S]earch and Replace selection in file' })
-vim.api.nvim_create_autocmd('FileType', {
-  group = vim.api.nvim_create_augroup('extra-grug-far-keybinds', { clear = true }),
-  pattern = { 'grug-far' },
-  callback = function()
-    vim.keymap.set('n', '<localleader>w', function()
-      require('grug-far').toggle_flags { '--fixed-strings' }
-    end, { buffer = true })
-  end,
-})
+-- Search and Replace
+M.rip_substitute = {
+  {
+    '<leader>sr',
+    function()
+      require('rip-substitute').sub()
+    end,
+    mode = { 'n', 'x' },
+    desc = '[s]earch and [r]eplace in file',
+  },
+}
+M.grug_far = {
+  {
+    '<leader>sR',
+    function()
+      require('grug-far').grug_far()
+    end,
+    desc = '[s]earch and [R]eplace in workspace',
+  },
+  {
+    '<leader>sa',
+    function()
+      require('grug-far').grug_far { prefills = { search = vim.fn.expand '<cword>' } }
+    end,
+    desc = '[s]earch [a]nd Replace word',
+  },
+  {
+    '<leader>sa',
+    function()
+      require('grug-far').with_visual_selection()
+    end,
+    desc = '[s]earch [a]nd Replace selection',
+    mode = 'x',
+  },
+  {
+    '<leader>sA',
+    function()
+      require('grug-far').grug_far { prefills = { search = vim.fn.expand '<cword>', flags = vim.fn.expand '%' } }
+    end,
+    desc = '[s]earch [A]nd Replace word in file',
+  },
+  {
+    '<leader>sA',
+    function()
+      require('grug-far').with_visual_selection { prefills = { flags = vim.fn.expand '%' } }
+    end,
+    desc = '[s]earch [A]nd Replace selection in file',
+    mode = 'x',
+  },
+}
+M.grug_far_buffer = function()
+  vim.keymap.set('n', '<localleader>w', function()
+    require('grug-far').toggle_flags { '--fixed-strings' }
+  end, { buffer = true })
+end
 
-vim.keymap.set('n', '<leader>b', '<cmd>!wezterm cli spawn --cwd $PWD -- zsh -c yazi<CR><CR>', { desc = '[B]rowse' })
+vim.keymap.set('n', '<leader>b', '<cmd>!wezterm cli spawn --cwd $PWD -- zsh -c yazi<CR><CR>', { desc = '[b]rowse' })
 
-vim.keymap.set('n', '<leader>or', ':OverseerRun<CR>', { desc = '[O]verseer [R]un' })
-vim.keymap.set('n', '<leader>oc', ':OverseerRunCmd<CR>', { desc = '[O]verseer [R]un' })
-vim.keymap.set('n', '<leader>ot', ':OverseerToggle<CR>', { desc = '[O]verseer [T]oggle' })
-vim.keymap.set('n', '<leader>oT', ':OverseerToggle!<CR>', { desc = '[O]verseer [T]oggle' })
+M.overseer = {
+  { '<leader>or', '<cmd>OverseerRun<CR>', desc = '[o]verseer [r]un' },
+  { '<leader>oc', '<cmd>OverseerRunCmd<CR>', desc = '[o]verseer [c]ommand' },
+  { '<leader>ot', '<cmd>OverseerToggle<CR>', desc = '[o]verseer [t]oggle' },
+  { '<leader>oT', '<cmd>OverseerToggle!<CR>', desc = '[o]verseer [T]oggle' },
+}
 
 M.recall = {
   {
@@ -141,87 +171,158 @@ M.recall = {
     { noremap = true, silent = true },
     desc = 'Clear marks',
   },
-  { '<leader>ml', ':Telescope recall<CR>', { noremap = true, silent = true }, desc = 'List Marks' },
+  { '<leader>ml', '<cmd>Telescope recall<CR>', { noremap = true, silent = true }, desc = 'List Marks' },
 }
 
--- Custom live_grep function to search in git root
-local function live_grep_git_root()
-  local git_root = utils.find_git_root()
-  if git_root then
-    require('telescope.builtin').live_grep {
-      search_dirs = { git_root },
-      additional_args = function()
-        return { '--hidden' }
-      end,
-    }
-  end
-end
-vim.api.nvim_create_user_command('LiveGrepGitRoot', live_grep_git_root, {})
-
 -- See `:help telescope.builtin`
-vim.keymap.set('n', '<leader><space>', function()
-  require('telescope.builtin').oldfiles {}
-end, { desc = '[ ] Find recently opened files' })
-vim.keymap.set('n', '<leader>?', function()
-  require('telescope.builtin').buffers {}
-end, { desc = '[?] Find existing buffers' })
-vim.keymap.set('n', '<leader>/', function()
-  -- You can pass additional configuration to telescope to change theme, layout, etc.
-  require('telescope.builtin').current_buffer_fuzzy_find()
-end, { desc = '[/] Fuzzily search in current buffer' })
+M.telescope = {
+  {
+    '<leader><space>',
+    function()
+      require('telescope.builtin').oldfiles {}
+    end,
+    desc = '[ ] Find recently opened files',
+  },
+  {
+    '<leader>?',
+    function()
+      require('telescope.builtin').buffers {}
+    end,
+    desc = '[?] Find existing buffers',
+  },
+  {
+    '<leader>/',
+    function()
+      require('telescope.builtin').current_buffer_fuzzy_find()
+    end,
+    desc = '[/] Fuzzily search in current buffer',
+  },
+  {
+    '<leader>sF',
+    function()
+      require('telescope.builtin').git_files {}
+    end,
+    desc = 'Search Git [F]iles',
+  },
+  {
+    '<leader>sf',
+    function()
+      require('telescope.builtin').find_files { hidden = true }
+    end,
+    desc = '[s]earch [f]iles',
+  },
+  {
+    '<leader>sh',
+    function()
+      require('telescope.builtin').git_file_history {}
+    end,
+    desc = '[s]earch file [h]istory',
+  },
+  {
+    '<leader>sH',
+    function()
+      require('telescope.builtin').help_tags {}
+    end,
+    desc = '[s]earch [H]elp',
+  },
+  {
+    '<leader>sw',
+    function()
+      require('telescope.builtin').grep_string {}
+    end,
+    desc = '[s]earch current [w]ord',
+  },
+  {
+    '<leader>sg',
+    function()
+      require('telescope.builtin').live_grep {}
+    end,
+    desc = '[s]earch by [g]rep',
+  },
+  {
+    '<leader>sG',
+    function()
+      local git_root = utils.find_git_root()
+      if git_root then
+        require('telescope.builtin').live_grep {
+          search_dirs = { git_root },
+          additional_args = function()
+            return { '--hidden' }
+          end,
+        }
+      end
+    end,
+    desc = '[s]earch by [G]rep on Git Root',
+  },
+  {
+    '<leader>ss',
+    function()
+      require('telescope.builtin').lsp_document_symbols {}
+    end,
+    desc = '[s]earch Document [s]ymbols',
+  },
+  {
+    '<leader>sS',
+    function()
+      require('telescope.builtin').lsp_dynamic_workspace_symbols {}
+    end,
+    desc = '[s]earch Workspace [S]ymbols',
+  },
+  {
+    '<leader>sd',
+    function()
+      require('telescope.builtin').diagnostics {}
+    end,
+    desc = '[s]earch [d]iagnostics',
+  },
+  {
+    '<leader>sc',
+    function()
+      require('telescope.builtin').resume {}
+    end,
+    desc = '[c]ontinue Search',
+  },
+  {
+    '<leader>s/',
+    function()
+      require('telescope.builtin').live_grep {
+        grep_open_files = true,
+        prompt_title = 'Live Grep in Open Files',
+      }
+    end,
+    desc = '[s]earch [/] in Open Files',
+  },
+  {
+    '<leader>st',
+    function()
+      require('telescope.builtin').builtin {}
+    end,
+    desc = '[s]earch Select [t]elescope',
+  },
 
-vim.keymap.set('n', '<leader>sF', function()
-  require('telescope.builtin').git_files {}
-end, { desc = 'Search Git [F]iles' })
-vim.keymap.set('n', '<leader>sf', function()
-  require('telescope.builtin').find_files { hidden = true }
-end, { desc = '[S]earch [F]iles' })
-vim.keymap.set('n', '<leader>sh', ':Telescope git_file_history<cr>', { desc = '[S]earch file [H]istory' })
-vim.keymap.set('n', '<leader>sH', function()
-  require('telescope.builtin').help_tags {}
-end, { desc = '[S]earch [H]elp' })
-vim.keymap.set('n', '<leader>sw', function()
-  require('telescope.builtin').grep_string {}
-end, { desc = '[S]earch current [W]ord' })
-vim.keymap.set('n', '<leader>sg', function()
-  require('telescope.builtin').live_grep {}
-end, { desc = '[S]earch by [G]rep' })
-vim.keymap.set('n', '<leader>sG', ':LiveGrepGitRoot<cr>', { desc = '[S]earch by [G]rep on Git Root' })
-vim.keymap.set('n', '<leader>ss', function()
-  require('telescope.builtin').lsp_document_symbols {}
-end, { desc = '[S]earch Document [S]ymbols' })
-vim.keymap.set('n', '<leader>sS', function()
-  require('telescope.builtin').lsp_dynamic_workspace_symbols {}
-end, { desc = '[S]earch Workspace [S]ymbols' })
-vim.keymap.set('n', '<leader>sd', function()
-  require('telescope.builtin').diagnostics {}
-end, { desc = '[S]earch [D]iagnostics' })
-vim.keymap.set('n', '<leader>sc', function()
-  require('telescope.builtin').resume {}
-end, { desc = '[C]ontinue Search' })
-vim.keymap.set('n', '<leader>s/', function()
-  require('telescope.builtin').live_grep {
-    grep_open_files = true,
-    prompt_title = 'Live Grep in Open Files',
-  }
-end, { desc = '[S]earch [/] in Open Files' })
-vim.keymap.set('n', '<leader>st', function()
-  require('telescope.builtin').builtin {}
-end, { desc = '[S]earch Select [T]elescope' })
+  {
+    '<leader>gb',
+    function()
+      require('telescope.builtin').git_branches {}
+    end,
+    desc = '[g]it [b]ranches',
+  },
+}
 
 -- Git keymaps
-vim.keymap.set('n', '<leader>gb', function()
-  require('telescope.builtin').git_branches {}
-end, { desc = '[G]it [B]ranches' })
+M.fugitive = {
+  { '<leader>ga', '<cmd>Git add %<cr>', desc = '[g]it [a]dd curret file' },
+}
+M.gitlink = { '<leader>gy', '<cmd>GitLink remote=origin<cr>', mode = 'n', desc = 'Copy web link' }
 M.neogit = {
-  { '<leader>gS', ':Neogit kind=auto<cr>', desc = 'Neo[G]it [S]tatus' },
-  { '<leader>gc', ':Neogit commit<cr>', desc = '[G]it [C]ommit' },
+  { '<leader>gS', '<cmd>Neogit kind=auto<cr>', desc = 'Neo[g]it [S]tatus' },
+  { '<leader>gc', '<cmd>Neogit commit<cr>', desc = '[g]it [c]ommit' },
 }
 vim.keymap.set('n', '<leader>sd', function()
   require('telescope.builtin').git_status {}
-end, { desc = '[S]earch Git [D]iff' })
+end, { desc = '[s]earch Git [d]iff' })
 M.lazygit = {
-  { '<leader>gg', ':LazyGit<cr>', desc = '[G]it [G]ui' },
+  { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'lazygit' },
 }
 M.git_worktree = {
   {
@@ -229,14 +330,14 @@ M.git_worktree = {
     function()
       require('telescope').extensions.git_worktree.git_worktrees()
     end,
-    desc = '[G]it [W]orktrees',
+    desc = '[g]it [w]orktrees',
   },
   {
     '<leader>gW',
     function()
       require('telescope').extensions.git_worktree.create_git_worktree()
     end,
-    desc = 'Create Worktree',
+    desc = 'Create [W]orktree',
   },
 }
 M.octo = {
@@ -248,9 +349,9 @@ M.gh_addressed = {
 M.gh_blame = {
   { '<leader>gB', '<cmd>GhBlameCurrentLine<cr>', desc = 'GitHub PR Blame Current Line' },
 }
-vim.keymap.set('n', '<leader>gh', '<cmd>!wezterm cli spawn --cwd $PWD -- zsh -c "gh dash"<CR><CR>', { desc = '[G]it [H]ub dash' })
+vim.keymap.set('n', '<leader>gh', '<cmd>!wezterm cli spawn --cwd $PWD -- zsh -c "gh dash"<CR><CR>', { desc = '[g]it [H]ub dash' })
 
-M.map_gitsigns_keybinds = function(bufnr)
+M.gitsigns = function(bufnr)
   vim.keymap.set('n', '<leader>hp', require('gitsigns').preview_hunk, { buffer = bufnr, desc = 'Preview git hunk' })
 
   -- don't override the built-in and fugitive keymaps
@@ -270,7 +371,7 @@ M.map_gitsigns_keybinds = function(bufnr)
       gs.next_hunk()
     end)
     return '<Ignore>'
-  end, { expr = true, desc = 'Jump to next hunk' })
+  end, { expr = true, desc = 'Next hunk' })
   map({ 'n', 'v' }, '[c', function()
     if vim.wo.diff then
       return '[c'
@@ -279,7 +380,7 @@ M.map_gitsigns_keybinds = function(bufnr)
       gs.prev_hunk()
     end)
     return '<Ignore>'
-  end, { expr = true, desc = 'Jump to previous hunk' })
+  end, { expr = true, desc = 'Previous hunk' })
   -- Actions
   -- visual mode
   map('v', '<leader>hs', function()
@@ -303,38 +404,48 @@ M.map_gitsigns_keybinds = function(bufnr)
     gs.diffthis '~'
   end, { desc = 'git diff against last commit' })
   -- Toggles
-  map('n', '<leader>tb', ':BlameToggle<CR>', { desc = 'toggle git blame' })
-  map('n', '<leader>tB', gs.toggle_current_line_blame, { desc = 'toggle git blame line' })
-  map('n', '<leader>td', gs.toggle_deleted, { desc = 'toggle git show deleted' })
-  map('n', '<leader>to', '<cmd>Outline<CR>', { desc = 'toggle outline' })
-  map('n', '<leader>ti', function()
-    ---@diagnostic disable-next-line: missing-parameter
-    vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
-  end, { desc = 'toggle inline hints' })
-  map('n', '<leader>tu', ':UndotreeToggle<CR>', { desc = 'toggle undo tree' })
+  map('n', '<leader>tB', gs.toggle_current_line_blame, { desc = '[t]oggle git [B]lame line' })
+  map('n', '<leader>td', gs.toggle_deleted, { desc = '[t]oggle git show [d]eleted' })
   -- Text object
-  map({ 'o', 'x' }, 'ih', ':<C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
+  map({ 'o', 'x' }, 'ih', '<cmd><C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
 end
+
+-- Toggles
+M.trouble = { { '<leader>tt', '<cmd>TroubleToggle<CR>', desc = '[t]oggle [t]rouble' } }
+M.blame = { { '<leader>tb', '<cmd>BlameToggle<CR>', desc = '[t]oggle git [b]lame' } }
+M.outline = { { '<leader>to', '<cmd>Outline<CR>', desc = '[t]oggle [O]utline' } }
+vim.keymap.set('n', '<leader>ti', function()
+  ---@diagnostic disable-next-line: missing-parameter
+  vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
+end, { desc = '[t]oggle [i]nline hints' })
+M.undotree = { { mode = 'n', '<leader>tu', '<cmd>UndotreeToggle<CR>', desc = '[t]oggle [u]ndo tree' } }
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', function()
   vim.diagnostic.goto_prev {}
   vim.api.nvim_feedkeys('zz', 'n', false)
-end, { desc = 'Go to previous diagnostic message' })
+end, { desc = 'Previous diagnostic message' })
 vim.keymap.set('n', ']d', function()
   vim.diagnostic.goto_next {}
   vim.api.nvim_feedkeys('zz', 'n', false)
-end, { desc = 'Go to next diagnostic message' })
+end, { desc = 'Next diagnostic message' })
+vim.keymap.set('n', '[w', function()
+  vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.WARN }
+  vim.api.nvim_feedkeys('zz', 'n', false)
+end, { desc = 'Previous warning' })
+vim.keymap.set('n', ']w', function()
+  vim.diagnostic.goto_next { severity = vim.diagnostic.severity.WARN }
+  vim.api.nvim_feedkeys('zz', 'n', false)
+end, { desc = 'Next warning' })
 vim.keymap.set('n', '[e', function()
   vim.diagnostic.goto_prev { severity = vim.diagnostic.severity.ERROR }
   vim.api.nvim_feedkeys('zz', 'n', false)
-end, { desc = 'Go to previous error' })
+end, { desc = 'Previous error' })
 vim.keymap.set('n', ']e', function()
   vim.diagnostic.goto_next { severity = vim.diagnostic.severity.ERROR }
   vim.api.nvim_feedkeys('zz', 'n', false)
-end, { desc = 'Go to next error' })
+end, { desc = 'Next error' })
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, { desc = 'Open floating diagnostic message' })
-vim.keymap.set('n', '<leader>q', ':TroubleToggle<CR>', { desc = 'Open diagnostics list' })
 M.actions_preview = {
   {
     '<leader>-',
@@ -347,18 +458,15 @@ M.actions_preview = {
   },
 }
 
-M.map_lsp_keybinds = function(bufnr)
+M.lsp = function(bufnr)
   local nmap = function(keys, func, desc)
     if desc then
       desc = 'LSP: ' .. desc
     end
-
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap('<leader>rn', vim.lsp.buf.rename, 'Refactor Re[n]ame')
-  nmap('<leader>.', vim.lsp.buf.code_action, 'Code Action')
-
+  nmap('<leader>rn', vim.lsp.buf.rename, '[r]efactor Re[n]ame')
   nmap('gd', function()
     require('telescope.builtin').lsp_definitions {}
   end, '[G]oto [D]efinition')
@@ -371,17 +479,9 @@ M.map_lsp_keybinds = function(bufnr)
   nmap('gD', function()
     require('telescope.builtin').lsp_type_definitions {}
   end, '[G]oto Type [D]efinition')
-
   nmap('K', vim.lsp.buf.hover, 'Hover Documentation')
   vim.keymap.set({ 'n', 'i' }, '<C-k>', vim.lsp.buf.signature_help, { desc = 'Signature Documentation', noremap = true, silent = true, buffer = bufnr })
-
-  -- Lesser used LSP functionality
   nmap('gC', vim.lsp.buf.declaration, '[G]oto De[C]laration')
-  -- nmap('<leader>wa', vim.lsp.buf.add_workspace_folder, '[W]orkspace [A]dd Folder')
-  -- nmap('<leader>wr', vim.lsp.buf.remove_workspace_folder, '[W]orkspace [R]emove Folder')
-  -- nmap('<leader>wl', function()
-  --   print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-  -- end, '[W]orkspace [L]ist Folders')
 
   -- Create a command `:Format` local to the LSP buffer
   vim.api.nvim_buf_create_user_command(bufnr, 'FormatLSP', function(_)
@@ -390,33 +490,42 @@ M.map_lsp_keybinds = function(bufnr)
 end
 M.conform = {
   {
-    '<leader>f',
+    '<leader>cf',
     function()
       require('conform').format { async = true, lsp_fallback = true }
     end,
-    mode = '',
     desc = 'Format buffer',
   },
 }
 
 -- Refactoring
-vim.keymap.set('x', '<leader>re', ':Refactor extract ')
-vim.keymap.set('x', '<leader>rf', ':Refactor extract_to_file ')
-vim.keymap.set('x', '<leader>rv', ':Refactor extract_var ')
-vim.keymap.set({ 'n', 'x' }, '<leader>ri', ':Refactor inline_var')
-vim.keymap.set('n', '<leader>rI', ':Refactor inline_func')
-vim.keymap.set('n', '<leader>rb', ':Refactor extract_block')
-vim.keymap.set('n', '<leader>rbf', ':Refactor extract_block_to_file')
+vim.keymap.set('x', '<leader>re', '<cmd>Refactor extract ')
+vim.keymap.set('x', '<leader>rf', '<cmd>Refactor extract_to_file ')
+vim.keymap.set('x', '<leader>rv', '<cmd>Refactor extract_var ')
+vim.keymap.set({ 'n', 'x' }, '<leader>ri', '<cmd>Refactor inline_var')
+vim.keymap.set('n', '<leader>rI', '<cmd>Refactor inline_func')
+vim.keymap.set('n', '<leader>rb', '<cmd>Refactor extract_block')
+vim.keymap.set('n', '<leader>rbf', '<cmd>Refactor extract_block_to_file')
 
 -- Vim Illuminate keybinds
-vim.keymap.set('n', ']r', function()
-  require('illuminate').goto_next_reference()
-  vim.api.nvim_feedkeys('zz', 'n', false)
-end, { desc = 'Illuminate: Goto next reference' })
-vim.keymap.set('n', '[r', function()
-  require('illuminate').goto_prev_reference()
-  vim.api.nvim_feedkeys('zz', 'n', false)
-end, { desc = 'Illuminate: Goto previous reference' })
+M.illuminate = {
+  {
+    ']r',
+    function()
+      require('illuminate').goto_next_reference()
+      vim.api.nvim_feedkeys('zz', 'n', false)
+    end,
+    desc = 'Next reference',
+  },
+  {
+    '[r',
+    function()
+      require('illuminate').goto_prev_reference()
+      vim.api.nvim_feedkeys('zz', 'n', false)
+    end,
+    desc = 'Previous reference',
+  },
+}
 
 M.package_info = {
   -- Show dependency versions
@@ -499,8 +608,8 @@ M.package_info = {
 }
 -- Neotree
 M.neotree = {
-  { '\\', ':Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
-  { '<leader>gs', ':Neotree float git_status<CR>', desc = '[G]it [S]tatus' },
+  { '\\', '<cmd>Neotree reveal<CR>', { desc = 'NeoTree reveal' } },
+  { '<leader>gs', '<cmd>Neotree float git_status<CR>', desc = '[g]it [S]tatus' },
 }
 
 -- Neotest
@@ -559,61 +668,85 @@ M.neotest = {
 -- Enter normal mode while in a terminal
 vim.keymap.set('t', '<esc><esc>', [[<C-\><C-n>]], { noremap = true, silent = true })
 
--- Smart Splits
--- resizing splits
--- these keymaps will also accept a range,
--- for example `10<A-h>` will `resize_left` by `(10 * config.default_amount)`
-vim.keymap.set('n', '<A-h>', function()
-  require('smart-splits').resize_left {}
-end)
-vim.keymap.set('n', '<A-j>', function()
-  require('smart-splits').resize_down {}
-end)
-vim.keymap.set('n', '<A-k>', function()
-  require('smart-splits').resize_up {}
-end)
-vim.keymap.set('n', '<A-l>', function()
-  require('smart-splits').resize_right {}
-end)
--- moving between splits
-vim.keymap.set('n', '<C-h>', function()
-  require('smart-splits').move_cursor_left {}
-end)
-vim.keymap.set('n', '<C-j>', function()
-  require('smart-splits').move_cursor_down {}
-end)
-vim.keymap.set('n', '<C-k>', function()
-  require('smart-splits').move_cursor_up {}
-end)
-vim.keymap.set('n', '<C-l>', function()
-  require('smart-splits').move_cursor_right {}
-end)
--- swapping buffers between windows
--- vim.keymap.set('n', '<leader><leader>h', function()
---   require('smart-splits').swap_buf_left {}
--- end)
--- vim.keymap.set('n', '<leader><leader>j', function()
---   require('smart-splits').swap_buf_down {}
--- end)
--- vim.keymap.set('n', '<leader><leader>k', function()
---   require('smart-splits').swap_buf_up {}
--- end)
--- vim.keymap.set('n', '<leader><leader>l', function()
---   require('smart-splits').swap_buf_right {}
--- end)
+M.smart_splits = {
+  -- resizing splits
+  -- these keymaps will also accept a range,
+  -- for example `10<A-h>` will `resize_left` by `(10 * config.default_amount)`
+  {
+    '<A-h>',
+    function()
+      require('smart-splits').resize_left {}
+    end,
+  },
+  {
+    '<A-j>',
+    function()
+      require('smart-splits').resize_down {}
+    end,
+  },
+  {
+    '<A-k>',
+    function()
+      require('smart-splits').resize_up {}
+    end,
+  },
+  {
+    '<A-l>',
+    function()
+      require('smart-splits').resize_right {}
+    end,
+  },
+  -- moving between splits
+  {
+    '<C-h>',
+    function()
+      require('smart-splits').move_cursor_left {}
+    end,
+  },
+  {
+    '<C-j>',
+    function()
+      require('smart-splits').move_cursor_down {}
+    end,
+  },
+  {
+    '<C-k>',
+    function()
+      require('smart-splits').move_cursor_up {}
+    end,
+  },
+  {
+    '<C-l>',
+    function()
+      require('smart-splits').move_cursor_right {}
+    end,
+  },
+  -- swapping buffers between windows
+  -- {'<leader><leader>h', function()
+  --   require('smart-splits').swap_buf_left {}
+  -- end},
+  -- {'<leader><leader>j', function()
+  --   require('smart-splits').swap_buf_down {}
+  -- end},
+  -- {'<leader><leader>k', function()
+  --   require('smart-splits').swap_buf_up {}
+  -- end},
+  -- {'<leader><leader>l', function()
+  --   require('smart-splits').swap_buf_right {}
+  -- end},
+}
 
 -- document existing key chains
 require('which-key').register {
-  ['<leader>c'] = { name = '[C]ode', _ = 'which_key_ignore' },
-  ['<leader>d'] = { name = '[D]ocument', _ = 'which_key_ignore' },
-  ['<leader>g'] = { name = '[G]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'More git', _ = 'which_key_ignore' },
+  ['<leader>c'] = { name = '[c]ode', _ = 'which_key_ignore' },
+  ['<leader>g'] = { name = '[g]it', _ = 'which_key_ignore' },
+  ['<leader>h'] = { name = 'git [h]unks', _ = 'which_key_ignore' },
   -- ['<leader>H'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
-  ['<leader>m'] = { name = '[M]arks', _ = 'which_key_ignore' },
-  ['<leader>o'] = { name = '[O]verseer', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[R]efactor', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[S]earch', _ = 'which_key_ignore' },
-  ['<leader>t'] = { name = '[T]oggles', _ = 'which_key_ignore' },
+  ['<leader>m'] = { name = '[m]arks', _ = 'which_key_ignore' },
+  ['<leader>o'] = { name = '[o]verseer', _ = 'which_key_ignore' },
+  ['<leader>r'] = { name = '[r]efactor', _ = 'which_key_ignore' },
+  ['<leader>s'] = { name = '[s]earch', _ = 'which_key_ignore' },
+  ['<leader>t'] = { name = '[t]oggles', _ = 'which_key_ignore' },
   ['<leader>T'] = { name = '[T]ests', _ = 'which_key_ignore' },
   -- ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
 }

@@ -2,7 +2,7 @@ local keymaps = require 'user.keymaps'
 
 local on_attach = function(_client, buffer_number)
   -- Pass the current buffer to map lsp keybinds
-  keymaps.map_lsp_keybinds(buffer_number)
+  keymaps.lsp(buffer_number)
 
   -- if client.server_capabilities.codeLensProvider then
   -- 	vim.api.nvim_create_autocmd({ "BufEnter", "InsertLeave", "CursorHold" }, {
@@ -167,8 +167,9 @@ return {
   -- },
   {
     'folke/trouble.nvim',
-    cmd = { 'Trouble', 'TroubleToggle' },
     dependencies = { 'echasnovski/mini.icons' },
+    cmd = { 'Trouble', 'TroubleToggle' },
+    keys = keymaps.trouble,
     opts = {},
   },
   {
@@ -185,9 +186,8 @@ return {
     'hedyhli/outline.nvim',
     lazy = true,
     cmd = { 'Outline', 'OutlineOpen' },
-    opts = {
-      -- Your setup opts here
-    },
+    keys = keymaps.outline,
+    opts = {},
   },
   -- {
   --   'zeioth/garbage-day.nvim',

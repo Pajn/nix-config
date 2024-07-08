@@ -1,4 +1,5 @@
 local keymaps = require 'user.keymaps'
+
 return {
   {
     'NeogitOrg/neogit',
@@ -20,6 +21,7 @@ return {
   {
     'tpope/vim-fugitive',
     cmd = { 'Git', 'Gdiffsplit', 'Gdiffget', 'Gdiff', 'Gblame', 'Gbrowse' },
+    keys = keymaps.fugitive,
   },
   {
     -- Adds git related signs to the gutter, as well as utilities for managing changes
@@ -35,15 +37,13 @@ return {
         changedelete = { text = '~' },
       },
       on_attach = function(bufnr)
-        keymaps.map_gitsigns_keybinds(bufnr)
+        keymaps.gitsigns(bufnr)
       end,
     },
   },
   {
     'linrongbin16/gitlinker.nvim',
-    keys = {
-      { '<leader>gy', '<cmd>GitLink remote=origin<cr>', mode = 'n', desc = 'Copy web link' },
-    },
+    keys = keymaps.gitlinker,
     config = function()
       require('gitlinker').setup()
     end,
@@ -70,8 +70,7 @@ return {
   {
     'FabijanZulj/blame.nvim',
     cmd = { 'BlameToggle' },
-    config = function()
-      require('blame').setup()
-    end,
+    keys = keymaps.blame,
+    opts = {},
   },
 }

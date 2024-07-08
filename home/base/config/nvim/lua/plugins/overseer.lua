@@ -1,7 +1,10 @@
+local keymaps = require 'user.keymaps'
+
 return {
   {
     'stevearc/overseer.nvim',
     dependencies = { 'nvim-telescope/telescope.nvim', 'stevearc/dressing.nvim' },
+    keys = keymaps.overseer,
     config = function()
       local overseer = require 'overseer'
       local log = require 'overseer.log'

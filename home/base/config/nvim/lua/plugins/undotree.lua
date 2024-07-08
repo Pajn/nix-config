@@ -1,4 +1,7 @@
+local keymaps = require 'user.keymaps'
+
 return {
   'mbbill/undotree',
-  cmd = { 'UndotreeToggle' }
+  cmd = { 'UndotreeToggle' },
+  keys = keymaps.undotree,
 }
