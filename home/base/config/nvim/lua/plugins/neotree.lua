@@ -1,4 +1,5 @@
 local keymaps = require 'user.keymaps'
+
 return {
   {
     '3rd/image.nvim',
@@ -22,6 +23,7 @@ return {
       'echasnovski/mini.icons',
       'MunifTanjim/nui.nvim',
       '3rd/image.nvim',
+      'antosha417/nvim-lsp-file-operations',
     },
     keys = keymaps.neotree,
     cmd = 'Neotree',
@@ -73,15 +75,9 @@ return {
         },
       },
     },
-  },
-  {
-    'antosha417/nvim-lsp-file-operations',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-neo-tree/neo-tree.nvim',
-    },
-    config = function()
+    config = function(_, opts)
       require('lsp-file-operations').setup()
+      require('neo-tree').setup(opts)
     end,
   },
 }
