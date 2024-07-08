@@ -181,6 +181,14 @@ return {
       'nvim-telescope/telescope-fzf-native.nvim',
     },
   },
+  {
+    'hedyhli/outline.nvim',
+    lazy = true,
+    cmd = { 'Outline', 'OutlineOpen' },
+    opts = {
+      -- Your setup opts here
+    },
+  },
   -- {
   --   'zeioth/garbage-day.nvim',
   --   dependencies = 'neovim/nvim-lspconfig',

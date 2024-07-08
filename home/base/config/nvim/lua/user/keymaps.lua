@@ -306,6 +306,7 @@ M.map_gitsigns_keybinds = function(bufnr)
   map('n', '<leader>tb', ':BlameToggle<CR>', { desc = 'toggle git blame' })
   map('n', '<leader>tB', gs.toggle_current_line_blame, { desc = 'toggle git blame line' })
   map('n', '<leader>td', gs.toggle_deleted, { desc = 'toggle git show deleted' })
+  map('n', '<leader>to', '<cmd>Outline<CR>', { desc = 'toggle outline' })
   map('n', '<leader>ti', function()
     ---@diagnostic disable-next-line: missing-parameter
     vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
