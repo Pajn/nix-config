@@ -179,7 +179,9 @@ M.recall = {
   { '<leader>ml', '<cmd>Telescope recall<CR>', { noremap = true, silent = true }, desc = 'List Marks' },
 }
 
--- See `:help telescope.builtin`
+-- We cache the results of "git rev-parse"
+-- Process creation is expensive in Windows, so this reduces latency
+local is_inside_work_tree = {}
 M.telescope = {
   {
     '<leader><space>',
@@ -203,18 +205,31 @@ M.telescope = {
     desc = '[/] Fuzzily search in current buffer',
   },
   {
-    '<leader>sF',
+    '<leader>sf',
     function()
-      require('telescope.builtin').git_files {}
+      local builtin = require 'telescope.builtin'
+      local opts = { hidden = true, show_untracked = true }
+
+      local cwd = vim.fn.getcwd()
+      if is_inside_work_tree[cwd] == nil then
+        vim.fn.system 'git rev-parse --is-inside-work-tree'
+        is_inside_work_tree[cwd] = vim.v.shell_error == 0
+      end
+
+      if is_inside_work_tree[cwd] then
+        builtin.git_files(opts)
+      else
+        builtin.find_files(opts)
+      end
     end,
-    desc = 'Search Git [F]iles',
+    desc = 'Search [f]iles',
   },
   {
-    '<leader>sf',
+    '<leader>sF',
     function()
       require('telescope.builtin').find_files { hidden = true }
     end,
-    desc = '[s]earch [f]iles',
+    desc = '[s]earch all [F]iles',
   },
   {
     '<leader>sh',
@@ -316,18 +331,18 @@ M.telescope = {
 
 -- Git keymaps
 M.fugitive = {
-  { '<leader>ga', '<cmd>Git add %<cr>', desc = '[g]it [a]dd curret file' },
+  { '<leader>ga', '<cmd>Git add %<CR>', desc = '[g]it [a]dd curret file' },
 }
-M.gitlink = { '<leader>gy', '<cmd>GitLink remote=origin<cr>', mode = 'n', desc = 'Copy web link' }
+M.gitlink = { '<leader>gy', '<cmd>GitLink remote=origin<CR>', mode = 'n', desc = 'Copy web link' }
 M.neogit = {
-  { '<leader>gS', '<cmd>Neogit kind=auto<cr>', desc = 'Neo[g]it [S]tatus' },
-  { '<leader>gc', '<cmd>Neogit commit<cr>', desc = '[g]it [c]ommit' },
+  { '<leader>gS', '<cmd>Neogit kind=auto<CR>', desc = 'Neo[g]it [S]tatus' },
+  { '<leader>gc', '<cmd>Neogit commit<CR>', desc = '[g]it [c]ommit' },
 }
 vim.keymap.set('n', '<leader>sd', function()
   require('telescope.builtin').git_status {}
 end, { desc = '[s]earch Git [d]iff' })
 M.lazygit = {
-  { '<leader>gg', '<cmd>LazyGit<cr>', desc = 'lazygit' },
+  { '<leader>gg', '<cmd>LazyGit<CR>', desc = 'lazygit' },
 }
 M.git_worktree = {
   {
@@ -346,13 +361,13 @@ M.git_worktree = {
   },
 }
 M.octo = {
-  { '<leader>go', '<cmd>Octo<cr>', desc = 'GitHub PRs' },
+  { '<leader>go', '<cmd>Octo<CR>', desc = 'GitHub PRs' },
 }
 M.gh_addressed = {
-  { '<leader>gc', '<cmd>GhReviewComments<cr>', desc = 'GitHub Review Comments' },
+  { '<leader>gc', '<cmd>GhReviewComments<CR>', desc = 'GitHub Review Comments' },
 }
 M.gh_blame = {
-  { '<leader>gB', '<cmd>GhBlameCurrentLine<cr>', desc = 'GitHub PR Blame Current Line' },
+  { '<leader>gB', '<cmd>GhBlameCurrentLine<CR>', desc = 'GitHub PR Blame Current Line' },
 }
 vim.keymap.set('n', '<leader>gh', '<cmd>!wezterm cli spawn --cwd $PWD -- zsh -c "gh dash"<CR><CR>', { desc = '[g]it [H]ub dash' })
 
@@ -664,7 +679,7 @@ M.neotest = {
   },
   {
     '<leader>Tw',
-    "<cmd>lua require('neotest').run.run({ jestCommand = 'jest --watch ' })<cr>",
+    "<cmd>lua require('neotest').run.run({ jestCommand = 'jest --watch ' })<CR>",
     desc = 'Jest [W]atch mode',
   },
 }
