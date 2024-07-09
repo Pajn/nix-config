@@ -24,8 +24,6 @@ return {
       delete_debug_prints = 'DeleteDebugPrints',
     },
   },
-  -- The 'keys' and 'cmds' sections of this configuration are only needed if
-  -- you want to take advantage of `lazy.nvim` lazy-loading.
   keys = {
     { 'g?p', mode = 'n' },
     { 'g?P', mode = 'n' },

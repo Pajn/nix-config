@@ -1,4 +1,3 @@
--- [[ Configure Treesitter ]]
 -- See `:help nvim-treesitter`
 -- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
 vim.defer_fn(function()
@@ -187,6 +186,7 @@ return {
       'scss',
       'tsx',
       'typescript',
+      'typescriptreact',
     },
     -- default config
     opts = {
@@ -209,6 +209,7 @@ return {
         'scss',
         'tsx',
         'typescript',
+        'typescriptreact',
       },
       mode = { 'n', 'v' },
       prev_outer_key = '[b',
