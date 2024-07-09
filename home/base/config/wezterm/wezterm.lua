@@ -5,6 +5,8 @@ local act = wezterm.action
 
 local config = {}
 
+config.enable_wayland = false
+
 if wezterm.target_triple == "x86_64-pc-windows-msvc" then
 	config.default_domain = "WSL:NixOS"
 	config.window_background_opacity = 0.98
