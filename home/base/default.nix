@@ -80,6 +80,10 @@
     ".config/nvim/init.lua".source = config/nvim/init.lua;
 
     ".config/wezterm/wezterm.lua".source = config/wezterm/wezterm.lua;
+    ".config/wezterm/colors" = {
+      source = config/wezterm/colors;
+      recursive = true;
+    };
 
     ".cargo/config.toml".text = ''
       [net]

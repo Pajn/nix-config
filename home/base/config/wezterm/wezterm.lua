@@ -27,10 +27,12 @@ end
 local function scheme_for_appearance(appearance)
 	if appearance:find("Dark") then
 		-- return "catppuccin-frappe"
-		return "tokyonight_storm"
+		-- return "tokyonight_storm"
+		return "sweetie_dark"
 	else
 		-- return "catppuccin-latte"
-		return "tokyonight_day"
+		-- return "tokyonight_day"
+		return "sweetie_light"
 	end
 end
 

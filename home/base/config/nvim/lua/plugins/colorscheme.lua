@@ -1,3 +1,5 @@
+local colorscheme = 'sweetie'
+
 return {
   -- {
   --   'catppuccin/nvim',
@@ -27,7 +29,39 @@ return {
         transparent = true,
         day_brightness = 0.4,
       }
-      vim.cmd.colorscheme 'tokyonight'
+      if colorscheme == 'tokyonight' then
+        vim.cmd.colorscheme 'tokyonight'
+      end
+    end,
+  },
+
+  {
+    'NTBBloodbath/sweetie.nvim',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.g.sweetie = {
+
+        pumblend = {
+          enable = true,
+          transparency_amount = 20,
+        },
+        integrations = {
+          lazy = true,
+          neorg = true,
+          neogit = true,
+          neomake = true,
+          telescope = true,
+        },
+        -- Enable custom cursor coloring even in terminal Neovim sessions
+        cursor_color = true,
+        -- Use sweetie's palette in `:terminal` instead of your default terminal colorscheme
+        terminal_colors = true,
+      }
+      require 'sweetie'
+      if colorscheme == 'sweetie' then
+        vim.cmd.colorscheme 'sweetie'
+      end
     end,
   },
 
@@ -36,10 +70,8 @@ return {
     config = function()
       require('theme-toggle-nvim').setup {
         colorscheme = {
-          light = 'tokyonight',
-          dark = 'tokyonight',
-          -- light = 'everforest',
-          -- dark = 'everforest',
+          light = colorscheme,
+          dark = colorscheme,
         },
       }
     end,
