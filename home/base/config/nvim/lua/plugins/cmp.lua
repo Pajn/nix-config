@@ -1,5 +1,4 @@
 return {
-  -- Autocompletion
   'hrsh7th/nvim-cmp',
   event = { 'InsertEnter' },
   dependencies = {
@@ -9,6 +8,8 @@ return {
 
     -- Adds LSP + cmdline completion capabilities
     'hrsh7th/cmp-nvim-lsp',
+    'hrsh7th/cmp-nvim-lsp-signature-help',
+    'hrsh7th/cmp-buffer',
     'hrsh7th/cmp-cmdline',
 
     -- Adds a number of user-friendly snippets
@@ -29,9 +30,7 @@ return {
           luasnip.lsp_expand(args.body)
         end,
       },
-      mapping = cmp.mapping.preset.insert {
-        ['<C-n>'] = cmp.mapping.select_next_item(),
-        ['<C-p>'] = cmp.mapping.select_prev_item(),
+      mapping = {
         ['<C-j>'] = cmp.mapping.select_next_item(),
         ['<C-k>'] = cmp.mapping.select_prev_item(),
         ['<C-d>'] = cmp.mapping.scroll_docs(-4),
@@ -67,24 +66,35 @@ return {
       },
       sources = {
         { name = 'nvim_lsp' },
-        { name = 'copilot' },
-        { name = 'luasnip', max_item_count = 3 },
-        { name = 'path' },
+        { name = 'nvim_lsp_signature_help' },
+        { name = 'lazydev' },
         { name = 'css_vars' },
+        { name = 'luasnip', max_item_count = 3 },
+        { name = 'copilot' },
+        { name = 'path' },
       },
       formatting = {
         -- format = require('nvim-highlight-colors').format,
       },
     }
 
+    local cmdline_mapping = {
+      ['<C-j>'] = { c = cmp.mapping.select_next_item() },
+      ['<C-k>'] = { c = cmp.mapping.select_prev_item() },
+      ['<C-Space>'] = { c = cmp.mapping.complete {} },
+      ['<C-e>'] = { c = cmp.mapping.abort() },
+      ['<C-y>'] = { c = cmp.mapping.confirm { select = true } },
+      ['<C-->'] = { c = cmp.mapping.confirm { select = true } },
+    }
+
     cmp.setup.cmdline('/', {
-      mapping = cmp.mapping.preset.cmdline(),
+      mapping = cmdline_mapping,
       sources = {
         { name = 'buffer' },
       },
     })
     cmp.setup.cmdline(':', {
-      mapping = cmp.mapping.preset.cmdline(),
+      mapping = cmdline_mapping,
       sources = cmp.config.sources({
         { name = 'path' },
       }, {
