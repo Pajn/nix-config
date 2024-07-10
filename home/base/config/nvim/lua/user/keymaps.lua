@@ -145,7 +145,7 @@ M.overseer = {
 
 M.recall = {
   {
-    '<leader>mm',
+    'mm',
     function()
       require('recall').toggle {}
     end,
@@ -153,7 +153,7 @@ M.recall = {
     desc = 'Toggle [M]ark',
   },
   {
-    '<leader>mj',
+    'mj',
     function()
       require('recall').goto_next {}
     end,
@@ -161,7 +161,7 @@ M.recall = {
     desc = 'Goto next mark',
   },
   {
-    '<leader>mk',
+    'mk',
     function()
       require('recall').goto_prev {}
     end,
@@ -169,14 +169,14 @@ M.recall = {
     desc = 'Goto previous mark',
   },
   {
-    '<leader>mc',
+    'mc',
     function()
       require('recall').clear {}
     end,
     { noremap = true, silent = true },
     desc = 'Clear marks',
   },
-  { '<leader>ml', '<cmd>Telescope recall<CR>', { noremap = true, silent = true }, desc = 'List Marks' },
+  { 'ml', '<cmd>Telescope recall<CR>', { noremap = true, silent = true }, desc = 'List Marks' },
 }
 
 -- We cache the results of "git rev-parse"
