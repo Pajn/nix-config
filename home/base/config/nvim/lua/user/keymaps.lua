@@ -521,13 +521,13 @@ M.conform = {
 }
 
 -- Refactoring
-vim.keymap.set('x', '<leader>re', '<cmd>Refactor extract ')
-vim.keymap.set('x', '<leader>rf', '<cmd>Refactor extract_to_file ')
-vim.keymap.set('x', '<leader>rv', '<cmd>Refactor extract_var ')
-vim.keymap.set({ 'n', 'x' }, '<leader>ri', '<cmd>Refactor inline_var')
-vim.keymap.set('n', '<leader>rI', '<cmd>Refactor inline_func')
-vim.keymap.set('n', '<leader>rb', '<cmd>Refactor extract_block')
-vim.keymap.set('n', '<leader>rbf', '<cmd>Refactor extract_block_to_file')
+vim.keymap.set('x', '<leader>ce', '<cmd>Refactor extract<CR>')
+vim.keymap.set('x', '<leader>cf', '<cmd>Refactor extract_to_file<CR>')
+vim.keymap.set('x', '<leader>cv', '<cmd>Refactor extract_var<CR>')
+vim.keymap.set({ 'n', 'x' }, '<leader>ci', '<cmd>Refactor inline_var<CR>')
+vim.keymap.set('n', '<leader>cI', '<cmd>Refactor inline_func<CR>')
+vim.keymap.set('n', '<leader>cb', '<cmd>Refactor extract_block<CR>')
+vim.keymap.set('n', '<leader>cB', '<cmd>Refactor extract_block_to_file<CR>')
 
 -- Vim Illuminate keybinds
 M.illuminate = {
@@ -763,14 +763,10 @@ require('which-key').register {
   ['<leader>c'] = { name = '[c]ode', _ = 'which_key_ignore' },
   ['<leader>g'] = { name = '[g]it', _ = 'which_key_ignore' },
   ['<leader>h'] = { name = 'git [h]unks', _ = 'which_key_ignore' },
-  -- ['<leader>H'] = { name = '[H]arpoon', _ = 'which_key_ignore' },
-  ['<leader>m'] = { name = '[m]arks', _ = 'which_key_ignore' },
   ['<leader>o'] = { name = '[o]verseer', _ = 'which_key_ignore' },
-  ['<leader>r'] = { name = '[r]efactor', _ = 'which_key_ignore' },
   ['<leader>s'] = { name = '[s]earch', _ = 'which_key_ignore' },
   ['<leader>t'] = { name = '[t]oggles', _ = 'which_key_ignore' },
   ['<leader>T'] = { name = '[T]ests', _ = 'which_key_ignore' },
-  -- ['<leader>w'] = { name = '[W]orkspace', _ = 'which_key_ignore' },
 }
 
 return M

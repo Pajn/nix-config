@@ -132,7 +132,7 @@ vim.defer_fn(function()
         },
         swap_previous = {
           ['<leader>cA'] = '@parameter.inner',
-          ['<leader>cp'] = '@variable.member.inner',
+          ['<leader>cP'] = '@variable.member.inner',
           ['<leader>cM'] = '@function.outer',
         },
       },
