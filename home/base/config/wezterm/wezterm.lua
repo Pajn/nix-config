@@ -263,9 +263,9 @@ config.keys = {
 		action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
 	},
 	{
-		key = "c",
+		key = "=",
 		mods = "LEADER",
-		action = act.SpawnTab("CurrentPaneDomain"),
+		action = wezterm.action.TogglePaneZoomState,
 	},
 	{
 		key = "!",
@@ -275,6 +275,36 @@ config.keys = {
 			tab:activate()
 		end),
 	},
+
+	{
+		key = "c",
+		mods = "LEADER",
+		action = act.SpawnTab("CurrentPaneDomain"),
+	},
+	{
+		key = "&",
+		mods = "LEADER|SHIFT",
+		action = act.CloseCurrentTab({ confirm = true }),
+	},
+	{
+		key = ",",
+		mods = "LEADER",
+		action = act.PromptInputLine({
+			description = "Enter new name for tab",
+			action = wezterm.action_callback(function(window, pane, line)
+				if line then
+					window:active_tab():set_title(line)
+				end
+			end),
+		}),
+	},
+	{
+		key = "w",
+		mods = "LEADER",
+		action = act.ShowTabNavigator,
+	},
+	{ key = "Tab", mods = "CTRL|ALT", action = act.MoveTabRelative(1) },
+	{ key = "Tab", mods = "CTRL|ALT|SHIFT", action = act.MoveTabRelative(-1) },
 
 	{
 		key = "o",
@@ -297,7 +327,12 @@ config.keys = {
 	},
 
 	{
-		key = "v",
+		key = "[",
+		mods = "LEADER",
+		action = wezterm.action.ActivateCopyMode,
+	},
+	{
+		key = "V",
 		mods = "LEADER",
 		action = act.EmitEvent("trigger-vim-with-scrollback"),
 	},
