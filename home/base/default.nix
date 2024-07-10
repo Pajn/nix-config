@@ -52,6 +52,7 @@
       bun
       deno
 
+      go
       python3
       rustup
       lua51Packages.lua
