@@ -439,6 +439,8 @@ vim.keymap.set('n', '<leader>ti', function()
   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled())
 end, { desc = '[t]oggle [i]nline hints' })
 M.undotree = { { mode = 'n', '<leader>tu', '<cmd>UndotreeToggle<CR>', desc = '[t]oggle [u]ndo tree' } }
+vim.keymap.set('n', '<leader>tc', '<cmd>CccHighlighterToggle<CR>', { desc = '[t]oggle [c]olor highlights' })
+vim.keymap.set('n', '<leader>cc', '<cmd>CccPick<CR>', { desc = '[c]olor pi[c]ker' })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', function()

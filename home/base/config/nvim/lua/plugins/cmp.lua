@@ -73,7 +73,7 @@ return {
         { name = 'css_vars' },
       },
       formatting = {
-        format = require('nvim-highlight-colors').format,
+        -- format = require('nvim-highlight-colors').format,
       },
     }
 
