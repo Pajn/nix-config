@@ -65,7 +65,7 @@ return {
         graphql = {
           filetypes = { 'graphql', 'typescript', 'typescriptreact', 'javascriptreact' },
         },
-        -- gopls = {},
+        gopls = {},
         html = { filetypes = { 'html', 'twig', 'hbs' } },
         jsonls = {
           settings = {
@@ -75,6 +75,7 @@ return {
             },
           },
         },
+        marksman = {},
         -- pyright = {},
 
         -- Rust has custom config
