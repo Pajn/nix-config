@@ -3,17 +3,16 @@
 
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-23.11";
-    nixos-wsl = {
-      url = "github:nix-community/NixOS-WSL/main";
+    lix-module = {
+      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.90.0.tar.gz";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Linux Systems
     lanzaboote = {
       url = "github:nix-community/lanzaboote/v0.3.0";
 
@@ -25,6 +24,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # Darwin Systems
     nix-darwin = {
       url = "github:LnL7/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -46,21 +46,31 @@
     #   url = "github:homebrew/homebrew-cask";
     #   flake = false;
     # };
+
+    # WSL
+    nixos-wsl = {
+      url = "github:nix-community/NixOS-WSL/main";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
     {
       self,
       nixpkgs,
-      nixos-wsl,
+      lix-module,
+      home-manager,
+
       lanzaboote,
       nixos-cosmic,
+
       nix-darwin,
-      home-manager,
       nix-homebrew,
       # homebrew-bundle,
       # homebrew-core,
       # homebrew-cask,
+
+      nixos-wsl,
       ...
     }@inputs:
     let
@@ -69,15 +79,6 @@
         name = "Rasmus Eneman";
         username = "rasmus";
       };
-      darwinSystems = {
-        aarch64-darwin = "aarch64-darwin";
-      };
-      linuxSystems = {
-        x86_64-linux = "x86_64-linux";
-      };
-      allSystems = darwinSystems // linuxSystems;
-      allSystemNames = builtins.attrNames allSystems;
-      forAllSystems = f: (nixpkgs.lib.genAttrs allSystemNames f);
       genSpecialArgs =
         system:
         inputs
@@ -109,6 +110,7 @@
               ./modules/macos
               # ./modules/macos/brew.nix
 
+              lix-module.nixosModules.default
               home-manager.darwinModules.home-manager
               {
                 home-manager.useGlobalPkgs = true;
@@ -157,6 +159,7 @@
             system = "x86_64-linux";
             inherit specialArgs;
             modules = [
+              lix-module.nixosModules.default
               lanzaboote.nixosModules.lanzaboote
               {
                 nix.settings = {
@@ -185,6 +188,7 @@
             system = "x86_64-linux";
             inherit specialArgs;
             modules = [
+              lix-module.nixosModules.default
               nixos-wsl.nixosModules.default
               ./modules/wsl
               home-manager.nixosModules.home-manager

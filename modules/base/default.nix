@@ -6,6 +6,8 @@
   ...
 }:
 {
+  nix.package = pkgs.lix;
+
   programs.zsh.enable = true;
   users.users."${user.username}" = {
     description = user.name;
