@@ -3,6 +3,15 @@ return {
     'nvim-lualine/lualine.nvim',
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
+      local function worktree()
+        local res, match = vim.fn.FugitiveGitDir():gsub('.*worktrees/', '')
+        if match == 1 then
+          return res
+        else
+          return ''
+        end
+      end
+
       require('lualine').setup {
         options = {
           globalstatus = true,
@@ -11,19 +20,25 @@ return {
         },
         sections = {
           lualine_b = {
+            worktree,
             { 'branch', icon = '' },
-            -- harpoon_component,
             'diff',
-            'diagnostics',
           },
           lualine_c = {
+            'diagnostics',
             { 'filename', path = 1 },
           },
           lualine_x = {
+            -- {
+            --   require('noice').api.statusline.mode.get,
+            --   cond = require('noice').api.statusline.mode.has,
+            --   color = { fg = '#ff9e64' },
+            -- },
             'overseer',
             'filetype',
           },
         },
+        extensions = { 'quickfix', 'neo-tree', 'overseer', 'trouble' },
       }
     end,
   },
