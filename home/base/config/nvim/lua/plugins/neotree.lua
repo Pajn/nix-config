@@ -3,6 +3,7 @@ local keymaps = require 'user.keymaps'
 return {
   {
     '3rd/image.nvim',
+    ft = { 'html', 'css' },
     opts = {
       backend = 'kitty',
       integrations = {

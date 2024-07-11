@@ -106,7 +106,7 @@ return {
       require('telescope').load_extension 'advanced_git_search'
     end,
     opts = {
-      diff_plugin = 'diffview',
+      diff_plugin = "diffview",
     },
   },
 }
