@@ -17,4 +17,5 @@ return {
   --   event = 'BufEnter',
   --   opts = true,
   -- },
+  { 'jmattaa/regedit.vim', cmd = 'Regedit' },
 }
