@@ -289,11 +289,11 @@ M.telescope = {
     desc = '[s]earch Workspace [S]ymbols',
   },
   {
-    '<leader>sd',
+    '<leader>sD',
     function()
       require('telescope.builtin').diagnostics {}
     end,
-    desc = '[s]earch [d]iagnostics',
+    desc = '[s]earch [D]iagnostics',
   },
   {
     '<leader>sc',
@@ -427,7 +427,7 @@ M.gitsigns = function(bufnr)
   map('n', '<leader>tB', gs.toggle_current_line_blame, { desc = '[t]oggle git [B]lame line' })
   map('n', '<leader>td', gs.toggle_deleted, { desc = '[t]oggle git show [d]eleted' })
   -- Text object
-  map({ 'o', 'x' }, 'ih', '<cmd><C-U>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
+  map({ 'o', 'x' }, 'ih', '<cmd>Gitsigns select_hunk<CR>', { desc = 'select git hunk' })
 end
 
 -- Toggles
@@ -688,7 +688,7 @@ M.neotest = {
 
 -- Terminal
 -- Enter normal mode while in a terminal
-vim.keymap.set('t', '<esc><esc>', [[<C-\><C-n>]], { noremap = true, silent = true })
+vim.keymap.set('t', '<C-esc>', [[<C-\><C-n>]], { noremap = true, silent = true })
 
 M.smart_splits = {
   -- resizing splits
@@ -759,14 +759,14 @@ M.smart_splits = {
 }
 
 -- document existing key chains
-require('which-key').register {
-  ['<leader>c'] = { name = '[c]ode', _ = 'which_key_ignore' },
-  ['<leader>g'] = { name = '[g]it', _ = 'which_key_ignore' },
-  ['<leader>h'] = { name = 'git [h]unks', _ = 'which_key_ignore' },
-  ['<leader>o'] = { name = '[o]verseer', _ = 'which_key_ignore' },
-  ['<leader>s'] = { name = '[s]earch', _ = 'which_key_ignore' },
-  ['<leader>t'] = { name = '[t]oggles', _ = 'which_key_ignore' },
-  ['<leader>T'] = { name = '[T]ests', _ = 'which_key_ignore' },
+require('which-key').add {
+  { '<leader>T', group = '[T]ests' },
+  { '<leader>c', group = '[c]ode' },
+  { '<leader>g', group = '[g]it' },
+  { '<leader>h', group = 'git [h]unks' },
+  { '<leader>o', group = '[o]verseer' },
+  { '<leader>s', group = '[s]earch' },
+  { '<leader>t', group = '[t]oggles' },
 }
 
 return M

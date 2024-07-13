@@ -7,7 +7,7 @@ return {
     keys = { '[', ']' },
     opts = {
       buffer = { suffix = '' },
-      comment = { suffix = 'c', options = {} },
+      comment = { suffix = ''  },
       conflict = { suffix = 'x', options = {} },
       diagnostic = { suffix = '' },
       file = { suffix = '' },
@@ -16,7 +16,7 @@ return {
       location = { suffix = '' },
       oldfile = { suffix = 'o', options = {} },
       quickfix = { suffix = 'q', options = {} },
-      treesitter = { suffix = 't', options = {} },
+      treesitter = { suffix = ' ', options = {} },
       undo = { suffix = '' },
       window = { suffix = '' },
       yank = { suffix = '' },

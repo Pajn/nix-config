@@ -62,8 +62,8 @@ vim.defer_fn(function()
           ['a?'] = { query = '@conditional.outer', desc = 'Select outer part of a conditional' },
           ['i?'] = { query = '@conditional.inner', desc = 'Select inner part of a conditional' },
 
-          ['al'] = { query = '@loop.outer', desc = 'Select outer part of a loop' },
-          ['il'] = { query = '@loop.inner', desc = 'Select inner part of a loop' },
+          -- ['al'] = { query = '@loop.outer', desc = 'Select outer part of a loop' },
+          -- ['il'] = { query = '@loop.inner', desc = 'Select inner part of a loop' },
 
           ['af'] = { query = '@call.outer', desc = 'Select outer part of a function call' },
           ['if'] = { query = '@call.inner', desc = 'Select inner part of a function call' },
@@ -74,8 +74,8 @@ vim.defer_fn(function()
           ['ak'] = { query = '@class.outer', desc = 'Select outer part of a class' },
           ['ik'] = { query = '@class.inner', desc = 'Select inner part of a class' },
 
-          ['ac'] = { query = '@class.outer', desc = 'Select outer part of a class' },
-          ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class' },
+          -- ['ac'] = { query = '@class.outer', desc = 'Select outer part of a class' },
+          -- ['ic'] = { query = '@class.inner', desc = 'Select inner part of a class' },
         },
       },
       move = {
@@ -146,10 +146,10 @@ vim.defer_fn(function()
   vim.keymap.set({ 'n', 'x', 'o' }, ',', ts_repeat_move.repeat_last_move_opposite)
 
   -- Optionally, make builtin f, F, t, T also repeatable with ; and ,
-  vim.keymap.set({ 'n', 'x', 'o' }, 'f', ts_repeat_move.builtin_f)
-  vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat_move.builtin_F)
-  vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t)
-  vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T)
+  -- vim.keymap.set({ 'n', 'x', 'o' }, 'f', ts_repeat_move.builtin_f)
+  -- vim.keymap.set({ 'n', 'x', 'o' }, 'F', ts_repeat_move.builtin_F)
+  -- vim.keymap.set({ 'n', 'x', 'o' }, 't', ts_repeat_move.builtin_t)
+  -- vim.keymap.set({ 'n', 'x', 'o' }, 'T', ts_repeat_move.builtin_T)
 end, 0)
 
 return {
@@ -161,59 +161,5 @@ return {
       'nvim-treesitter/nvim-treesitter-textobjects',
     },
     build = ':TSUpdate',
-  },
-  {
-    'Mr-LLLLL/treesitter-outer',
-    event = 'VeryLazy',
-    dependencies = 'nvim-treesitter/nvim-treesitter',
-    -- only load this plug in follow filetypes
-    ft = {
-      'c',
-      'cpp',
-      'elixir',
-      'fennel',
-      'foam',
-      'go',
-      'javascript',
-      'julia',
-      'lua',
-      'nix',
-      'php',
-      'python',
-      'r',
-      'ruby',
-      'rust',
-      'scss',
-      'tsx',
-      'typescript',
-      'typescriptreact',
-    },
-    -- default config
-    opts = {
-      filetypes = {
-        'c',
-        'cpp',
-        'elixir',
-        'fennel',
-        'foam',
-        'go',
-        'javascript',
-        'julia',
-        'lua',
-        'nix',
-        'php',
-        'python',
-        'r',
-        'ruby',
-        'rust',
-        'scss',
-        'tsx',
-        'typescript',
-        'typescriptreact',
-      },
-      mode = { 'n', 'v' },
-      prev_outer_key = '[b',
-      next_outer_key = ']b',
-    },
   },
 }

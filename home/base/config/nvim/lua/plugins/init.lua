@@ -6,7 +6,7 @@ return {
   'yorickpeterse/nvim-tree-pairs',
 
   -- Useful plugin to show you pending keybinds.
-  { 'folke/which-key.nvim', event = 'VeryLazy', opts = {} },
+  { 'folke/which-key.nvim', event = 'VeryLazy', opts = { icons = { rules = false } } },
 
   {
     'mcauley-penney/visual-whitespace.nvim',
