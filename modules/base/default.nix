@@ -46,6 +46,7 @@
     eza
     which
     tree
+    pstree
   ];
 
   nixpkgs.config = {
