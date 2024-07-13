@@ -23,6 +23,10 @@
       url = "github:lilyinstarlight/nixos-cosmic";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    niri = {
+      url = "github:sodiboo/niri-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Darwin Systems
     nix-darwin = {
@@ -70,6 +74,7 @@
 
       lanzaboote,
       nixos-cosmic,
+      niri,
 
       nix-darwin,
       nix-homebrew,
@@ -96,6 +101,8 @@
             inherit system;
             config.allowUnfree = true;
             config.allowBroken = true;
+
+            overlays = [ niri.overlays.niri ];
           };
 
           _custom = import ./packages { inherit pkgs lib; };
@@ -175,6 +182,7 @@
                 };
               }
               nixos-cosmic.nixosModules.default
+              niri.nixosModules.niri
               ./hosts/frigg
               ./modules/linux
               ./modules/linux/boot.nix

@@ -3,10 +3,10 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 {
-  config,
   user,
   pkgs,
   _custom,
+  niri,
   ...
 }:
 
@@ -85,6 +85,12 @@
   #   konsole
   #   oxygen
   # ];
+
+  programs.niri = {
+    enable = true;
+    package = pkgs.niri-stable;
+    # package = pkgs.niri-unstable;
+  };
 
   # Configure keymap
   services.xserver.xkb = {
