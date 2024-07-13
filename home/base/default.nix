@@ -1,4 +1,4 @@
-{ user, pkgs, ... }:
+{ inputs, user, pkgs, ... }:
 {
   imports = [
     ./shell
@@ -45,7 +45,8 @@
       nushell
       tldr
       yazi
-      wezterm
+      # wezterm
+      inputs.wezterm.packages.${pkgs.system}.default
 
       nodejs
       corepack_22

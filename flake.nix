@@ -52,6 +52,13 @@
       url = "github:nix-community/NixOS-WSL/main";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Other
+    wezterm = {
+      # url = "github:wez/wezterm?dir=nix";
+      url = "github:Pajn/wezterm/float-pane?dir=nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -83,7 +90,7 @@
         system:
         inputs
         // rec {
-          inherit user;
+          inherit user inputs;
 
           pkgs = import inputs.nixpkgs {
             inherit system;

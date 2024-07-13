@@ -118,6 +118,16 @@ config.colors = {
 		},
 	},
 }
+config.float_pane_border = {
+	left_width = "0.5cell",
+	right_width = "0.5cell",
+	bottom_height = "0.25cell",
+	top_height = "0.25cell",
+	left_color = "#665c54",
+	right_color = "#665c54",
+	bottom_color = "#665c54",
+	top_color = "#665c54",
+}
 -- config.force_reverse_video_cursor = true
 config.cursor_blink_rate = 0
 config.default_cursor_style = "SteadyBar"
@@ -207,24 +217,34 @@ local function fuzzy_session_picker(window, pane)
 end
 
 local SpawnCommandInTabNext = function(opts)
-	local function active_tab_index(window)
-		for _, item in ipairs(window:mux_window():tabs_with_info()) do
-			if item.is_active then
-				return item.index
-			end
-		end
-	end
-
 	return function(win, pane)
-		local prev_active_tab_index = active_tab_index(win)
 		win:perform_action(
-			act.SpawnCommandInNewTab({
+			act.FloatPane({
+				domain = "CurrentPaneDomain",
+				cwd = pane:get_current_working_dir().file_path,
 				args = { "zsh", "-c", opts.cmd },
 			}),
 			pane
 		)
-		win:perform_action(act.MoveTab(prev_active_tab_index + 1), pane)
 	end
+	-- local function active_tab_index(window)
+	-- 	for _, item in ipairs(window:mux_window():tabs_with_info()) do
+	-- 		if item.is_active then
+	-- 			return item.index
+	-- 		end
+	-- 	end
+	-- end
+	--
+	-- return function(win, pane)
+	-- 	local prev_active_tab_index = active_tab_index(win)
+	-- 	win:perform_action(
+	-- 		act.SpawnCommandInNewTab({
+	-- 			args = { "zsh", "-c", opts.cmd },
+	-- 		}),
+	-- 		pane
+	-- 	)
+	-- 	win:perform_action(act.MoveTab(prev_active_tab_index + 1), pane)
+	-- end
 end
 
 -- config.debug_key_events = true
@@ -258,6 +278,11 @@ config.keys = {
 		action = act.SplitHorizontal({ domain = "CurrentPaneDomain" }),
 	},
 	{
+		key = "r",
+		mods = "LEADER",
+		action = act.FloatPane({ domain = "CurrentPaneDomain" }),
+	},
+	{
 		key = "-",
 		mods = "LEADER",
 		action = act.SplitVertical({ domain = "CurrentPaneDomain" }),
@@ -273,6 +298,20 @@ config.keys = {
 		action = wezterm.action_callback(function(_win, pane)
 			local tab, _window = pane:move_to_new_tab()
 			tab:activate()
+		end),
+	},
+
+	{
+		key = "t",
+		mods = "LEADER",
+		action = wezterm.action_callback(function(win, pane)
+			win:perform_action(
+				act.FloatPane({
+					domain = "CurrentPaneDomain",
+					cwd = pane:get_current_working_dir().file_path,
+				}),
+				pane
+			)
 		end),
 	},
 
