@@ -1,4 +1,4 @@
-local map_lsp_keybinds = require('user.keymaps').map_lsp_keybinds
+local keymaps = require 'user.keymaps'
 
 return {
   {
@@ -23,7 +23,7 @@ return {
           standalone = false,
           ---@diagnostic disable-next-line: unused-local
           on_attach = function(_client, bufnr)
-            map_lsp_keybinds(bufnr)
+            keymaps.lsp(bufnr)
           end,
           default_settings = {
             -- rust-analyzer language server configuration
