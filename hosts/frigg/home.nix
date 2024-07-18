@@ -1,6 +1,9 @@
 { ... }:
 {
-  imports = [ ../../home/linux ../../home/linux/gui.nix ];
+  imports = [
+    ../../home/linux
+    ../../home/linux/gui.nix
+  ];
   programs.git.extraConfig.user.signingKey = "~/.ssh/id_ed25519.pub";
   programs.zsh = {
     shellAliases = {
