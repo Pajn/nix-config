@@ -478,6 +478,17 @@ M.actions_preview = {
     silent = true,
     noremap = true,
   },
+  {
+    '<leader>c-',
+    function()
+      require('actions-preview').code_actions {
+        context = { only = { 'source' } },
+      }
+    end,
+    desc = 'All code actions',
+    silent = true,
+    noremap = true,
+  },
 }
 
 M.lsp = function(bufnr)
@@ -488,7 +499,7 @@ M.lsp = function(bufnr)
     vim.keymap.set('n', keys, func, { buffer = bufnr, desc = desc })
   end
 
-  nmap('<leader>rn', vim.lsp.buf.rename, '[r]efactor Re[n]ame')
+  nmap('<leader>cr', vim.lsp.buf.rename, '[c]ode [r]ename')
   nmap('gd', function()
     require('telescope.builtin').lsp_definitions {}
   end, '[G]oto [D]efinition')

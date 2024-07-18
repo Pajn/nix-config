@@ -47,7 +47,7 @@ return {
       defaults = {
         hidden = true,
         mappings = {
-          i = { ['<c-t>'] = trouble.open_with_trouble, ['<c-s>'] = flash },
+          i = { ['<c-t>'] = trouble.open_with_trouble, ['<c-s>'] = flash, ['<c-j>'] = actions.preview_scrolling_down, ['<c-k>'] = actions.preview_scrolling_up },
           n = { ['<c-t>'] = trouble.open_with_trouble, ['q'] = actions.close, s = flash },
         },
       },
