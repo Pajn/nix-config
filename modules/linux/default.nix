@@ -49,6 +49,8 @@
 
   fonts.packages = with pkgs; [
     fira-code
+    geist-font
+    inconsolata
     (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
   ];
 

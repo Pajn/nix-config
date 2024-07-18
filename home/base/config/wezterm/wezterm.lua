@@ -131,7 +131,7 @@ config.float_pane_border = {
 -- config.force_reverse_video_cursor = true
 config.cursor_blink_rate = 0
 config.default_cursor_style = "SteadyBar"
-config.font = wezterm.font("Fira Code")
+config.font = wezterm.font("Geist Mono")
 config.font_size = 13.0
 
 config.window_close_confirmation = "NeverPrompt"
