@@ -770,14 +770,21 @@ M.smart_splits = {
 }
 
 -- document existing key chains
-require('which-key').add {
-  { '<leader>T', group = '[T]ests' },
-  { '<leader>c', group = '[c]ode' },
-  { '<leader>g', group = '[g]it' },
-  { '<leader>h', group = 'git [h]unks' },
-  { '<leader>o', group = '[o]verseer' },
-  { '<leader>s', group = '[s]earch' },
-  { '<leader>t', group = '[t]oggles' },
+M.which_key = {
+  {
+    mode = { 'n', 'v' },
+    { '<leader>T', group = '[T]ests' },
+    { '<leader>c', group = '[c]ode' },
+    { '<leader>g', group = '[g]it' },
+    { '<leader>h', group = 'git [h]unks' },
+    { '<leader>o', group = '[o]verseer' },
+    { '<leader>s', group = '[s]earch' },
+    { '<leader>t', group = '[t]oggles' },
+    { '[', group = 'prev' },
+    { ']', group = 'next' },
+    { 'g', group = 'goto' },
+    { 'z', group = 'fold' },
+  },
 }
 
 return M

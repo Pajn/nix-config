@@ -1,4 +1,5 @@
 local keymaps = require 'user.keymaps'
+
 return {
   'kdheepak/lazygit.nvim',
   cmd = {
