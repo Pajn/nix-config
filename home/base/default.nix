@@ -53,6 +53,7 @@
       bun
       deno
 
+      coursier # Scala
       go
       python3
       rustup
