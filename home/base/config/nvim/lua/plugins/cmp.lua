@@ -70,7 +70,7 @@ return {
         { name = 'lazydev' },
         { name = 'css_vars' },
         { name = 'luasnip', max_item_count = 3 },
-        { name = 'copilot' },
+        -- { name = 'copilot' },
         { name = 'path' },
       },
       formatting = {
