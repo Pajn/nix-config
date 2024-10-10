@@ -43,10 +43,9 @@ return {
   },
   {
     'linrongbin16/gitlinker.nvim',
+    cmd = { 'GitLink' },
     keys = keymaps.gitlinker,
-    config = function()
-      require('gitlinker').setup()
-    end,
+    opts = {},
   },
   {
     -- 'polarmutex/git-worktree.nvim',
@@ -106,7 +105,7 @@ return {
       require('telescope').load_extension 'advanced_git_search'
     end,
     opts = {
-      diff_plugin = "diffview",
+      diff_plugin = 'diffview',
     },
   },
 }

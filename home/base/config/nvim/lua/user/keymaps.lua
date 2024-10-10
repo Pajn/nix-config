@@ -333,7 +333,7 @@ M.telescope = {
 M.fugitive = {
   { '<leader>ga', '<cmd>Git add %<CR>', desc = '[g]it [a]dd curret file' },
 }
-M.gitlinker = { '<leader>gy', '<cmd>GitLink remote=origin<CR>', mode = 'n', desc = 'Copy web link' }
+M.gitlinker = { { '<leader>gy', '<cmd>GitLink remote=origin<CR>', mode = 'n', desc = 'Copy web link' } }
 M.neogit = {
   { '<leader>gS', '<cmd>Neogit kind=auto<CR>', desc = 'Neo[g]it [S]tatus' },
   { '<leader>gc', '<cmd>Neogit commit<CR>', desc = '[g]it [c]ommit' },
