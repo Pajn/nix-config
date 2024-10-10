@@ -1,4 +1,9 @@
-{ inputs, user, pkgs, ... }:
+{
+  inputs,
+  user,
+  pkgs,
+  ...
+}:
 {
   imports = [
     ./shell
@@ -41,6 +46,7 @@
       bitwarden-cli
       dua
       just
+      nix-search-cli
       nmap
       nushell
       tldr

@@ -37,6 +37,7 @@
     (writeShellScriptBin "do" ''
       just --working-directory "''$(just --evaluate pwd)/''$(echo "''${PWD#`just --evaluate pwd`}" | cut -d '/' -f2)" --justfile "''$(just --evaluate pwd)/dofile" ''$@
     '')
+    fzf
     ueberzugpp
   ];
 
