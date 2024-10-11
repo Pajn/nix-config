@@ -60,7 +60,8 @@ return {
     end,
   },
   {
-    'yutkat/git-rebase-auto-diff.nvim',
+    -- 'yutkat/git-rebase-auto-diff.nvim',
+    'Pajn/git-rebase-auto-diff.nvim',
     ft = { 'gitrebase' },
     config = function()
       require('git-rebase-auto-diff').setup()
