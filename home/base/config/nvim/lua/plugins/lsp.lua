@@ -31,9 +31,6 @@ return {
       -- NOTE: `opts = {}` is the same as calling `require('fidget').setup({})`
       -- { 'j-hui/fidget.nvim', opts = {} },
 
-      -- Additional lua configuration, makes nvim stuff amazing!
-      -- 'folke/neodev.nvim',
-
       -- Additional typescript refactoring commands
       'yioneko/nvim-vtsls',
     },
@@ -135,26 +132,6 @@ return {
           handlers = config.handlers,
         }
       end
-    end,
-  },
-  {
-    'folke/neodev.nvim',
-    ft = { 'lua', 'vim' },
-    config = function()
-      require('neodev').setup()
-      require('lspconfig').lua_ls.setup {
-        on_attach = function(client, bufnr)
-          -- Setup neovim lua configuration
-          require('neodev').setup()
-          on_attach(client, bufnr)
-        end,
-        settings = {
-          Lua = {
-            workspace = { checkThirdParty = false },
-            telemetry = { enable = false },
-          },
-        },
-      }
     end,
   },
   -- {
