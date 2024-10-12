@@ -1,3 +1,5 @@
+local keymaps = require 'user.keymaps'
+
 return {
   'andrewferrier/debugprint.nvim',
   opts = {
@@ -20,23 +22,14 @@ return {
       },
     },
     commands = {
-      toggle_comment_debug_prints = 'ToggleCommentDebugPrints',
-      delete_debug_prints = 'DeleteDebugPrints',
+      toggle_comment_debug_prints = 'DebugPrintToggleComment',
+      delete_debug_prints = 'DebugPrintsDelete',
     },
   },
-  keys = {
-    { 'g?p', mode = 'n' },
-    { 'g?P', mode = 'n' },
-    { 'g?v', mode = 'n' },
-    { 'g?V', mode = 'n' },
-    { 'g?o', mode = 'n' },
-    { 'g?O', mode = 'n' },
-    { 'g?v', mode = 'x' },
-    { 'g?V', mode = 'x' },
-  },
+  keys = keymaps.debugprint,
   cmd = {
-    'ToggleCommentDebugPrints',
-    'DeleteDebugPrints',
+    'DebugPrintsToggleComment',
+    'DebugPrintsDelete',
   },
   version = '*',
 }

@@ -531,6 +531,15 @@ M.conform = {
   },
 }
 
+M.debugprint = {
+  { 'g?p', mode = 'n', desc = 'Plain debug below current line' },
+  { 'g?P', mode = 'n', desc = 'Plain debug above current line' },
+  { 'g?v', mode = { 'n', 'x' }, desc = 'Variable debug below current line' },
+  { 'g?V', mode = { 'n', 'x' }, desc = 'Variable debug above current line' },
+  { 'g?o', mode = 'n', desc = 'Text-obj-selected debug below current line' },
+  { 'g?O', mode = 'n', desc = 'Text-obj-selected debug below current line' },
+}
+
 -- Refactoring
 vim.keymap.set('x', '<leader>ce', '<cmd>Refactor extract<CR>')
 vim.keymap.set('x', '<leader>cf', '<cmd>Refactor extract_to_file<CR>')
