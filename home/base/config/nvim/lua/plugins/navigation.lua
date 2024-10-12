@@ -1,5 +1,19 @@
 local keymaps = require 'user.keymaps'
 return {
+  {
+    'mawkler/demicolon.nvim',
+    keys = { ';', ',', 't', 'f', 'T', 'F', ']', '[', ']d', '[d' },
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
+    opts = {
+      keymaps = {
+        -- Create ]d/[d, etc. key mappings to jump to diganostics. See demicolon.keymaps.create_default_diagnostic_keymaps
+        diagnostic_motions = false,
+      },
+    },
+  },
   { 'echasnovski/mini.ai', version = false, opts = { n_lines = 50 } },
   {
     'echasnovski/mini.bracketed',
@@ -7,7 +21,7 @@ return {
     keys = { '[', ']' },
     opts = {
       buffer = { suffix = '' },
-      comment = { suffix = ''  },
+      comment = { suffix = '' },
       conflict = { suffix = 'x', options = {} },
       diagnostic = { suffix = '' },
       file = { suffix = '' },
@@ -21,6 +35,11 @@ return {
       window = { suffix = '' },
       yank = { suffix = '' },
     },
+  },
+  {
+    'mawkler/refjump.nvim',
+    keys = { ']r', '[r' },
+    opts = {},
   },
   {
     'echasnovski/mini.move',
@@ -48,6 +67,6 @@ return {
     opts = {
       forward_key = false,
       backward_key = false,
-    }
+    },
   },
 }
