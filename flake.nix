@@ -128,10 +128,12 @@
               lix-module.nixosModules.default
               home-manager.darwinModules.home-manager
               {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.extraSpecialArgs = specialArgs;
-                home-manager.users."${user.username}" = import ./home/macos;
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  extraSpecialArgs = specialArgs;
+                  users."${user.username}" = import ./home/macos;
+                };
               }
               # nix-homebrew.darwinModules.nix-homebrew
               # {
@@ -189,10 +191,12 @@
               ./modules/linux/boot.nix
               home-manager.nixosModules.home-manager
               {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.extraSpecialArgs = specialArgs;
-                home-manager.users."${user.username}" = import ./hosts/frigg/home.nix;
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  extraSpecialArgs = specialArgs;
+                  users."${user.username}" = import ./hosts/frigg/home.nix;
+                };
               }
             ];
           };
@@ -209,10 +213,12 @@
               ./modules/wsl
               home-manager.nixosModules.home-manager
               {
-                home-manager.useGlobalPkgs = true;
-                home-manager.useUserPackages = true;
-                home-manager.extraSpecialArgs = specialArgs;
-                home-manager.users."${user.username}" = import ./home/wsl;
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  extraSpecialArgs = specialArgs;
+                  users."${user.username}" = import ./home/wsl;
+                };
               }
             ];
           };
