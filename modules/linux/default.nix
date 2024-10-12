@@ -51,6 +51,7 @@
     fira-code
     geist-font
     inconsolata
+    inter
     (nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
   ];
 
