@@ -1,6 +1,7 @@
 return {
   {
     'nvim-lualine/lualine.nvim',
+    dependencies = { 'pnx/lualine-lsp-status' },
     event = { 'BufReadPre', 'BufNewFile' },
     config = function()
       local function worktree()
@@ -35,6 +36,7 @@ return {
             --   color = { fg = '#ff9e64' },
             -- },
             'overseer',
+            'lsp-status',
             'filetype',
           },
         },
