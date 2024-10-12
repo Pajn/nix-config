@@ -1,9 +1,9 @@
 
 { pkgs, ... }:
 {
-  imports = [ ../base/gui.nix ];
-
   home.packages = with pkgs; [
-    pwvucontrol
+    bazecor
+    spotify
+    vlc
   ];
 }

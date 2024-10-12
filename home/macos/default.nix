@@ -3,6 +3,7 @@
   imports = [
     ../base
     ../base/cloud.nix
+    ../base/gui.nix
     ./zsh.nix
     # ./docker.nix 
   ];
