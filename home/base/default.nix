@@ -51,8 +51,8 @@
       nushell
       tldr
       yazi
-      # wezterm
-      inputs.wezterm.packages.${pkgs.system}.default
+      wezterm
+      # inputs.wezterm.packages.${pkgs.system}.default
 
       nodejs
       corepack_22

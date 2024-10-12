@@ -58,11 +58,12 @@
     };
 
     # Other
-    wezterm = {
-      # url = "github:wez/wezterm?dir=nix";
-      url = "github:Pajn/wezterm/float-pane?dir=nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # wezterm = {
+    #   # url = "github:wez/wezterm?dir=nix";
+    #   # url = "github:Pajn/wezterm/float-pane?dir=nix";
+    #   url = "github:e82eric/wezterm/move-float-to-split?dir=nix";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   outputs =
