@@ -54,6 +54,9 @@
       wezterm
       # inputs.wezterm.packages.${pkgs.system}.default
 
+      sox
+      jwt-cli
+
       nodejs
       corepack_22
       bun
