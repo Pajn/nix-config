@@ -1,4 +1,5 @@
 local keymaps = require 'user.keymaps'
+---@type LazySpec
 return {
   -- {
   --   'pmizio/typescript-tools.nvim',
@@ -43,5 +44,10 @@ return {
       require('package-info').setup()
       require('telescope').load_extension 'package_info'
     end,
+  },
+  {
+    'ryoppippi/nvim-pnpm-catalog-lens',
+    -- event = 'BufEnter package.json',
+    lazy = false,
   },
 }
