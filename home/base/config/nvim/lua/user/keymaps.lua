@@ -185,9 +185,7 @@ local is_inside_work_tree = {}
 M.telescope = {
   {
     '<leader><space>',
-    function()
-      require('telescope.builtin').oldfiles {}
-    end,
+    '<cmd>Telescope smart_open<CR>',
     desc = '[ ] Find recently opened files',
   },
   {

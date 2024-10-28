@@ -54,8 +54,9 @@
       wezterm
       # inputs.wezterm.packages.${pkgs.system}.default
 
-      sox
       jwt-cli
+      sox
+      sqlite
 
       nodejs
       corepack_22
