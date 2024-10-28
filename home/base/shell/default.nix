@@ -26,6 +26,7 @@
       n = "nvim";
       kc = "kubectl";
       do = "just --working-directory \"$(just --evaluate pwd)/$(echo \"\${PWD#`just --evaluate pwd`}\" | cut -d '/' -f2)\" --justfile \"$(just --evaluate pwd)/dofile\"";
+      jwtd = "jq -R 'gsub(\"-\";\"+\") | gsub(\"_\";\" / \") | split(\".\") | .[1] | @base64d | fromjson'";
     };
     initExtra = builtins.concatStringsSep "\n" [
       # ''. "$HOME/.nix-profile/etc/profile.d/hm-session-vars.sh"''
