@@ -152,31 +152,35 @@ M.recall = {
     { noremap = true, silent = true },
     desc = 'Toggle [M]ark',
   },
-  {
-    'mj',
-    function()
-      require('recall').goto_next {}
-    end,
-    { noremap = true, silent = true },
-    desc = 'Goto next mark',
-  },
-  {
-    'mk',
-    function()
-      require('recall').goto_prev {}
-    end,
-    { noremap = true, silent = true },
-    desc = 'Goto previous mark',
-  },
-  {
-    'mc',
-    function()
-      require('recall').clear {}
-    end,
-    { noremap = true, silent = true },
-    desc = 'Clear marks',
-  },
-  { 'ml', '<cmd>Telescope recall<CR>', { noremap = true, silent = true }, desc = 'List Marks' },
+  -- {
+  --   'mj',
+  --   function()
+  --     require('recall').goto_next {}
+  --   end,
+  --   { noremap = true, silent = true },
+  --   desc = 'Goto next mark',
+  -- },
+  -- {
+  --   'mk',
+  --   function()
+  --     require('recall').goto_prev {}
+  --   end,
+  --   { noremap = true, silent = true },
+  --   desc = 'Goto previous mark',
+  -- },
+  -- {
+  --   'mc',
+  --   function()
+  --     require('recall').clear {}
+  --   end,
+  --   { noremap = true, silent = true },
+  --   desc = 'Clear marks',
+  -- },
+  -- { 'ml', '<cmd>Telescope recall<CR>', { noremap = true, silent = true }, desc = 'List Marks' },
+}
+M.vessel = {
+  { 'ml', '<cmd>Marks<CR>', { noremap = true, silent = true }, desc = 'List Marks' },
+  { 'mk', '<cmd>Jumps<CR>', { noremap = true, silent = true }, desc = 'List Jumps' },
 }
 
 -- We cache the results of "git rev-parse"
@@ -334,7 +338,7 @@ M.fugitive = {
 M.gitlinker = { { '<leader>gy', '<cmd>GitLink remote=origin<CR>', mode = 'n', desc = 'Copy web link' } }
 M.neogit = {
   { '<leader>gS', '<cmd>Neogit kind=auto<CR>', desc = 'Neo[g]it [S]tatus' },
-  { '<leader>gc', '<cmd>Neogit commit<CR>', desc = '[g]it [c]ommit' },
+  { '<leader>gC', '<cmd>Neogit commit<CR>', desc = '[g]it [c]ommit' },
 }
 vim.keymap.set('n', '<leader>sd', function()
   require('telescope.builtin').git_status {}
@@ -439,6 +443,7 @@ end, { desc = '[t]oggle [i]nline hints' })
 M.undotree = { { mode = 'n', '<leader>tu', '<cmd>UndotreeToggle<CR>', desc = '[t]oggle [u]ndo tree' } }
 vim.keymap.set('n', '<leader>tc', '<cmd>CccHighlighterToggle<CR>', { desc = '[t]oggle [c]olor highlights' })
 vim.keymap.set('n', '<leader>cc', '<cmd>CccPick<CR>', { desc = '[c]olor pi[c]ker' })
+vim.keymap.set('n', '<leader>tK', '<cmd>lua require("kubectl").toggle()<cr>', { desc = '[t]oggle [K]ubernetes', noremap = true, silent = true })
 
 -- Diagnostic keymaps
 vim.keymap.set('n', '[d', function()
