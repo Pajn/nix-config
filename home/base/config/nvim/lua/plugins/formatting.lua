@@ -33,6 +33,7 @@ return {
         ['markdown.mdx'] = { 'prettier' },
         graphql = { 'prettier' },
         handlebars = { 'prettier' },
+        terraform = { 'terraform_fmt' },
 
         ['_'] = { 'trim_whitespace' },
       },
@@ -89,7 +90,7 @@ return {
       desc = 'Disable autoformat-on-save',
       bang = true,
     })
-    vim.api.nvim_create_user_command('FormatEnable', function()
+    vim.api.nvim_create_user_command('FormatEnable', function(args)
       vim.b.disable_autoformat = false
       if not args.bang then
         vim.g.disable_autoformat = false
