@@ -557,7 +557,8 @@ M.illuminate = {
   {
     ']r',
     function()
-      require('illuminate').goto_next_reference()
+      -- require('illuminate').goto_next_reference()
+      Snacks.words.jump(vim.v.count1)
       vim.api.nvim_feedkeys('zz', 'n', false)
     end,
     desc = 'Next reference',
@@ -565,7 +566,8 @@ M.illuminate = {
   {
     '[r',
     function()
-      require('illuminate').goto_prev_reference()
+      -- require('illuminate').goto_prev_reference()
+      Snacks.words.jump(-vim.v.count1)
       vim.api.nvim_feedkeys('zz', 'n', false)
     end,
     desc = 'Previous reference',
