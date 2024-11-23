@@ -68,6 +68,4 @@
     };
   };
   environment.variables."XKB_DEFAULT_LAYOUT" = "us-swe";
-
-  services.flatpak.enable = true;
 }
