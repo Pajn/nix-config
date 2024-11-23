@@ -185,7 +185,7 @@
                 };
               }
               nixos-cosmic.nixosModules.default
-              niri.nixosModules.niri
+              # niri.nixosModules.niri
               ./hosts/frigg
               ./modules/linux
               ./modules/linux/boot.nix
@@ -196,6 +196,28 @@
                   useUserPackages = true;
                   extraSpecialArgs = specialArgs;
                   users."${user.username}" = import ./hosts/frigg/home.nix;
+                };
+              }
+            ];
+          };
+        garm =
+          let
+            specialArgs = genSpecialArgs "aarch64-linux";
+          in
+          nixpkgs.lib.nixosSystem {
+            system = "aarch64-linux";
+            inherit specialArgs;
+            modules = [
+              lix-module.nixosModules.default
+              ./hosts/garm
+              ./modules/linux
+              home-manager.nixosModules.home-manager
+              {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  extraSpecialArgs = specialArgs;
+                  users."${user.username}" = import ./hosts/garm/home.nix;
                 };
               }
             ];
