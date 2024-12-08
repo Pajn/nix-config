@@ -49,11 +49,12 @@ in
         nodejs
         sqlite
         tree-sitter
-        cargo-outdated
+        # cargo-outdated
 
         imagemagick
       ]
       ++ lib.lists.optional (!pkgs.stdenv.isDarwin) vscode-extensions.vadimcn.vscode-lldb.adapter;
     extraLuaPackages = ps: [ ps.magick ];
   };
+  home.sessionVariables.LIBSQLITE = "${pkgs.sqlite.out}/lib/libsqlite3.so";
 }
