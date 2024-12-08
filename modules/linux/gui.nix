@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 {
   services.flatpak.enable = true;
   programs.firefox = {
@@ -19,7 +19,9 @@
     magicOrExtension = ''\x7fELF....AI\x02'';
   };
   environment.systemPackages = with pkgs; [
+    android-udev-rules
     fuzzel
     swaylock
+    inputs.zen-browser.packages."${system}".specific
   ];
 }

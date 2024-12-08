@@ -62,6 +62,7 @@
     #   url = "github:e82eric/wezterm/move-float-to-split?dir=nix";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
+    zen-browser.url = "github:0xc000022070/zen-browser-flake";
   };
 
   outputs =
