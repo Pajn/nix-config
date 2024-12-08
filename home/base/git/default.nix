@@ -26,8 +26,8 @@
   programs.git = {
     enable = true;
     package = pkgs.gitAndTools.gitFull;
-    userName = "Rasmus Eneman";
-    userEmail = "rasmus@eneman.eu";
+    userName = "Rasmus";
+    userEmail = "817422+Pajn@users.noreply.github.com";
     ignores = [
       ".cache/"
       ".DS_Store"
