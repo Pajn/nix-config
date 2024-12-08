@@ -5,8 +5,6 @@
 {
   user,
   pkgs,
-  _custom,
-  niri,
   ...
 }:
 
@@ -76,21 +74,15 @@
 
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
-  services.xserver.desktopManager.gnome.enable = true;
-  # services.desktopManager.cosmic.enable = true;
-  # services.displayManager.cosmic-greeter.enable = false;
+  # services.xserver.desktopManager.gnome.enable = true;
+  services.desktopManager.cosmic.enable = true;
+  # services.displayManager.cosmic-greeter.enable = true;
   # services.displayManager.sddm.enable = true;
   # services.desktopManager.plasma6.enable = true;
   # environment.plasma6.excludePackages = with pkgs.kdePackages; [
   #   konsole
   #   oxygen
   # ];
-
-  programs.niri = {
-    enable = true;
-    package = pkgs.niri-stable;
-    # package = pkgs.niri-unstable;
-  };
 
   # Enable CUPS to print documents.
   services.printing.enable = true;
@@ -141,6 +133,7 @@
     ];
     packages = with pkgs; [
       gnome-tweaks
+      # pipewire-zeroconf
     ];
   };
 
@@ -161,7 +154,14 @@
     bluez
     bluez-tools
     chntpw
-    _custom.bt-dualboot
+    bt-dualboot
+  ];
+
+  # hardware.opengl.package = pkgs.legacyPackages.x86_64-linux.mesa.drivers;
+  programs.nix-ld.enable = true;
+  programs.nix-ld.libraries = with pkgs; [
+    # Add any missing dynamic libraries for unpackaged programs
+    # here, NOT in environment.systemPackages
   ];
 
   # Some programs need SUID wrappers, can be configured further or are

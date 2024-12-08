@@ -2,11 +2,17 @@
   pkgs,
   lib,
   user,
-  _custom,
   ...
 }:
 {
   nix.package = pkgs.lix;
+  nixpkgs.config = {
+    allowUnfree = true;
+    allowBroken = true;
+  };
+  nixpkgs.overlays = [
+    (final: prev: import ../../packages { inherit lib pkgs; })
+  ];
 
   programs.zsh.enable = true;
   users.users."${user.username}" = {
@@ -20,7 +26,7 @@
   '';
 
   environment.systemPackages = with pkgs; [
-    _custom.theme-toggle-nvim
+    theme-toggle-nvim
 
     git
     neovim

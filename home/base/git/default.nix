@@ -1,14 +1,13 @@
 {
   pkgs,
   lib,
-  _custom,
   ...
 }:
 {
 
   home.packages = with pkgs; [
-    _custom.git-some-extras
-    _custom.git-undo
+    git-some-extras
+    git-undo
     delta
     diff-so-fancy
     git-absorb

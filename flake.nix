@@ -2,13 +2,14 @@
   description = "Rasmus nix configuration";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
-    lix-module = {
-      url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-1.tar.gz";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
+    nixpkgs.follows = "nixos-cosmic/nixpkgs-stable";
+    # lix-module = {
+    #   url = "https://git.lix.systems/lix-project/nixos-module/archive/2.91.1-1.tar.gz";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager/release-24.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -21,11 +22,7 @@
 
     nixos-cosmic = {
       url = "github:lilyinstarlight/nixos-cosmic";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    niri = {
-      url = "github:sodiboo/niri-flake";
-      inputs.nixpkgs.follows = "nixpkgs";
+      # inputs.nixpkgs.follows = "nixpkgs";
     };
 
     # Darwin Systems
@@ -38,6 +35,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nix-darwin.follows = "nix-darwin";
     };
+
     # homebrew-bundle = {
     #   url = "github:homebrew/homebrew-bundle";
     #   flake = false;
@@ -70,12 +68,11 @@
     {
       self,
       nixpkgs,
-      lix-module,
+      # lix-module,
       home-manager,
 
       lanzaboote,
       nixos-cosmic,
-      niri,
 
       nix-darwin,
       nix-homebrew,
@@ -87,7 +84,6 @@
       ...
     }@inputs:
     let
-      lib = nixpkgs.lib;
       user = {
         name = "Rasmus Eneman";
         username = "rasmus";
@@ -95,18 +91,18 @@
       genSpecialArgs =
         system:
         inputs
-        // rec {
+        // {
           inherit user inputs;
 
-          pkgs = import inputs.nixpkgs {
-            inherit system;
-            config.allowUnfree = true;
-            config.allowBroken = true;
+          # pkgs = import inputs.nixpkgs {
+          #   inherit system;
+          #   config.allowUnfree = true;
+          #   config.allowBroken = true;
+          #
+          #   overlays = [ ];
+          # };
 
-            overlays = [ niri.overlays.niri ];
-          };
-
-          _custom = import ./packages { inherit pkgs lib; };
+          # _custom = import ./packages { inherit lib nixpkgs; };
         };
     in
     {
@@ -125,7 +121,7 @@
               ./modules/macos
               # ./modules/macos/brew.nix
 
-              lix-module.nixosModules.default
+              # lix-module.nixosModules.default
               home-manager.darwinModules.home-manager
               {
                 home-manager = {
@@ -176,7 +172,7 @@
             system = "x86_64-linux";
             inherit specialArgs;
             modules = [
-              lix-module.nixosModules.default
+              # lix-module.nixosModules.default
               lanzaboote.nixosModules.lanzaboote
               {
                 nix.settings = {
@@ -185,7 +181,6 @@
                 };
               }
               nixos-cosmic.nixosModules.default
-              # niri.nixosModules.niri
               ./hosts/frigg
               ./modules/linux
               ./modules/linux/boot.nix
@@ -208,7 +203,7 @@
             system = "aarch64-linux";
             inherit specialArgs;
             modules = [
-              lix-module.nixosModules.default
+              # lix-module.nixosModules.default
               ./hosts/garm
               ./modules/linux
               home-manager.nixosModules.home-manager
@@ -230,7 +225,7 @@
             system = "x86_64-linux";
             inherit specialArgs;
             modules = [
-              lix-module.nixosModules.default
+              # lix-module.nixosModules.default
               nixos-wsl.nixosModules.default
               ./modules/wsl
               home-manager.nixosModules.home-manager
